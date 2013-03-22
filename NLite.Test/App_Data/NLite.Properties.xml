@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Properties>
+  <A value="1"></A>
+  <SerializedValue Name="Person">
+    <Person>
+      <Name>Zhang San</Name>
+      <Age>30</Age>
+      <Sex>1</Sex>
+    </Person>
+  </SerializedValue>
+  <Array name="businessCategory">
+    <Element>Billing</Element>
+    <Element>Customer Service</Element>
+    <Element>Managed Services</Element>
+    <Element>Product</Element>
+    <Element>Sales</Element>
+    <Element>Sales, Customer Service, Tech Help</Element>
+    <Element>Technical Help</Element>
+    <Element>UK Contact Matrix</Element>
+  </Array>
+  <Array name="NIROI">
+    <Element value="1"/>
+    <!--NI -->
+    <Element value="2"/>
+    <!--ROI -->
+    <Element value="4"/>
+    <!--UK -->
+    <Element value="3"/>
+    <!--NI&ROI -->
+    <Element value="5"/>
+    <!--NI&UK -->
+    <Element value="6"/>
+    <!--ROI&UK -->
+    <Element value="7"/>
+    <!--NI&ROI&UK -->
+  </Array>
+  <Array name="Lob">
+    <Element>1</Element>
+    <!--GS -->
+    <Element>2</Element>
+    <!--Openreach -->
+    <Element>4</Element>
+    <!--Retail -->
+    <Element>8</Element>
+    <!--Wholesale -->
+    <Element>13</Element>
+    <!--Retail, Wholesale, GS -->
+    <Element>5</Element>
+    <!--Retail/ GS -->
+    <Element>14</Element>
+    <!--Retail/ Wholesale/ Openreach -->
+  </Array>
+</Properties>

@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<AddIn Name="Shell"
+       Author = "qswang"
+       Copyright = ""
+       Url = "http://netcasewqs.cnblogs.com"
+       Description = "NLite Shell Addin"
+       HideInManager = "true">
+ 
+  <UI>
+    <AddInTree>
+      <Path Id="Shell">
+        <Item  Id="MainMenu"
+            Label="主菜单"
+            Type="MenuStrip"
+            IsLeaf="false"/>
+        <Item  Id="ToolBar"
+            Label="ToolBar"
+            Type="ToolStrip"
+            IsLeaf="false"/>
+      </Path>
+    </AddInTree>
+  </UI>
+</AddIn>

@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<AddIn Name="${res:EventBroker}"
+       Author = "qswang"
+       Copyright = ""
+       Url = "http://netcasewqs.cnblogs.com"
+       Description = "${res:EventBroker}">
+
+  <Runtime>
+    <Imports>
+      <!--<Import>NLite.dll</Import>
+      <Import>System.Windows.Forms.dll</Import>
+      <Import>NLite.Windows.dll</Import>
+      <Import>EventBroker.Module.dll</Import>
+      <Import>EventBroker.Views.dll</Import>--> 
+    </Imports>
+    
+  
+    <!-- 插件的扩展点(1-*) -->
+    <ExtensionPoints>
+      <Item IsAsyn="true">EventBroker.Module.ModuleStarter,EventBroker.Module</Item> 
+    </ExtensionPoints>
+  </Runtime>
+  
+  <UI>
+    <AddInTree>
+      <Path Id="Shell/ToolBar">
+        <Item Id="EventBroker"
+              Label="${res:EventBroker}"
+              Type="ToolStrip.Button"
+              Command="EventBroker" />
+      </Path>
+      <Path Id="Shell/MainMenu/Module">
+        <Item Id="EventBroker"
+              Label="${res:EventBroker}"
+              Type="ToolStrip.Button"
+              Command="EventBroker" />
+      </Path>
+    </AddInTree>
+  </UI>
+</AddIn>

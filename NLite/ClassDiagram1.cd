@@ -1,0 +1,52 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Interface Name="NLite.IKernel">
+    <Position X="4.5" Y="3" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Mini\IKernel.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="Parent" />
+    </ShowAsAssociation>
+  </Interface>
+  <Interface Name="NLite.ILazyServiceLocator">
+    <Position X="8" Y="0.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAACQAAAACAAAAAAEAA=</HashCode>
+      <FileName>Mini\ILazyServiceLocator.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="NLite.IServiceRegistry">
+    <Position X="4" Y="0.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAEAAAAAAAAAAAAAgAAAABAAAAAAAAAAAAHAA=</HashCode>
+      <FileName>Mini\IServiceRegistry.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="ListenerManager" />
+    </ShowAsAssociation>
+  </Interface>
+  <Interface Name="NLite.IServiceLocator">
+    <Position X="11.25" Y="1.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAgAAAAAAAAA=</HashCode>
+      <FileName>Mini\IServiceLocator.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="NLite.IComponentListenerManager">
+    <Position X="7" Y="6.25" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAA=</HashCode>
+      <FileName>Mini\IComponentListenerManager.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="NLite.IListenerManager&lt;TListener, TEnum&gt;">
+    <Position X="7.25" Y="3.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAAABAAAAAAAAAABAEAA=</HashCode>
+      <FileName>IListenerManager.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Font Name="SimSun" Size="9" />
+</ClassDiagram>

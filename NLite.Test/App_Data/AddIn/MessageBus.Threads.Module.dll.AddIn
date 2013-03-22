@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<AddIn Name="${res:Thread.Test}"
+       Author = "qswang"
+       Copyright = ""
+       Url = "http://netcasewqs.cnblogs.com"
+       Description = "${res:Thread.Test}">
+
+  <Runtime>
+    <Imports>
+      <!--<Import>NLite.dll</Import>
+      <Import>System.Windows.Forms.dll</Import>
+      <Import>NLite.Windows.dll</Import>
+      <Import>EventBroker.Module.dll</Import>
+      <Import>EventBroker.Views.dll</Import>--> 
+    </Imports>
+    
+    <Services>
+      <components>
+        <component 
+                   service="MessageBus.Threads.Module.IThreadView,MessageBus.Threads.Module" 
+                   type="MessageBus.Threads.Module.ThreadView,MessageBus.Threads.Module"></component>
+        <component
+                   service="MessageBus.Threads.Module.IThreadPresenter,MessageBus.Threads.Module"
+                   type="MessageBus.Threads.Module.ThreadPresenter,MessageBus.Threads.Module"/>
+      </components>
+    </Services>
+
+    <!-- 插件的扩展点(1-*) -->
+    <ExtensionPoints>
+      <Item IsAsyn="true">MessageBus.Threads.Module.ModuleStarter,MessageBus.Threads.Module</Item> 
+    </ExtensionPoints>
+  </Runtime>
+  
+  <UI>
+    <AddInTree>
+      <Path Id="Shell/ToolBar">
+        <Item Id="ThreadTest"
+              Label="${res:Thread.Test}"
+              Type="ToolStrip.Button"
+              Command="ThreadTest" />
+      </Path>
+      <Path Id="Shell/MainMenu/Module">
+        <Item Id="ThreadTest"
+              Label="${res:Thread.Test}"
+              Type="ToolStrip.Button"
+              Command="ThreadTest" />
+      </Path>
+    </AddInTree>
+  </UI>
+</AddIn>

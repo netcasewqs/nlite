@@ -1,0 +1,54 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<AddIn Name="Main Module"
+       Author = "qswang"
+       Copyright = ""
+       Url = "http://netcasewqs.cnblogs.com"
+       Description = "Main Addin"
+       HideInManager = "true">
+  <UI>
+    <AddInTree>
+      <Path Id="Shell/MainMenu">
+        <Item Id="File"
+            Label="${res:Menu.File}"
+            IsLeaf="false"
+            Type="ToolStrip.MenuItem">
+          <Item Id="Exit"
+                Label="${res:Global.Exit}"
+                Type="ToolStrip.MenuItem"
+                Command="Exit"/>
+        </Item>
+        <Item Id="Module"
+              Label="${res:Menu.Module}"
+              Type="ToolStrip.MenuItem"
+              IsLeaf ="false"/>
+        <Item Id="Tools"
+              Label="${res:Menu.Tools}"
+              Type="ToolStrip.MenuItem"
+              IsLeaf ="false">
+          <Item Id="Language"
+             Type ="ToolStrip.MenuItem"
+             Label="${res:Global.Language.Settings}"
+             IsLeaf="false">
+            <Item Id="Chinese"
+                Type ="ToolStrip.LanguageMenuItem"
+                Label="${res:Global.Language.ZH_CN}"
+                Language="ZH-CN"/>
+            <Item Id="English"
+                Type ="ToolStrip.LanguageMenuItem"
+                Label="${res:Global.Language.EN}"
+                Language="EN"/>
+          </Item>
+        </Item>
+        <Item Id="Help"
+              Label="${res:Menu.Help}"
+              IsLeaf="false"
+              Type="ToolStrip.MenuItem">
+          <Item Id="About"
+                  Label="${res:Menu.Help.About}"
+                  Type="ToolStrip.MenuItem"
+                  Command="About"/>
+        </Item>
+      </Path>
+    </AddInTree>
+  </UI>
+</AddIn>

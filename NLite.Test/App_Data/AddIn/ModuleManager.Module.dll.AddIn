@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<AddIn Name="${res:NLite.Module.Manager}"
+       Author = "qswang"
+       Copyright = ""
+       Url = "http://netcasewqs.cnblogs.com"
+       Description = "${res:NLite.Module.Manager}"
+       HideInManager = "true">
+
+ 
+  <UI>
+    <AddInTree>
+      <Path Id="Shell/ToolBar">
+        <Item Id="ModuleManager"
+              Label="${res:NLite.Module.Manager}"
+              Type="ToolStrip.Button"
+              Command="ModuleManager" />
+      </Path>
+      <Path Id="Shell/MainMenu/Module">
+        <Item Id="ModuleManager"
+              Label="${res:NLite.Module.Manager}"
+              Type="ToolStrip.MenuItem"
+              Command="ModuleManager" />
+      </Path>
+
+      <Path Id="Shell/ModuleManager">
+        <Item Id="ContextMenu" 
+              Type="ContextMenuStrip"
+              IsLeaf="false">
+          <Item Id="InstallModule"
+                Label="${res:NLite.Module.Install}"
+                Type ="ToolStrip.MenuItem"
+                Command="ModuleInstall"/>
+          <Item Id="StartModule"
+               Label="${res:NLite.Module.Start}"
+               Type ="ToolStrip.MenuItem"
+               Command="ModuleStart"
+               Enabled="false"/>
+          <!--<Item Id="StopModule"
+               Label="${res:Module.Stop}"
+               Type ="ToolStrip.MenuItem"
+               Command="ModuleStop"
+               Enabled="false"/>-->
+        </Item>
+      </Path>
+    </AddInTree>
+  </UI>
+</AddIn>

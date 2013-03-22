@@ -1,0 +1,73 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<AddIn Name="${res:ElementMap}"
+       Author = "qswang"
+       Copyright = ""
+       Url = "http://netcasewqs.cnblogs.com"
+       Description = "${res:ElementMap}">
+ 
+  <UI>
+    
+    <AddInTree>
+      
+      <Path Id="Shell/ToolBar">
+        <Item  Id="ElementMap"
+           Label="${res:ElementMap}"
+           Command="ElementMap"
+           Type="ToolStrip.DropDown.Button"
+           IsLeaf="false">
+          <Item Id="ShowCustomer"
+              Label="${res:ElementMap.Show}"
+              Command="ShowCustomer"
+              Type="ToolStrip.MenuItem"
+              ToolTip="Show Customer"/>
+          <Item Id="DisableShowCustomer"
+                Label="${res:ElementMap.Disable}"
+                Command="DisableShowCustomer"
+                Type="ToolStrip.MenuItem"/>
+          <Item Id="EnableShowCustomer"
+                Label="${res:ElementMap.Enabled}"
+                Command="EnableShowCustomer"
+                OldBrother="ShowCustomer"
+                Type="ToolStrip.MenuItem"/>
+          <Item Id="Separator"
+                Type="ToolStrip.Separator"/>
+          <Item Id="HideShowCustomer"
+                Label="${res:ElementMap.Hide}"
+                Type="ToolStrip.MenuItem"
+                Command="HideShowCustomer" />
+        </Item>
+      </Path>
+
+      <Path Id="Shell/MainMenu/Module">
+        <Item Id="ElementMap"
+              Label="${res:ElementMap}"
+              Command="ElementMap"
+              Type="ToolStrip.MenuItem"
+              IsLeaf="false">
+          <Item Id="ShowCustomer"
+                Label="${res:ElementMap.Show}"
+                Command="ShowCustomer"
+                Type="ToolStrip.MenuItem"
+                ToolTip="Show Customer"/>
+          <Item Id="DisableShowCustomer"
+                Label="${res:ElementMap.Disable}"
+                Command="DisableShowCustomer"
+                Type="ToolStrip.MenuItem"/>
+          <Item Id="EnableShowCustomer"
+                Label="${res:ElementMap.Enabled}"
+                Command="EnableShowCustomer"
+                Type="ToolStrip.MenuItem"/>
+          <Item Id="Separator"
+                Type="ToolStrip.Separator"/>
+          <Item Id="HideShowCustomer"
+                Label="${res:ElementMap.Hide}"
+                Type="ToolStrip.MenuItem"
+                Command="HideShowCustomer" />
+        </Item>
+      </Path>
+     
+    </AddInTree>
+    
+  </UI>
+  
+</AddIn>

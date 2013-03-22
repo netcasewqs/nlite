@@ -1,0 +1,365 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Reflection;
+using NLite.Log;
+using NLite.Collections;
+using NLite.Interceptor.Fluent;
+using NLite.Internal;
+using NLite.Interceptor.Metadata;
+using NLite.Interceptor.Internal;
+using NLite.Mini.Context;
+using System.Collections;
+
+namespace NLite.Interceptor
+{
+    /// <summary>
+    /// Advice Type
+    /// </summary>
+    [Flags]
+    public enum AdviceType
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        None = 1,
+        /// <summary>
+        /// 
+        /// </summary>
+        Before = 2,
+        /// <summary>
+        /// 
+        /// </summary>
+        After = 4,
+        /// <summary>
+        /// 
+        /// </summary>
+        Exception = 8,
+        /// <summary>
+        /// 
+        /// </summary>
+        Around = Before | After,
+        /// <summary>
+        /// 
+        /// </summary>
+        All = Around | Exception
+    }
+
+    /// <summary>
+    /// 拦截器接口
+    /// </summary>
+    public interface IInterceptor
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ctx"></param>
+        void OnInvocationExecuting(IInvocationExecutingContext ctx);
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ctx"></param>
+        void OnInvocationExecuted(IInovacationExecutedContext ctx);
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ctx"></param>
+        void OnException(IInvocationExceptionContext ctx);
+    }
+
+    /// <summary>
+    /// 调用上下文
+    /// </summary>
+    public interface IInvocationContext
+    {
+        /// <summary>
+        /// 目标对象
+        /// </summary>
+        object Target { get; }
+        /// <summary>
+        /// 目标方法
+        /// </summary>
+        MethodInfo Method { get; }
+        /// <summary>
+        /// 方法参数
+        /// </summary>
+        object[] Arguments { get; }
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public interface IInvocationExecutingContext : IInvocationContext
+    {
+        
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public interface IInovacationExecutedContext : IInvocationContext
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        object Result { get; set; }
+    }
+
+    /// <summary>
+    /// 异常调用上下文
+    /// </summary>
+    public interface IInvocationExceptionContext : IInovacationExecutedContext
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        Exception Exception { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
+        bool ExceptionHandled { get; set; }
+    }
+
+    /// <summary>
+    /// 缺省拦截器
+    /// </summary>
+    public class DefaultInterceptor : IInterceptor
+    {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ctx"></param>
+        public virtual void OnInvocationExecuting(IInvocationExecutingContext  ctx)
+        {
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ctx"></param>
+        public virtual void OnInvocationExecuted(IInovacationExecutedContext ctx)
+        {
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ctx"></param>
+        public virtual void OnException(IInvocationExceptionContext ctx)
+        {
+        }
+    }
+
+   
+
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public sealed class InterceptorBroker:IInterceptor
+    {
+        private IInterceptorRepository Repository;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public InterceptorBroker()
+        {
+            Repository = ServiceLocator.Get<IInterceptorRepository>();
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ctx"></param>
+        public void OnInvocationExecuting(IInvocationExecutingContext ctx)
+        {
+            var interceptors = GetInterceptors(ctx.Target.GetType(), ctx.Method);
+            if (interceptors.Length == 0)
+                return;
+
+            foreach (var interceptor in interceptors)
+                interceptor.OnInvocationExecuting(ctx);
+        }
+
+        private static MethodInfo PopulateMethod(Type type,MethodInfo m)
+        {
+            if (type.IsGenericType)
+            {
+                var genericType = type.GetGenericTypeDefinition();
+                var typeArgs = type.GetGenericArguments();
+                var genericArgs = genericType.GetGenericArguments();
+                var dic = new Dictionary<Type, Type>();
+                for (int i = 0; i < typeArgs.Length; i++)
+                    dic[typeArgs[i]] = genericArgs[i];
+
+                //var genericMethodArgs = m.GetGenericArguments();
+                var tmpM = m.IsGenericMethod ?  m.GetGenericMethodDefinition() : m;
+
+                var args = new List<Type>();
+                foreach (var p in tmpM.GetParameters())
+                {
+                    if (p.ParameterType.IsGenericParameter)
+                        args.Add(p.ParameterType);
+                    else
+                    {
+                        if (dic.ContainsKey(p.ParameterType))
+                            args.Add(dic[p.ParameterType]);
+                        else
+                            args.Add(p.ParameterType);
+                    }
+                }
+
+                //var genericMethodArgs = tmpM.GetParameters().Select(p => p.ParameterType.IsGenericParameter
+                //    ? p.ParameterType.GetGenericTypeDefinition()
+                //    : dic.ContainsKey(p.ParameterType) ?
+                //        dic[p.ParameterType]
+                //        : p.ParameterType).ToArray();
+
+                var m2 = genericType.GetMethod(m.Name, args.ToArray());
+
+                if (m2 != null)
+                    return m2;
+                else if (m.IsGenericMethod)
+                    return m.GetGenericMethodDefinition();
+                return m;
+            }
+            else if (m.IsGenericMethod)
+                return m.GetGenericMethodDefinition();
+            return m;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ctx"></param>
+        public void OnInvocationExecuted(IInovacationExecutedContext ctx)
+        {
+            var interceptors = GetInterceptors(ctx.Target.GetType(), ctx.Method);
+            if (interceptors.Length == 0)
+                return;
+            foreach (var interceptor in interceptors)
+                interceptor.OnInvocationExecuted(ctx);
+
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ctx"></param>
+        public void OnException(IInvocationExceptionContext ctx)
+        {
+            var interceptors = GetInterceptors(ctx.Target.GetType(), ctx.Method);
+            if (interceptors.Length == 0)
+                return;
+            foreach (var interceptor in interceptors)
+            {
+                interceptor.OnException(ctx);
+                if (ctx.ExceptionHandled)
+                    break;
+            }
+        }
+
+        private IInterceptor[] GetInterceptors(Type type , MethodInfo methodInfo)
+        {
+
+            var interceptors = Repository.Get(methodInfo);
+            if (interceptors.Count == 0)
+            {
+                var method = PopulateMethod(type, methodInfo);
+                var tmp = Repository.Get(method);
+                foreach (var item in tmp)
+                    interceptors.Add(item);
+
+                method = PopulateMethod(method.DeclaringType, methodInfo);
+                tmp = Repository.Get(method);
+                foreach (var item in tmp)
+                    if (!interceptors.Contains(item))
+                        interceptors.Add(item);
+            }
+            
+
+            return interceptors.ToArray();
+        }
+    }
+
+    /// <summary>
+    /// 切面工厂类
+    /// </summary>
+    public static class Aspect
+    {
+        /// <summary>
+        /// 定义命名空间切面
+        /// </summary>
+        /// <param name="namespace"></param>
+        /// <returns></returns>
+        public static INamespaceExpression FromNamespace(string @namespace)
+        {
+            var aspect = new NamespaceExpression(@namespace);
+            ServiceLocator.Get<IAspectRepository>().Register(aspect.ToAspect());
+            return aspect;
+        }
+        /// <summary>
+        /// 定义类型切面
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public static IAspectExpression For<T>()
+        {
+            return For(typeof(T));
+        }
+        /// <summary>
+        /// 定义类型切面
+        /// </summary>
+        /// <param name="componentType"></param>
+        /// <returns></returns>
+        public static IAspectExpression For(Type componentType)
+        {
+            var aspect = new SingleTypeExpression(componentType);
+            ServiceLocator.Get<IAspectRepository>().Register(aspect.ToAspect());
+            return aspect;
+        }
+    }
+
+
+    /// <summary>
+    /// 拦截器仓储接口
+    /// </summary>
+    //[Contract]
+    public interface IInterceptorRepository
+    {
+        /// <summary>
+        /// 得到指定方法上的所有拦截器
+        /// </summary>
+        /// <param name="method"></param>
+        /// <returns></returns>
+        ICollection<IInterceptor> Get(MethodInfo method);
+    }
+
+    
+    /// <summary>
+    /// 拦截器仓储
+    /// </summary>
+    public class InterceptorRepository : IInterceptorRepository
+    {
+        private IDictionary<MethodBase, ICollection<IInterceptor>> Cache = new Dictionary<MethodBase, ICollection<IInterceptor>>();
+
+        /// <summary>
+        /// 得到指定方法上的所有拦截器
+        /// </summary>
+        /// <param name="method"></param>
+        /// <returns></returns>
+        public ICollection<IInterceptor> Get(MethodInfo method)
+        {
+            if (method == null)
+                throw new ArgumentNullException("method");
+
+            ICollection<IInterceptor> interceptors;
+            if (!Cache.TryGetValue(method, out interceptors))
+                Cache[method.GetBaseDefinition()] = interceptors = new List<IInterceptor>();
+            return interceptors;
+            //return Cache.GetOrAdd(method.GetBaseDefinition(), () => new List<IInterceptor>());
+        }
+    }
+}

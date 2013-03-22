@@ -1,0 +1,1238 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>8.0.30703</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{7B5DC899-5E3E-459D-81F9-00CE4795DEE5}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>NLite</RootNamespace>
+    <AssemblyName>NLite</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <RestorePackages>true</RestorePackages>
+    <BuildPackage>true</BuildPackage>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\SDK4_Bin\</OutputPath>
+    <DefineConstants>TRACE;DEBUG;SDK4</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>none</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\SDK4_Bin\</OutputPath>
+    <DefineConstants>TRACE;SDK4</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <DocumentationFile>..\SDK4_Bin\NLite.XML</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <SignAssembly>false</SignAssembly>
+  </PropertyGroup>
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>..\NLite\NLite.snk</AssemblyOriginatorKeyFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.XML" />
+    <Reference Include="System.Xml.Linq" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="..\NLite\AliasNameAttribute.cs">
+      <Link>AliasNameAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Binding\BindAttribute.cs">
+      <Link>Binding\BindAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Binding\BindingContext.cs">
+      <Link>Binding\BindingContext.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Binding\BindingInfo.cs">
+      <Link>Binding\BindingInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Binding\CustomModelBinderAttribute.cs">
+      <Link>Binding\CustomModelBinderAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Binding\DefaultModelBinder.cs">
+      <Link>Binding\DefaultModelBinder.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Binding\IModelBinder.cs">
+      <Link>Binding\IModelBinder.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Binding\ParameterDescriptor.cs">
+      <Link>Binding\ParameterDescriptor.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Binding\ParameterInfoUtil.cs">
+      <Link>Binding\ParameterInfoUtil.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Cache\ICache.cs">
+      <Link>Cache\ICache.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Cfg\Configuration.cs">
+      <Link>Cfg\Configuration.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Cfg\MessageBusConfigurationItem.cs">
+      <Link>Cfg\MessageBusConfigurationItem.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Cfg\MiniContainerConfigurationItem.cs">
+      <Link>Cfg\MiniContainerConfigurationItem.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Collections\CollectionExtensions.cs">
+      <Link>Collections\CollectionExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Collections\IDataContext.cs">
+      <Link>Collections\IDataContext.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Collections\IPropertySet.cs">
+      <Link>Collections\IPropertySet.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Collections\Map.cs">
+      <Link>Collections\Map.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Collections\PropertySet.cs">
+      <Link>Collections\PropertySet.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\CompoistionObject.cs">
+      <Link>CompoistionObject.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\ComponentModel\ComponentObject.cs">
+      <Link>ComponentModel\ComponentObject.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\ComponentModel\EnumDescriptionAttribute.cs">
+      <Link>ComponentModel\EnumDescriptionAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\ComponentModel\EnumTypeConverter.cs">
+      <Link>ComponentModel\EnumTypeConverter.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\ComponentModel\IChangeTracker.cs">
+      <Link>ComponentModel\IChangeTracker.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\ComponentModel\IgnoreAttribute.cs">
+      <Link>ComponentModel\IgnoreAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\ComponentModel\LocalizedObject.cs">
+      <Link>ComponentModel\LocalizedObject.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\ComponentModel\LocalizedPropertyAttribute.cs">
+      <Link>ComponentModel\LocalizedPropertyAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\ComponentModel\LocalizedPropertyDescriptor.cs">
+      <Link>ComponentModel\LocalizedPropertyDescriptor.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\ComponentModel\PropertyChangedEventArgs.cs">
+      <Link>ComponentModel\PropertyChangedEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Data\DbCommandExtensions.cs">
+      <Link>Data\DbCommandExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Data\DynamicRow.cs">
+      <Link>Data\DynamicRow.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Data\Pagination.cs">
+      <Link>Data\Pagination.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Data\PersistenceException.cs">
+      <Link>Data\PersistenceException.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Data\QueryException.cs">
+      <Link>Data\QueryException.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Data\RowMapper.cs">
+      <Link>Data\RowMapper.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Data\Table.cs">
+      <Link>Data\Table.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\DictionaryWrapper.cs">
+      <Link>DictionaryWrapper.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Disposables\BooleanDisposable.cs">
+      <Link>Disposables\BooleanDisposable.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Disposables\CompositeDisposable.cs">
+      <Link>Disposables\CompositeDisposable.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Disposables\Disposable.cs">
+      <Link>Disposables\Disposable.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Disposables\IBooleanDisposable.cs">
+      <Link>Disposables\IBooleanDisposable.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Disposables\IDisposeCollector.cs">
+      <Link>Disposables\IDisposeCollector.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Domain\Cfg\DomainComponentConfigurationItem.cs">
+      <Link>Domain\Cfg\DomainComponentConfigurationItem.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Domain\Cfg\INdfConfigurationItem.cs">
+      <Link>Domain\Cfg\INdfConfigurationItem.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Domain\Cfg\NdfConfigurationItem.cs">
+      <Link>Domain\Cfg\NdfConfigurationItem.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Domain\Cfg\ServiceDescriptorConfigurationItem.cs">
+      <Link>Domain\Cfg\ServiceDescriptorConfigurationItem.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Domain\Cfg\ServiceDispatcherConfigurationItem.cs">
+      <Link>Domain\Cfg\ServiceDispatcherConfigurationItem.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Domain\DefaultServiceDispatcher.cs">
+      <Link>Domain\DefaultServiceDispatcher.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Domain\Diagnostics\PerformanceInfo.cs">
+      <Link>Domain\Diagnostics\PerformanceInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Domain\DomainException.cs">
+      <Link>Domain\DomainException.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Domain\Http\Api.cs">
+      <Link>Domain\Http\Api.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Domain\INavigationResult.cs">
+      <Link>Domain\INavigationResult.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Domain\IServiceDescriptorManager.cs">
+      <Link>Domain\IServiceDescriptorManager.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Domain\IServiceDispatcher.cs">
+      <Link>Domain\IServiceDispatcher.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Domain\IServiceRequest.cs">
+      <Link>Domain\IServiceRequest.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Domain\IServiceResponse.cs">
+      <Link>Domain\IServiceResponse.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Domain\Listener\ControllerListener.cs">
+      <Link>Domain\Listener\ControllerListener.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Domain\Listener\INdfListenerManager.cs">
+      <Link>Domain\Listener\INdfListenerManager.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Domain\Listener\IOperationDescriptorFoundContext.cs">
+      <Link>Domain\Listener\IOperationDescriptorFoundContext.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Domain\Listener\IOperationExceptionListener.cs">
+      <Link>Domain\Listener\IOperationExceptionListener.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Domain\Listener\IOperationExecutingContext.cs">
+      <Link>Domain\Listener\IOperationExecutingContext.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Domain\Listener\IOperationListener.cs">
+      <Link>Domain\Listener\IOperationListener.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Domain\Listener\IServiceDescriptorFoundContext.cs">
+      <Link>Domain\Listener\IServiceDescriptorFoundContext.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Domain\Listener\IServiceDispatchListener.cs">
+      <Link>Domain\Listener\IServiceDispatchListener.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Domain\Listener\IServiceDispatchListenerManager.cs">
+      <Link>Domain\Listener\IServiceDispatchListenerManager.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Domain\Listener\IServiceResolvedContext.cs">
+      <Link>Domain\Listener\IServiceResolvedContext.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Domain\Listener\IServiceResolvedListener.cs">
+      <Link>Domain\Listener\IServiceResolvedListener.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Domain\Listener\OperationFilterAttribute.cs">
+      <Link>Domain\Listener\OperationFilterAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Domain\Listener\PageServiceListener.cs">
+      <Link>Domain\Listener\PageServiceListener.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Domain\Listener\ServiceDescriptorListener.cs">
+      <Link>Domain\Listener\ServiceDescriptorListener.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Domain\Mapping\ContentResult.cs">
+      <Link>Domain\Mapping\ContentResult.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Domain\Mapping\ContentResultAttribute.cs">
+      <Link>Domain\Mapping\ContentResultAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Domain\Mapping\ErrorNavigationAttribute.cs">
+      <Link>Domain\Mapping\ErrorNavigationAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Domain\Mapping\FileContentResult.cs">
+      <Link>Domain\Mapping\FileContentResult.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Domain\Mapping\FileContentResultAttribute.cs">
+      <Link>Domain\Mapping\FileContentResultAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Domain\Mapping\FilePathResult.cs">
+      <Link>Domain\Mapping\FilePathResult.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Domain\Mapping\FilePathResultAttribute.cs">
+      <Link>Domain\Mapping\FilePathResultAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Domain\Mapping\FileResult.cs">
+      <Link>Domain\Mapping\FileResult.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Domain\Mapping\FileStreamResult.cs">
+      <Link>Domain\Mapping\FileStreamResult.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Domain\Mapping\FileStreamResultAttribute.cs">
+      <Link>Domain\Mapping\FileStreamResultAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Domain\Mapping\IActionResults.cs">
+      <Link>Domain\Mapping\IActionResults.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Domain\Mapping\IHttpPostedFile.cs">
+      <Link>Domain\Mapping\IHttpPostedFile.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Domain\Mapping\JavaScriptResult.cs">
+      <Link>Domain\Mapping\JavaScriptResult.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Domain\Mapping\JavaScriptResultAttribute.cs">
+      <Link>Domain\Mapping\JavaScriptResultAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Domain\Mapping\JsonResult.cs">
+      <Link>Domain\Mapping\JsonResult.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Domain\Mapping\JsonResultAttribute.cs">
+      <Link>Domain\Mapping\JsonResultAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Domain\Mapping\OperationNameSelectorAttribute.cs">
+      <Link>Domain\Mapping\OperationNameSelectorAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Domain\Mapping\OperationSelectorAttribute.cs">
+      <Link>Domain\Mapping\OperationSelectorAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Domain\Mapping\PartialViewResult.cs">
+      <Link>Domain\Mapping\PartialViewResult.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Domain\Mapping\PartialViewResultAttribute.cs">
+      <Link>Domain\Mapping\PartialViewResultAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Domain\Mapping\RedirectResult.cs">
+      <Link>Domain\Mapping\RedirectResult.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Domain\Mapping\RedirectResultAttribute.cs">
+      <Link>Domain\Mapping\RedirectResultAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Domain\Mapping\RedirectToActionAttribute.cs">
+      <Link>Domain\Mapping\RedirectToActionAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Domain\Mapping\RedirectToActionResult.cs">
+      <Link>Domain\Mapping\RedirectToActionResult.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Domain\Mapping\RedirectToRouteResult.cs">
+      <Link>Domain\Mapping\RedirectToRouteResult.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Domain\Mapping\RedirectToRouteResultAttribute.cs">
+      <Link>Domain\Mapping\RedirectToRouteResultAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Domain\Mapping\StatusResult.cs">
+      <Link>Domain\Mapping\StatusResult.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Domain\Mapping\ViewResult.cs">
+      <Link>Domain\Mapping\ViewResult.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Domain\Mapping\ViewResultAttribute.cs">
+      <Link>Domain\Mapping\ViewResultAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Domain\OperationDescriptor.cs">
+      <Link>Domain\OperationDescriptor.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Domain\OperationExecutedContext.cs">
+      <Link>Domain\OperationExecutedContext.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Domain\ServiceContext.cs">
+      <Link>Domain\ServiceContext.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Domain\ServiceDescriptor.cs">
+      <Link>Domain\ServiceDescriptor.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Domain\ServiceDescriptorManager.cs">
+      <Link>Domain\ServiceDescriptorManager.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Domain\ServiceDispatcher.cs">
+      <Link>Domain\ServiceDispatcher.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Domain\ServiceDispatcherException.cs">
+      <Link>Domain\ServiceDispatcherException.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Domain\ServiceProxyFactory.cs">
+      <Link>Domain\ServiceProxyFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Domain\ServiceRequest.cs">
+      <Link>Domain\ServiceRequest.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Domain\ServiceResponse.cs">
+      <Link>Domain\ServiceResponse.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Dynamic\QueryModel.cs">
+      <Link>Dynamic\QueryModel.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\EnumExtensions.cs">
+      <Link>EnumExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\ExceptionService.cs">
+      <Link>ExceptionService.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\ExtensibleObject.cs">
+      <Link>ExtensibleObject.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Extension.cs">
+      <Link>Extension.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Globalization\ILanguageChangedListner.cs">
+      <Link>Globalization\ILanguageChangedListner.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Globalization\ILanguageManager.cs">
+      <Link>Globalization\ILanguageManager.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Globalization\IResourceItem.cs">
+      <Link>Globalization\IResourceItem.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Globalization\IResourceLocator.cs">
+      <Link>Globalization\IResourceLocator.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Globalization\IResourceRegistry.cs">
+      <Link>Globalization\IResourceRegistry.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Globalization\IResourceRepository.cs">
+      <Link>Globalization\IResourceRepository.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Globalization\ISupportGlobalization.cs">
+      <Link>Globalization\ISupportGlobalization.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Globalization\LanguageChangedLifecycleListner.cs">
+      <Link>Globalization\LanguageChangedLifecycleListner.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Globalization\LanguageManager.cs">
+      <Link>Globalization\LanguageManager.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Globalization\ResourceManager.cs">
+      <Link>Globalization\ResourceManager.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Globalization\ResourceNotFoundException.cs">
+      <Link>Globalization\ResourceNotFoundException.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Globalization\ResourceRepository.cs">
+      <Link>Globalization\ResourceRepository.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\ICommand.cs">
+      <Link>ICommand.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\ICompositionObject.cs">
+      <Link>ICompositionObject.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\IExtensibleObject.cs">
+      <Link>IExtensibleObject.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\IExtension.cs">
+      <Link>IExtension.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\IInitializable.cs">
+      <Link>IInitializable.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\IListener.cs">
+      <Link>IListener.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\IListenerManager.cs">
+      <Link>IListenerManager.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Interceptor\Fluent\Aspect.cs">
+      <Link>Interceptor\Fluent\Aspect.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Interceptor\Interfaces.cs">
+      <Link>Interceptor\Interfaces.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Interceptor\LoggerInterceptor.cs">
+      <Link>Interceptor\LoggerInterceptor.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Interceptor\Matcher\AspectMatcher.cs">
+      <Link>Interceptor\Matcher\AspectMatcher.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Interceptor\Matcher\Interfaces.cs">
+      <Link>Interceptor\Matcher\Interfaces.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Interceptor\Matcher\JoinPointMatcher.cs">
+      <Link>Interceptor\Matcher\JoinPointMatcher.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Interceptor\Metadata\Enums.cs">
+      <Link>Interceptor\Metadata\Enums.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Interceptor\Metadata\IAspectInfo.cs">
+      <Link>Interceptor\Metadata\IAspectInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Interceptor\Metadata\IAspectRepository.cs">
+      <Link>Interceptor\Metadata\IAspectRepository.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Interceptor\Metadata\IMethodSignature.cs">
+      <Link>Interceptor\Metadata\IMethodSignature.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Interceptor\Metadata\IPointCutInfo.cs">
+      <Link>Interceptor\Metadata\IPointCutInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Interceptor\Metadata\ITargetTypeInfo.cs">
+      <Link>Interceptor\Metadata\ITargetTypeInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Internal\Assumes.cs">
+      <Link>Internal\Assumes.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Internal\Constance.cs">
+      <Link>Internal\Constance.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Internal\DebuggerEnumerableView.cs">
+      <Link>Internal\DebuggerEnumerableView.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Internal\HttpContextWrapper.cs">
+      <Link>Internal\HttpContextWrapper.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Internal\IconResourceManager.cs">
+      <Link>Internal\IconResourceManager.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Internal\ImageResourceManager.cs">
+      <Link>Internal\ImageResourceManager.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Internal\Internal.cs">
+      <Link>Internal\Internal.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Internal\IQueue.cs">
+      <Link>Internal\IQueue.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Internal\Key.cs">
+      <Link>Internal\Key.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Internal\StringResourceManager.cs">
+      <Link>Internal\StringResourceManager.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Internal\SyncList.cs">
+      <Link>Internal\SyncList.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Internal\SyncQueue.cs">
+      <Link>Internal\SyncQueue.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Internal\TagFormatProvider.cs">
+      <Link>Internal\TagFormatProvider.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Internal\Tracker.cs">
+      <Link>Internal\Tracker.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\IPropertyManager.cs">
+      <Link>IPropertyManager.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\IStartable.cs">
+      <Link>IStartable.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Lazy.cs">
+      <Link>Lazy.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Linq\DefaultExpressionExpressions.cs">
+      <Link>Linq\DefaultExpressionExpressions.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Linq\Expressions.cs">
+      <Link>Linq\Expressions.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Linq\Expressor.cs">
+      <Link>Linq\Expressor.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Linq\SDK4\CustomExpression.cs">
+      <Link>Linq\SDK4\CustomExpression.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Linq\SDK4\CustomExpressionType.cs">
+      <Link>Linq\SDK4\CustomExpressionType.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Linq\SDK4\CustomExpressionVisitor.cs">
+      <Link>Linq\SDK4\CustomExpressionVisitor.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Linq\SDK4\DoWhileExpression.cs">
+      <Link>Linq\SDK4\DoWhileExpression.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Linq\SDK4\ForEachExpression.cs">
+      <Link>Linq\SDK4\ForEachExpression.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Linq\SDK4\ForExpression.cs">
+      <Link>Linq\SDK4\ForExpression.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Linq\SDK4\UsingExpression.cs">
+      <Link>Linq\SDK4\UsingExpression.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Linq\SDK4\WhileExpression.cs">
+      <Link>Linq\SDK4\WhileExpression.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\ListenerManager.cs">
+      <Link>ListenerManager.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\ListenerManager1.cs">
+      <Link>ListenerManager1.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Log\DebugLogger.cs">
+      <Link>Log\DebugLogger.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Log\ILog.cs">
+      <Link>Log\ILog.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Log\LoggerManager.cs">
+      <Link>Log\LoggerManager.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Log\NullLogger.cs">
+      <Link>Log\NullLogger.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\LoopDependencyException.cs">
+      <Link>LoopDependencyException.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Mapping\Converter.cs">
+      <Link>Mapping\Converter.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Mapping\Factories\ClassMapperFactory.cs">
+      <Link>Mapping\Factories\ClassMapperFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Mapping\IMapperInfo.cs">
+      <Link>Mapping\IMapperInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Mapping\Interfaces.cs">
+      <Link>Mapping\Interfaces.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Mapping\Internal\MapingEngine.cs">
+      <Link>Mapping\Internal\MapingEngine.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Mapping\Internal\MapperInfo.cs">
+      <Link>Mapping\Internal\MapperInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Mapping\Internal\Mappers\ClassMapper.cs">
+      <Link>Mapping\Internal\Mappers\ClassMapper.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Mapping\Internal\Mappers\ClassToDictionaryMapper.cs">
+      <Link>Mapping\Internal\Mappers\ClassToDictionaryMapper.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Mapping\Internal\Mappers\CollectionMapper.cs">
+      <Link>Mapping\Internal\Mappers\CollectionMapper.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Mapping\Internal\Mappers\DataReaderMapper.cs">
+      <Link>Mapping\Internal\Mappers\DataReaderMapper.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Mapping\Internal\Mappers\DataRowMapper.cs">
+      <Link>Mapping\Internal\Mappers\DataRowMapper.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Mapping\Internal\Mappers\DataTableMapper.cs">
+      <Link>Mapping\Internal\Mappers\DataTableMapper.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Mapping\Internal\Mappers\DictionaryMapper.cs">
+      <Link>Mapping\Internal\Mappers\DictionaryMapper.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Mapping\Internal\Mappers\EnumMapper.cs">
+      <Link>Mapping\Internal\Mappers\EnumMapper.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Mapping\Internal\Mappers\FlagsEnumMapper.cs">
+      <Link>Mapping\Internal\Mappers\FlagsEnumMapper.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Mapping\Internal\Mappers\GenericMapper.cs">
+      <Link>Mapping\Internal\Mappers\GenericMapper.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Mapping\Internal\Mappers\ListSourceMapper.cs">
+      <Link>Mapping\Internal\Mappers\ListSourceMapper.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Mapping\Internal\Mappers\MapperBase.cs">
+      <Link>Mapping\Internal\Mappers\MapperBase.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Mapping\Internal\Mappers\NullableMapper.cs">
+      <Link>Mapping\Internal\Mappers\NullableMapper.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Mapping\Internal\Mappers\PrimitiveMapper.cs">
+      <Link>Mapping\Internal\Mappers\PrimitiveMapper.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Mapping\Internal\Mappers\StringMapper.cs">
+      <Link>Mapping\Internal\Mappers\StringMapper.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Mapping\Internal\Mappers\TypeConverterMapper.cs">
+      <Link>Mapping\Internal\Mappers\TypeConverterMapper.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Mapping\Internal\ObjectCreator.cs">
+      <Link>Mapping\Internal\ObjectCreator.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Mapping\Mapper.cs">
+      <Link>Mapping\Mapper.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Messaging\IMessageBus.cs">
+      <Link>Messaging\IMessageBus.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Messaging\IMessageListner.cs">
+      <Link>Messaging\IMessageListner.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Messaging\IMessageListnerManager.cs">
+      <Link>Messaging\IMessageListnerManager.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Messaging\Internal\DelegateInvoker.cs">
+      <Link>Messaging\Internal\DelegateInvoker.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Messaging\Internal\Executor.cs">
+      <Link>Messaging\Internal\Executor.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Messaging\Internal\IDelegateInvoker.cs">
+      <Link>Messaging\Internal\IDelegateInvoker.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Messaging\Internal\IExecutor.cs">
+      <Link>Messaging\Internal\IExecutor.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Messaging\Internal\IMessageRepository.cs">
+      <Link>Messaging\Internal\IMessageRepository.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Messaging\Internal\ISubject.cs">
+      <Link>Messaging\Internal\ISubject.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Messaging\Internal\ISubjectBuilder.cs">
+      <Link>Messaging\Internal\ISubjectBuilder.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Messaging\Internal\ISubscriber.cs">
+      <Link>Messaging\Internal\ISubscriber.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Messaging\Internal\Message.cs">
+      <Link>Messaging\Internal\Message.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Messaging\Internal\MessageListnerManager.cs">
+      <Link>Messaging\Internal\MessageListnerManager.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Messaging\Internal\MessageRepository.cs">
+      <Link>Messaging\Internal\MessageRepository.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Messaging\Internal\PoolExecutor.cs">
+      <Link>Messaging\Internal\PoolExecutor.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Messaging\Internal\Subject.cs">
+      <Link>Messaging\Internal\Subject.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Messaging\Internal\SubjectBuilder.cs">
+      <Link>Messaging\Internal\SubjectBuilder.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Messaging\Internal\Subscriber.cs">
+      <Link>Messaging\Internal\Subscriber.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Messaging\IPublisher.cs">
+      <Link>Messaging\IPublisher.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Messaging\Message.cs">
+      <Link>Messaging\Message.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Messaging\MessageBus.cs">
+      <Link>Messaging\MessageBus.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Messaging\MessageBusExtension.cs">
+      <Link>Messaging\MessageBusExtension.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Messaging\MessageEventArgs.cs">
+      <Link>Messaging\MessageEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Messaging\MessageExceptionEventArgs.cs">
+      <Link>Messaging\MessageExceptionEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Messaging\MessageListner.cs">
+      <Link>Messaging\MessageListner.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Messaging\MessageListnerType.cs">
+      <Link>Messaging\MessageListnerType.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Messaging\MessageReceivingEventArgs.cs">
+      <Link>Messaging\MessageReceivingEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Messaging\MessageSendingEventArgs.cs">
+      <Link>Messaging\MessageSendingEventArgs.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Messaging\ObserverHandler.cs">
+      <Link>Messaging\ObserverHandler.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Mini\Activation\AbstractActivator.cs">
+      <Link>Mini\Activation\AbstractActivator.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Mini\Activation\ActivatorException.cs">
+      <Link>Mini\Activation\ActivatorException.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Mini\Activation\ActivatorFactory.cs">
+      <Link>Mini\Activation\ActivatorFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Mini\Activation\DefaultActivator.cs">
+      <Link>Mini\Activation\DefaultActivator.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Mini\Activation\DelegateActivator.cs">
+      <Link>Mini\Activation\DelegateActivator.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Mini\Activation\IActivator.cs">
+      <Link>Mini\Activation\IActivator.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Mini\Activation\IActivatorFactory.cs">
+      <Link>Mini\Activation\IActivatorFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Mini\Activation\InstanceActivator.cs">
+      <Link>Mini\Activation\InstanceActivator.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Mini\Activation\ProxyActivator.cs">
+      <Link>Mini\Activation\ProxyActivator.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Mini\Attributes\ComponentAttribute.cs">
+      <Link>Mini\Attributes\ComponentAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Mini\Attributes\ContractAttribute.cs">
+      <Link>Mini\Attributes\ContractAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Mini\Attributes\IgnoreInjectAttribute.cs">
+      <Link>Mini\Attributes\IgnoreInjectAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Mini\Attributes\InjectAttribute.cs">
+      <Link>Mini\Attributes\InjectAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Mini\Attributes\InjectManyAttribute.cs">
+      <Link>Mini\Attributes\InjectManyAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Mini\Attributes\ResourceAttribute.cs">
+      <Link>Mini\Attributes\ResourceAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Mini\Attributes\SettingAttribute.cs">
+      <Link>Mini\Attributes\SettingAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Mini\ComponentInfo.cs">
+      <Link>Mini\ComponentInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Mini\ComponentListener\AopListener.cs">
+      <Link>Mini\ComponentListener\AopListener.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Mini\ComponentListener\AppSettingInjectionListener.cs">
+      <Link>Mini\ComponentListener\AppSettingInjectionListener.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Mini\ComponentListener\ComponentListenerAdapter.cs">
+      <Link>Mini\ComponentListener\ComponentListenerAdapter.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Mini\ComponentListener\ComponentListenManager.cs">
+      <Link>Mini\ComponentListener\ComponentListenManager.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Mini\ComponentListener\DisposalListener.cs">
+      <Link>Mini\ComponentListener\DisposalListener.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Mini\ComponentListener\InitializationListener.cs">
+      <Link>Mini\ComponentListener\InitializationListener.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Mini\ComponentListener\InjectionListener.cs">
+      <Link>Mini\ComponentListener\InjectionListener.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Mini\ComponentListener\LifecycleAdapterListener.cs">
+      <Link>Mini\ComponentListener\LifecycleAdapterListener.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Mini\ComponentListener\MemberExportListener.cs">
+      <Link>Mini\ComponentListener\MemberExportListener.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Mini\ComponentListener\StartableListener.cs">
+      <Link>Mini\ComponentListener\StartableListener.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Mini\ComponentListener\SubscribeListener.cs">
+      <Link>Mini\ComponentListener\SubscribeListener.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Mini\ComponentListener\SupportInitializeListener.cs">
+      <Link>Mini\ComponentListener\SupportInitializeListener.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Mini\ComponentListenStage.cs">
+      <Link>Mini\ComponentListenStage.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Mini\Context\ComponentContext.cs">
+      <Link>Mini\Context\ComponentContext.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Mini\Context\IComponentContext.cs">
+      <Link>Mini\Context\IComponentContext.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Mini\ContractService.cs">
+      <Link>Mini\ContractService.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Mini\Fluent\FluentExtensions.cs">
+      <Link>Mini\Fluent\FluentExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Mini\Fluent\IBindingExpression.cs">
+      <Link>Mini\Fluent\IBindingExpression.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Mini\Fluent\IComponentExpression.cs">
+      <Link>Mini\Fluent\IComponentExpression.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Mini\Fluent\IContractExpression.cs">
+      <Link>Mini\Fluent\IContractExpression.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Mini\Fluent\IExpression.cs">
+      <Link>Mini\Fluent\IExpression.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Mini\Fluent\IFactoryExpression.cs">
+      <Link>Mini\Fluent\IFactoryExpression.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Mini\Fluent\INamedExpression.cs">
+      <Link>Mini\Fluent\INamedExpression.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Mini\IComponentInfo.cs">
+      <Link>Mini\IComponentInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Mini\IComponentListener.cs">
+      <Link>Mini\IComponentListener.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Mini\IComponentListenerManager.cs">
+      <Link>Mini\IComponentListenerManager.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Mini\IKernel.cs">
+      <Link>Mini\IKernel.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Mini\ILazyServiceLocator.cs">
+      <Link>Mini\ILazyServiceLocator.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Mini\ILifecycleListner.cs">
+      <Link>Mini\ILifecycleListner.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Mini\InjectionManyException.cs">
+      <Link>Mini\InjectionManyException.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Mini\Internal\ComponentExpression.cs">
+      <Link>Mini\Internal\ComponentExpression.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Mini\IServiceLocator.cs">
+      <Link>Mini\IServiceLocator.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Mini\IServiceRegistry.cs">
+      <Link>Mini\IServiceRegistry.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Mini\Kernel.cs">
+      <Link>Mini\Kernel.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Mini\LifecycleListnerManager.cs">
+      <Link>Mini\LifecycleListnerManager.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Mini\LifestyleType.cs">
+      <Link>Mini\LifestyleType.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Mini\Lifestyle\GenericLifestyleManager.cs">
+      <Link>Mini\Lifestyle\GenericLifestyleManager.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Mini\Lifestyle\GenericSingletonLifestyleManager.cs">
+      <Link>Mini\Lifestyle\GenericSingletonLifestyleManager.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Mini\Lifestyle\GenericThreadLifestyleManager.cs">
+      <Link>Mini\Lifestyle\GenericThreadLifestyleManager.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Mini\Lifestyle\GenericTransientLifestyleManager.cs">
+      <Link>Mini\Lifestyle\GenericTransientLifestyleManager.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Mini\Lifestyle\ILifestyleManager.cs">
+      <Link>Mini\Lifestyle\ILifestyleManager.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Mini\Lifestyle\ILifestyleManagerFactory.cs">
+      <Link>Mini\Lifestyle\ILifestyleManagerFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Mini\Lifestyle\LifestyleManagerAdapter.cs">
+      <Link>Mini\Lifestyle\LifestyleManagerAdapter.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Mini\Lifestyle\LifestyleManagerFactory.cs">
+      <Link>Mini\Lifestyle\LifestyleManagerFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Mini\Lifestyle\ProxyLifestyleManager.cs">
+      <Link>Mini\Lifestyle\ProxyLifestyleManager.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Mini\Lifestyle\SingletontLifestyleManager.cs">
+      <Link>Mini\Lifestyle\SingletontLifestyleManager.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Mini\Lifestyle\ThreadLifestyleManager.cs">
+      <Link>Mini\Lifestyle\ThreadLifestyleManager.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Mini\Lifestyle\TransientLifestyleManager.cs">
+      <Link>Mini\Lifestyle\TransientLifestyleManager.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Mini\Metadata\IMetadata.cs">
+      <Link>Mini\Metadata\IMetadata.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Mini\Metadata\MetadataAttribute.cs">
+      <Link>Mini\Metadata\MetadataAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Mini\Metadata\MetadataAttributeAttribute.cs">
+      <Link>Mini\Metadata\MetadataAttributeAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Mini\Mini_Resources.Designer.cs">
+      <Link>Mini\Mini_Resources.Designer.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Mini\Proxy\IProxyFactory.cs">
+      <Link>Mini\Proxy\IProxyFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Mini\Proxy\RealProxyFactory.cs">
+      <Link>Mini\Proxy\RealProxyFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Mini\RepeatRegistrationException.cs">
+      <Link>Mini\RepeatRegistrationException.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Mini\Resolving\AppSettingDependency.cs">
+      <Link>Mini\Resolving\AppSettingDependency.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Mini\Resolving\BatchDependency.cs">
+      <Link>Mini\Resolving\BatchDependency.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Mini\Resolving\Dependency.cs">
+      <Link>Mini\Resolving\Dependency.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Mini\Resolving\DependencyManager.cs">
+      <Link>Mini\Resolving\DependencyManager.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Mini\Resolving\IDependency.cs">
+      <Link>Mini\Resolving\IDependency.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Mini\Resolving\IExportInfo.cs">
+      <Link>Mini\Resolving\IExportInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Mini\Resolving\IInjection.cs">
+      <Link>Mini\Resolving\IInjection.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Mini\Resolving\IVisitor.cs">
+      <Link>Mini\Resolving\IVisitor.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Mini\Resolving\Lazy.cs">
+      <Link>Mini\Resolving\Lazy.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Mini\Resolving\MemberExportException.cs">
+      <Link>Mini\Resolving\MemberExportException.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Mini\Resolving\ReinjectionManager.cs">
+      <Link>Mini\Resolving\ReinjectionManager.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Mini\Resolving\SubscribeProvider.cs">
+      <Link>Mini\Resolving\SubscribeProvider.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Mini\ServiceLocator.cs">
+      <Link>Mini\ServiceLocator.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Mini\ServiceRegistryExtensions.cs">
+      <Link>Mini\ServiceRegistryExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Net\FakeHttpContext.cs">
+      <Link>Net\FakeHttpContext.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Net\IHttpApplicationState.cs">
+      <Link>Net\IHttpApplicationState.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Net\IHttpBrowserCapabilities.cs">
+      <Link>Net\IHttpBrowserCapabilities.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Net\IHttpCachePolicy.cs">
+      <Link>Net\IHttpCachePolicy.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Net\IHttpContext.cs">
+      <Link>Net\IHttpContext.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Net\IHttpCookie.cs">
+      <Link>Net\IHttpCookie.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Net\IHttpCookieCollection.cs">
+      <Link>Net\IHttpCookieCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Net\IHttpFileCollection.cs">
+      <Link>Net\IHttpFileCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Net\IHttpPostedFile.cs">
+      <Link>Net\IHttpPostedFile.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Net\IHttpRequest.cs">
+      <Link>Net\IHttpRequest.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Net\IHttpResponse.cs">
+      <Link>Net\IHttpResponse.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Net\IHttpServerUtility.cs">
+      <Link>Net\IHttpServerUtility.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Net\IHttpSessionState.cs">
+      <Link>Net\IHttpSessionState.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Net\IHttpStaticObjectsCollection.cs">
+      <Link>Net\IHttpStaticObjectsCollection.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Net\IResourceResult.cs">
+      <Link>Net\IResourceResult.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Net\MimeTypes.cs">
+      <Link>Net\MimeTypes.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Net\ValueProviderFactory.cs">
+      <Link>Net\ValueProviderFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\NLiteEnvironment.cs">
+      <Link>NLiteEnvironment.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\OverrideAttribute.cs">
+      <Link>OverrideAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Properties\AssemblyInfo.cs">
+      <Link>Properties\AssemblyInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Reflection\ClassLoader.cs">
+      <Link>Reflection\ClassLoader.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Reflection\ConstructorHandler.cs">
+      <Link>Reflection\ConstructorHandler.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Reflection\CustomAttributeProviderExtensions.cs">
+      <Link>Reflection\CustomAttributeProviderExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Reflection\DynamicAssemblyManager.cs">
+      <Link>Reflection\DynamicAssemblyManager.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Reflection\DynamicMethodFactory.cs">
+      <Link>Reflection\DynamicMethodFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Reflection\DynamicMethodFactoryProxy.cs">
+      <Link>Reflection\DynamicMethodFactoryProxy.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Reflection\EmitHelper.cs">
+      <Link>Reflection\EmitHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Reflection\Gac.cs">
+      <Link>Reflection\Gac.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Reflection\Getter.cs">
+      <Link>Reflection\Getter.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Reflection\IDynamicMethodFactory.cs">
+      <Link>Reflection\IDynamicMethodFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Reflection\Internal\InternalClasses.cs">
+      <Link>Reflection\Internal\InternalClasses.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Reflection\MethodHandler.cs">
+      <Link>Reflection\MethodHandler.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Reflection\ReflectionServices.cs">
+      <Link>Reflection\ReflectionServices.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Reflection\Setter.cs">
+      <Link>Reflection\Setter.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Reflection\TypeHelper.cs">
+      <Link>Reflection\TypeHelper.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Result.cs">
+      <Link>Result.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\RuntimeTypeHandleExtension.cs">
+      <Link>RuntimeTypeHandleExtension.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Security\Cryptographer.cs">
+      <Link>Security\Cryptographer.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Serialization\BinarySerializer.cs">
+      <Link>Serialization\BinarySerializer.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Serialization\ContentHandlerTable.cs">
+      <Link>Serialization\ContentHandlerTable.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Serialization\DotNetXmlSerializer.cs">
+      <Link>Serialization\DotNetXmlSerializer.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Serialization\ISerializer.cs">
+      <Link>Serialization\ISerializer.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Serialization\JsonSerializer.cs">
+      <Link>Serialization\JsonSerializer.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Serialization\SimpleJson.cs">
+      <Link>Serialization\SimpleJson.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Serialization\XmlSerializer.cs">
+      <Link>Serialization\XmlSerializer.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Strings\IFormatProvider.cs">
+      <Link>Strings\IFormatProvider.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Strings\StringExtension.cs">
+      <Link>Strings\StringExtension.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Strings\StringFormatter.cs">
+      <Link>Strings\StringFormatter.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\SynchronizeService.cs">
+      <Link>SynchronizeService.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Threading\AtomicInteger.cs">
+      <Link>Threading\AtomicInteger.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Threading\AtomicReference.cs">
+      <Link>Threading\AtomicReference.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Threading\Barrier.cs">
+      <Link>Threading\Barrier.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Threading\Collections\ConcurrentStack.cs">
+      <Link>Threading\Collections\ConcurrentStack.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Threading\CountdownLatch.cs">
+      <Link>Threading\CountdownLatch.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Threading\Future.cs">
+      <Link>Threading\Future.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Threading\IActiveObject.cs">
+      <Link>Threading\IActiveObject.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Threading\IFuture.cs">
+      <Link>Threading\IFuture.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Threading\IFuture1.cs">
+      <Link>Threading\IFuture1.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Threading\IFutureContext.cs">
+      <Link>Threading\IFutureContext.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Threading\IFutureContext1.cs">
+      <Link>Threading\IFutureContext1.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Threading\Local.cs">
+      <Link>Threading\Local.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Threading\Paraller.cs">
+      <Link>Threading\Paraller.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Threading\ReadLock.cs">
+      <Link>Threading\ReadLock.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Threading\ResetEvent.cs">
+      <Link>Threading\ResetEvent.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Threading\Thread.cs">
+      <Link>Threading\Thread.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Threading\ThreadTask.cs">
+      <Link>Threading\ThreadTask.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Validation\DataAnnotationsValidator.cs">
+      <Link>Validation\DataAnnotationsValidator.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Validation\EntityValidator.cs">
+      <Link>Validation\EntityValidator.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Validation\IValidationFailure.cs">
+      <Link>Validation\IValidationFailure.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Validation\IValidator.cs">
+      <Link>Validation\IValidator.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Validation\ValidationResult.cs">
+      <Link>Validation\ValidationResult.cs</Link>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="..\NLite\Mini\Mini_Resources.resx">
+      <Link>Mini\Mini_Resources.resx</Link>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Data\DynamicRow.MetaObjectProvider.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

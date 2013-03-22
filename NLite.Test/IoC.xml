@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<NLite xmlns="http://www.NLite.com/IoC">
+  <listners>
+    <listner name="startableListner" value="NLite.Listner.StartableListner,NLite"/>
+  </listners>
+  <components>
+    <component
+               id="person"
+               service="NLite.Test.IoC.IPerson,NLite.Test"
+               type="NLite.Test.IoC.Person,NLite.Test">
+      <extensions>
+        <item name="proxy" value="true"/>
+      </extensions>
+    </component>
+
+    <component
+               id="person2"
+               service="NLite.Test.IoC.IPerson,NLite.Test"
+               type="NLite.Test.IoC.Person2,NLite.Test"/>
+
+    <component
+              id="person5"
+              service="NLite.Test.IoC.IPerson,NLite.Test"
+              type="NLite.Test.IoC.Person5,NLite.Test">
+      <!--<properties>
+        <property name="name" value="ZhangSan" type="System.String,mscorlib"/>
+      </properties>-->
+    </component>
+
+
+    <component
+              id="person6"
+              service="NLite.Test.IoC.IPerson,NLite.Test"
+              type="NLite.Test.IoC.Person6,NLite.Test">
+    </component>
+
+    
+    <component
+               id="TransientPerson"
+               service="NLite.Test.IoC.IPerson,NLite.Test"
+               type="NLite.Test.IoC.Person,NLite.Test"
+               lifestyleType="Transient"/>
+
+    <component
+               id="EagerPerson"
+               service="NLite.Test.IoC.IPerson,NLite.Test"
+               type="NLite.Test.IoC.Person,NLite.Test"/>
+
+    <component
+               id="StartablePerson"
+               service="NLite.Test.IoC.IPerson,NLite.Test"
+               type="NLite.Test.IoC.StartablePerson,NLite.Test"/>
+
+    <component
+               id="redHorse"
+               service="NLite.Test.IoC.IHorse,NLite.Test"
+               type="NLite.Test.IoC.RedHorse,NLite.Test"/>
+
+    <component
+               id="A"
+               service="NLite.Test.IoC.A,NLite.Test"
+               type="NLite.Test.IoC.A,NLite.Test"/>
+
+    <component
+               service="System.Collections.Generic.IList`1,mscorlib"
+               type="System.Collections.Generic.List`1,mscorlib"/>
+
+    <component
+               service="NLite.Test.IoC.GenericCollection`1,NLite.Test"
+               type="NLite.Test.IoC.GenericCollection`1,NLite.Test"/>
+  </components>
+</NLite>

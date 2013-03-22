@@ -1,0 +1,174 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="NLite.Domain.ServiceDescriptor">
+    <Position X="1.25" Y="9.25" Width="1.5" />
+    <Members>
+      <Method Name="AddMethod" Hidden="true" />
+      <Field Name="cache" Hidden="true" />
+      <Property Name="Configuration" Hidden="true" />
+      <Method Name="GetEnumerator" Hidden="true" />
+      <Method Name="ServiceDescriptor" Hidden="true" />
+      <Method Name="System.Collections.IEnumerable.GetEnumerator" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>ACAKAAAAAAAgABABCAAAAAAAAACAAAAAgAgAAAAABEA=</HashCode>
+      <FileName>Domain\ServiceDescriptor.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="this[System.String, NLite.Domain.IServiceRequest]" />
+    </ShowAsAssociation>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="NLite.Domain.OperationDescriptor">
+    <Position X="4.5" Y="11.25" Width="2.25" />
+    <Members>
+      <Field Name="Executor" Hidden="true" />
+      <Property Name="Extensions" Hidden="true" />
+      <Method Name="GetParameterValues" Hidden="true" />
+      <Method Name="OperationDescriptor" Hidden="true" />
+      <Field Name="ServiceDescriptor" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AAAACAAAAAAgAAQAAIAgEAAAAAAAAAACAEgAAAEAEAA=</HashCode>
+      <FileName>Domain\OperationDescriptor.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="NameSelector" />
+      <Field Name="MethodSelector" />
+    </ShowAsAssociation>
+    <ShowAsCollectionAssociation>
+      <Field Name="Filters" />
+      <Field Name="Bindings" />
+    </ShowAsCollectionAssociation>
+  </Class>
+  <Class Name="NLite.Domain.Binding.BindingInfo">
+    <Position X="5.5" Y="9" Width="1.5" />
+    <Members>
+      <Field Name="_DefaultModelBinder" Hidden="true" />
+      <Method Name="BindingInfo" Hidden="true" />
+      <Method Name="BindModel" Hidden="true" />
+      <Field Name="Exclude" Hidden="true" />
+      <Method Name="FilterValueProvider" Hidden="true" />
+      <Method Name="GetDefaultValue" Hidden="true" />
+      <Field Name="Include" Hidden="true" />
+      <Field Name="IsNullPrefix" Hidden="true" />
+      <Method Name="SplitString" Hidden="true" />
+    </Members>
+    <TypeIdentifier>
+      <HashCode>AACAAAAAAAgAAAAIBIAAKAQCAABAAAAgAQAAAAAAEAA=</HashCode>
+      <FileName>Domain\Binding\BindingInfo.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Field Name="ModelBinder" />
+    </ShowAsAssociation>
+  </Class>
+  <Class Name="NLite.Domain.Mapping.OperationNameSelectorAttribute">
+    <Position X="1.25" Y="13.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Mapping\OperationNameSelectorAttribute.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NLite.Domain.Mapping.OperationSelectorAttribute">
+    <Position X="9.25" Y="11.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Mapping\OperationSelectorAttribute.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NLite.Domain.Listener.OperationFilterAttribute">
+    <Position X="5.75" Y="13.5" Width="2" />
+    <Compartments>
+      <Compartment Name="Methods" Collapsed="true" />
+    </Compartments>
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAgAAAAAA=</HashCode>
+      <FileName>Domain\Listener\OperationFilterAttribute.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="NLite.Domain.Mapping.HttpDeleteAttribute" Collapsed="true">
+    <Position X="8.25" Y="9.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAQAEAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Mapping\OperationSelectorAttribute.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NLite.Domain.Mapping.HttpGetAttribute" Collapsed="true">
+    <Position X="10.5" Y="9.75" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAQAEAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Mapping\OperationSelectorAttribute.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NLite.Domain.Mapping.HttpPostAttribute" Collapsed="true">
+    <Position X="8.5" Y="13.5" Width="1.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAQAEAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Mapping\OperationSelectorAttribute.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NLite.Domain.Mapping.HttpPutAttribute" Collapsed="true">
+    <Position X="11.25" Y="13.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAQAEAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Mapping\OperationSelectorAttribute.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Interface Name="NLite.Domain.IServiceRequest">
+    <Position X="4.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAgAAAAAAAAAAEAAAAAAAAAAAIAAAAACABAA=</HashCode>
+      <FileName>Domain\IServiceRequest.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="NLite.Domain.IServiceResponse">
+    <Position X="6.75" Y="0.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAQAAgAAAIQAAABAAAAAAAA=</HashCode>
+      <FileName>Domain\IServiceResponse.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="NLite.Domain.IServiceDispatcher">
+    <Position X="1.25" Y="0.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>AAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\IServiceDispatcher.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="NLite.Domain.IServiceDescriptorManager">
+    <Position X="1" Y="6.5" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAEAAAAAAAEAA=</HashCode>
+      <FileName>Domain\IServiceDescriptorManager.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsCollectionAssociation>
+      <Property Name="ServiceDescriptors" />
+    </ShowAsCollectionAssociation>
+  </Interface>
+  <Interface Name="NLite.Domain.Binding.IModelBinder">
+    <Position X="5.5" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Binding\IModelBinder.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="NLite.Domain.Listener.INdfListenerManager">
+    <Position X="5" Y="3.25" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>AAAAIAAAAAAAAAAABAAAAQAAAAAEAgAAAAIAAAAAAAg=</HashCode>
+      <FileName>Domain\Listener\INdfListenerManager.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="NLite.Domain.Cfg.INdfConfigurationItem">
+    <Position X="1.25" Y="3.25" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAACAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAA=</HashCode>
+      <FileName>Domain\Cfg\INdfConfigurationItem.cs</FileName>
+    </TypeIdentifier>
+    <ShowAsAssociation>
+      <Property Name="ServiceDescriptorManager" />
+    </ShowAsAssociation>
+  </Interface>
+  <Font Name="Microsoft YaHei" Size="9" />
+</ClassDiagram>

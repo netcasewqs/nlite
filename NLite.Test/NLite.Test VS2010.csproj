@@ -1,0 +1,331 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{CA0B259B-4A99-4FA7-B6D0-FBE391B6AD53}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>NLite.Test</RootNamespace>
+    <AssemblyName>NLite.Test</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <UpgradeBackupLocation />
+    <PublishUrl>publish\</PublishUrl>
+    <Install>true</Install>
+    <InstallFrom>Disk</InstallFrom>
+    <UpdateEnabled>false</UpdateEnabled>
+    <UpdateMode>Foreground</UpdateMode>
+    <UpdateInterval>7</UpdateInterval>
+    <UpdateIntervalUnits>Days</UpdateIntervalUnits>
+    <UpdatePeriodically>false</UpdatePeriodically>
+    <UpdateRequired>false</UpdateRequired>
+    <MapFileExtensions>true</MapFileExtensions>
+    <ApplicationRevision>0</ApplicationRevision>
+    <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <UseApplicationTrust>false</UseApplicationTrust>
+    <BootstrapperEnabled>true</BootstrapperEnabled>
+    <TargetFrameworkProfile />
+    <SourceAnalysisOverrideSettingsFile>C:\Users\Administrator\AppData\Roaming\ICSharpCode/SharpDevelop4\Settings.SourceAnalysis</SourceAnalysisOverrideSettingsFile>
+    <RunPostBuildEvent>OnBuildSuccess</RunPostBuildEvent>
+    <RunCodeAnalysis>False</RunCodeAnalysis>
+    <CodeAnalysisRules>-Microsoft.Design#CA1000;-Microsoft.Design#CA1001;-Microsoft.Design#CA1002;-Microsoft.Design#CA1003;-Microsoft.Design#CA1004;-Microsoft.Design#CA1005;-Microsoft.Design#CA1006;-Microsoft.Design#CA1007;-Microsoft.Design#CA1008;-Microsoft.Design#CA1009;-Microsoft.Design#CA1010;-Microsoft.Design#CA1011;-Microsoft.Design#CA1012;-Microsoft.Design#CA1013;-Microsoft.Design#CA1014;-Microsoft.Design#CA1016;-Microsoft.Design#CA1017;-Microsoft.Design#CA1018;-Microsoft.Design#CA1019;-Microsoft.Design#CA1020;-Microsoft.Design#CA1021;-Microsoft.Design#CA1023;-Microsoft.Design#CA1024;-Microsoft.Design#CA1025;-Microsoft.Design#CA1026;-Microsoft.Design#CA1027;-Microsoft.Design#CA1028;-Microsoft.Design#CA1030;-Microsoft.Design#CA1031;-Microsoft.Design#CA1032;-Microsoft.Design#CA1033;-Microsoft.Design#CA1034;-Microsoft.Design#CA1035;-Microsoft.Design#CA1036;-Microsoft.Design#CA1038;-Microsoft.Design#CA1039;-Microsoft.Design#CA1040;-Microsoft.Design#CA1041;-Microsoft.Design#CA1043;-Microsoft.Design#CA1044;-Microsoft.Design#CA1045;-Microsoft.Design#CA1046;-Microsoft.Design#CA1047;-Microsoft.Design#CA1048;-Microsoft.Design#CA1049;-Microsoft.Design#CA1050;-Microsoft.Design#CA1051;-Microsoft.Design#CA1052;-Microsoft.Design#CA1053;-Microsoft.Design#CA1054;-Microsoft.Design#CA1055;-Microsoft.Design#CA1056;-Microsoft.Design#CA1057;-Microsoft.Design#CA1058;-Microsoft.Design#CA1059;-Microsoft.Design#CA1060;-Microsoft.Design#CA1061;-Microsoft.Design#CA1062;-Microsoft.Design#CA1063;-Microsoft.Design#CA1064;-Microsoft.Design#CA2210;-Microsoft.Globalization#CA1300;-Microsoft.Globalization#CA1301;-Microsoft.Globalization#CA1302;-Microsoft.Globalization#CA1303;-Microsoft.Globalization#CA1304;-Microsoft.Globalization#CA1305;-Microsoft.Globalization#CA1306;-Microsoft.Interoperability#CA1400;-Microsoft.Interoperability#CA1401;-Microsoft.Interoperability#CA1402;-Microsoft.Interoperability#CA1403;-Microsoft.Interoperability#CA1404;-Microsoft.Interoperability#CA1405;-Microsoft.Interoperability#CA1406;-Microsoft.Interoperability#CA1407;-Microsoft.Interoperability#CA1408;-Microsoft.Interoperability#CA1409;-Microsoft.Interoperability#CA1410;-Microsoft.Interoperability#CA1411;-Microsoft.Interoperability#CA1412;-Microsoft.Interoperability#CA1413;-Microsoft.Interoperability#CA1414;-Microsoft.Interoperability#CA1415;-Microsoft.Mobility#CA1600;-Microsoft.Mobility#CA1601;-Microsoft.Performance#CA1800;-Microsoft.Performance#CA1802;-Microsoft.Performance#CA1804;-Microsoft.Performance#CA1805;-Microsoft.Performance#CA1807;-Microsoft.Performance#CA1809;-Microsoft.Performance#CA1810;-Microsoft.Performance#CA1811;-Microsoft.Performance#CA1812;-Microsoft.Performance#CA1813;-Microsoft.Performance#CA1814;-Microsoft.Performance#CA1815;-Microsoft.Performance#CA1816;-Microsoft.Performance#CA1817;-Microsoft.Performance#CA1818;-Microsoft.Performance#CA1819;-Microsoft.Performance#CA1820;-Microsoft.Performance#CA1821;-Microsoft.Performance#CA1822;-Microsoft.Performance#CA1823;-Microsoft.Portability#CA1900;-Microsoft.Portability#CA1901;-Microsoft.Security#CA2100;-Microsoft.Security#CA2101;-Microsoft.Security#CA2102;-Microsoft.Security#CA2103;-Microsoft.Security#CA2104;-Microsoft.Security#CA2105;-Microsoft.Security#CA2106;-Microsoft.Security#CA2107;-Microsoft.Security#CA2108;-Microsoft.Security#CA2109;-Microsoft.Security#CA2110;-Microsoft.Security#CA2111;-Microsoft.Security#CA2112;-Microsoft.Security#CA2114;-Microsoft.Security#CA2115;-Microsoft.Security#CA2116;-Microsoft.Security#CA2117;-Microsoft.Security#CA2118;-Microsoft.Security#CA2119;-Microsoft.Security#CA2120;-Microsoft.Security#CA2121;-Microsoft.Security#CA2122;-Microsoft.Security#CA2123;-Microsoft.Security#CA2124;-Microsoft.Security#CA2126;-Microsoft.Security#CA2127;-Microsoft.Security#CA2128;-Microsoft.Security#CA2129;-Microsoft.Usage#CA1801;-Microsoft.Usage#CA1806;-Microsoft.Usage#CA2200;-Microsoft.Usage#CA2201;-Microsoft.Usage#CA2202;-Microsoft.Usage#CA2204;-Microsoft.Usage#CA2205;-Microsoft.Usage#CA2207;-Microsoft.Usage#CA2208;-Microsoft.Usage#CA2209;-Microsoft.Usage#CA2211;-Microsoft.Usage#CA2212;-Microsoft.Usage#CA2213;-Microsoft.Usage#CA2214;-Microsoft.Usage#CA2215;-Microsoft.Usage#CA2216;-Microsoft.Usage#CA2217;-Microsoft.Usage#CA2218;-Microsoft.Usage#CA2219;-Microsoft.Usage#CA2220;-Microsoft.Usage#CA2221;-Microsoft.Usage#CA2222;-Microsoft.Usage#CA2223;-Microsoft.Usage#CA2224;-Microsoft.Usage#CA2225;-Microsoft.Usage#CA2226;-Microsoft.Usage#CA2227;-Microsoft.Usage#CA2228;-Microsoft.Usage#CA2229;-Microsoft.Usage#CA2230;-Microsoft.Usage#CA2231;-Microsoft.Usage#CA2232;-Microsoft.Usage#CA2233;-Microsoft.Usage#CA2234;-Microsoft.Usage#CA2235;-Microsoft.Usage#CA2236;-Microsoft.Usage#CA2237;-Microsoft.Usage#CA2238;-Microsoft.Usage#CA2239;-Microsoft.Usage#CA2240;-Microsoft.Usage#CA2241;-Microsoft.Usage#CA2242;-Microsoft.Usage#CA2243</CodeAnalysisRules>
+    <RunSourceAnalysis>False</RunSourceAnalysis>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>..\Bin\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+    <RunCodeAnalysis>true</RunCodeAnalysis>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>..\Bin\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <CodeAnalysisRuleSet>AllRules.ruleset</CodeAnalysisRuleSet>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="nunit.framework, Version=2.5.5.10112, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Libs\nunit.framework.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.ComponentModel.DataAnnotations">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.configuration" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="App.cs" />
+    <Compile Include="ComponentModel\ComponentObjectTest.cs" />
+    <Compile Include="Data\PaginationTest.cs" />
+    <Compile Include="IoC\ActivatorFactoryTest.cs" />
+    <Compile Include="IoC\Addins\AddInTest.cs" />
+    <Compile Include="IoC\Addins\Components\AddInManager.cs" />
+    <Compile Include="IoC\Addins\Components\DashboardAddIn.cs" />
+    <Compile Include="IoC\Addins\Components\IAddIn.cs" />
+    <Compile Include="IoC\Addins\Components\IAddInManager.cs" />
+    <Compile Include="IoC\Contracts\ComponentMemberRegisterTest.cs" />
+    <Compile Include="IoC\Contracts\ContractServiceTest.cs" />
+    <Compile Include="IoC\Contracts\ManyLazyComponentTest.cs" />
+    <Compile Include="IoC\ExceptionTest.cs" />
+    <Compile Include="IoC\FieldInjectionTest.cs" />
+    <Compile Include="IoC\InitializableComponentTest.cs" />
+    <Compile Include="IoC\Inteceptors\GenericProxyTest.cs" />
+    <Compile Include="IoC\Inteceptors\RemotingProxy\InterfaceProxyTest.cs" />
+    <Compile Include="IoC\Inteceptors\SimpleTest.cs" />
+    <Compile Include="IoC\LazyInjectionTest.cs" />
+    <Compile Include="IoC\LifestyleManagerFactoryTest.cs" />
+    <Compile Include="IoC\LifestyleManagerTest.cs" />
+    <Compile Include="IoC\NamedComponentTest.cs" />
+    <Compile Include="IoC\PropertyInjectionTest.cs" />
+    <Compile Include="IoC\ReferenceManagerTest.cs" />
+    <Compile Include="LoggerTest.cs" />
+    <Compile Include="Mapper\ClassToDictionaryTest.cs" />
+    <Compile Include="Mapper\CustomMapping.cs" />
+    <Compile Include="Mapper\DataReaderConverterTest.cs" />
+    <Compile Include="Mapper\DictionaryMapping.cs" />
+    <Compile Include="Mapper\EnumTests.cs" />
+    <Compile Include="Mapper\Flattering.cs" />
+    <Compile Include="Mapper\GeneralTests.cs" />
+    <Compile Include="Mapper\IgnoreByAttributes.cs" />
+    <Compile Include="Mapper\InterfaceInheriteTest.cs" />
+    <Compile Include="Bugs\ListToDataTableBug.cs" />
+    <Compile Include="Mapper\MapperFactoryTest.cs" />
+    <Compile Include="Mapper\BooleanTest.cs" />
+    <Compile Include="IoC\Contracts\Components\INonContractInterface.cs" />
+    <Compile Include="IoC\Contracts\Components\ISimpleContract.cs" />
+    <Compile Include="IoC\Contracts\Components\SimpleComponent.cs" />
+    <Compile Include="IoC\Contracts\Components\SimpleComponentTwo.cs" />
+    <Compile Include="IoC\Contracts\ComponentTest.cs" />
+    <Compile Include="IoC\Contracts\LazyComponentTest.cs" />
+    <Compile Include="IoC\Contracts\LazyManyComponentTest.cs" />
+    <Compile Include="IoC\Contracts\ManyComponentTest.cs" />
+    <Compile Include="Mapper\MappingViewProviderTests.cs" />
+    <Compile Include="Mapper\MetadataMapper.cs" />
+    <Compile Include="Mapper\NullableTypes.cs" />
+    <Compile Include="Mapper\TypeConversion.cs" />
+    <Compile Include="Mapper\ValueTypes.cs" />
+    <Compile Include="Messaging\EventAttachTest.cs" />
+    <Compile Include="Messaging\MessageRouterTest.cs" />
+    <Compile Include="Messaging\SubscribeListnerTest.cs" />
+    <Compile Include="NDF\AliasOperationSpec.cs" />
+    <Compile Include="NDF\AliasServiceSpec.cs" />
+    <Compile Include="NDF\BaseServiceBrokerSpec.cs" />
+    <Compile Include="NDF\CreateServiceExceptionSpec.cs" />
+    <Compile Include="NDF\DataBindings\ComplexArrayParameterActionSpec.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="NDF\DataBindings\ComplexDictionaryParameterActionSpec.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="NDF\DataBindings\DoubleParameterActionForBuildInTypeSpec.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="NDF\DataBindings\SingleParameterActionForBuildInTypeSpec.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="NDF\IgnoreCaseServiceNameSpec.cs" />
+    <Compile Include="NDF\Listeners\AuthFilterSpec.cs" />
+    <Compile Include="NDF\Listeners\DomainServiceWithFilterSpec.cs" />
+    <Compile Include="NDF\Listeners\FilterAttributeSpec.cs" />
+    <Compile Include="NDF\Listeners\FilterExcptionSpec.cs" />
+    <Compile Include="NDF\ListModelBinderTest.cs" />
+    <Compile Include="NDF\Mvc\ActionNameSelectorSpec.cs" />
+    <Compile Include="NDF\Mvc\ActionResultTypeSpec.cs" />
+    <Compile Include="NDF\Mvc\EmptyNavigitionAttributeSpec.cs" />
+    <Compile Include="NDF\Mvc\ErrorNavigitionAttributeSpec.cs" />
+    <Compile Include="NDF\Mvc\InheribeNavigationResultAttributeSpec.cs" />
+    <Compile Include="NDF\Mvc\NavigitionAttributeSpec.cs" />
+    <Compile Include="NDF\Mvc\OverrideNavigationResultAttributeSpec.cs" />
+    <Compile Include="NDF\NewServiceRequestWithEmptyOperationNameSpec.cs" />
+    <Compile Include="NDF\NewServiceRequestWithEmptyServiceNameSpec.cs" />
+    <Compile Include="NDF\NewServiceRequestWithNoArgsSpec.cs" />
+    <Compile Include="NDF\NonOperationNameSpec.cs" />
+    <Compile Include="NDF\NonServiceNameSpec.cs" />
+    <Compile Include="NDF\OverrideOperationNameInServiceSpec.cs" />
+    <Compile Include="NDF\RepeateOperationNameInServiceSpec.cs" />
+    <Compile Include="NDF\ServiceBrokerSpec.cs" />
+    <Compile Include="NDF\ServiceBrokerWithRegisterServiceSpec.cs" />
+    <Compile Include="NDF\ServiceContextSpec.cs" />
+    <Compile Include="NDF\ServiceProxySpec.cs" />
+    <Compile Include="NDF\TestBase.cs" />
+    <Compile Include="NunitStudy.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="CodeTimer.cs" />
+    <Compile Include="CompositeDisposableObjectTest.cs" />
+    <Compile Include="Factories\DelegateFactoryTest.cs" />
+    <Compile Include="Factories\RegistryFactoryTest.cs" />
+    <Compile Include="IoC\TestBase.cs" />
+    <Compile Include="EnumTest.cs" />
+    <Compile Include="Mapper\MappingAttributeTest.cs" />
+    <Compile Include="QueryableExtensionsTest.cs" />
+    <Compile Include="Reflection\ReflectionPerformanceTest.cs" />
+    <Compile Include="Serialization\misc.cs" />
+    <Compile Include="Serialization\SerializeTest.cs" />
+    <Compile Include="StringFormatterTest.cs" />
+    <Compile Include="Threading\ActiveObjectTest.cs" />
+    <Compile Include="Threading\AtomicIntegerTest.cs" />
+    <Compile Include="Threading\AtomicReference.cs" />
+    <Compile Include="Threading\Collections\ConcurrentStackTest.cs" />
+    <Compile Include="Threading\CountDownLatchTest.cs" />
+    <Compile Include="Threading\EventWaitHandleTest.cs" />
+    <Compile Include="Threading\FutureTest.cs" />
+    <Compile Include="IoC\FluentLoaderTest.cs" />
+    <Compile Include="IoC\KernelTest.cs" />
+    <Compile Include="IoC\Model.cs" />
+    <Compile Include="LanuchTest.cs" />
+    <Compile Include="PropertyManagerTest.cs" />
+    <Compile Include="Reflection\ClassLoaderTest.cs" />
+    <Compile Include="Reflection\FieldTest.cs" />
+    <Compile Include="Reflection\GrnericReflectionTest.cs" />
+    <Compile Include="Reflection\ReflectionExtensionsTest.cs" />
+    <Compile Include="Globalization\StringResourceManagerTest.cs" />
+    <Compile Include="SynchronizeServiceTest.cs" />
+    <Compile Include="Threading\LocalTest.cs" />
+    <Compile Include="Threading\Sort.cs" />
+    <Compile Include="Threading\ThreadTest.cs" />
+    <Compile Include="UtilTest.cs" />
+    <Compile Include="Validation\DateTimeValidatorTest.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Mbs.Test.dll.config">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="App_Data\AddIn\ElementMap.Module.dll.AddIn" />
+    <Content Include="App_Data\AddIn\EventBroker.Module.dll.AddIn" />
+    <Content Include="App_Data\AddIn\Mbs.AddIn" />
+    <Content Include="App_Data\AddIn\MessageBus.Threads.Module.dll.AddIn" />
+    <Content Include="App_Data\AddIn\ModuleManager.Module.dll.AddIn" />
+    <Content Include="App_Data\AddIn\Shell.Moule.dll.AddIn" />
+    <Content Include="App_Data\NLite.Properties.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="IoC.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="ProfilingSessions\Session20120315_150918.sdps" />
+    <Content Include="SampleData\4sq.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SampleData\boolean_from_number.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SampleData\boolean_from_string.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SampleData\datetimes.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SampleData\directlists.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SampleData\eventful.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SampleData\GenericWithList.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SampleData\GoogleWeather.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SampleData\InlineListSample.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SampleData\jsonarray.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SampleData\jsonenums.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SampleData\jsonlists.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SampleData\Lastfm.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SampleData\ListWithAttributes.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SampleData\NestedListSample.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SampleData\person.json.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SampleData\sojson.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SampleData\timespans.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="SampleData\xmllists.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+  <ItemGroup>
+    <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1 Client Profile</ProductName>
+      <Install>false</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Net.Framework.3.5.SP1">
+      <Visible>False</Visible>
+      <ProductName>.NET Framework 3.5 SP1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+    <BootstrapperPackage Include="Microsoft.Windows.Installer.3.1">
+      <Visible>False</Visible>
+      <ProductName>Windows Installer 3.1</ProductName>
+      <Install>true</Install>
+    </BootstrapperPackage>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="App_LocalResources\ImageResources_zh-cn.resx" />
+    <EmbeddedResource Include="App_LocalResources\StringResources_en-us.resx" />
+    <EmbeddedResource Include="App_LocalResources\StringResources_en.resx" />
+    <EmbeddedResource Include="App_LocalResources\StringResources_zh-cn.resx" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NLite\NLite VS010.csproj">
+      <Project>{1AEA82FF-B88B-4DAE-A7AA-1B26FF347756}</Project>
+      <Name>NLite VS010</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>
