@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Reflection;
 using NLite.Mini.Context;
@@ -58,7 +58,7 @@ namespace NLite.Mini.Activation
             }
             catch (Exception ex)
             {
-                throw ExceptionManager.HandleAndWrapper<ActivatorException>(ex,"ComponentActivator: could not proxy " + impType.FullName);
+                throw new ActivatorException("ComponentActivator: could not proxy " + impType.FullName,ex);
             }
 
             return instance;
