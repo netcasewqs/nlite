@@ -1,5 +1,5 @@
-﻿#if !CLR40
 using System;
+#if !SDK42
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -107,6 +107,7 @@ namespace NLite
 }
 #endif
 
+
 namespace NLite
 {
     /// <summary>
@@ -114,7 +115,7 @@ namespace NLite
     /// </summary>
     /// <typeparam name="T">对象类型</typeparam>
     /// <typeparam name="TMetadata">对象的元数据</typeparam>
-#if CLR40 && !SILVERLIGHT
+#if SDK4 && !SILVERLIGHT
     [Serializable]
 #endif
     public class Lazy<T, TMetadata> : Lazy<T>
