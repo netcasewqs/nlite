@@ -10,6 +10,7 @@ using NLite.Mini.Resolving;
 
 namespace NLite.Mini.Activation
 {
+    
     /// <summary>
     /// 动态代理组件工厂
     /// </summary>
