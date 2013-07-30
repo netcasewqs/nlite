@@ -5,102 +5,72 @@ using NLite.Internal;
 namespace NLite.Log
 {
     /// <summary>
-    /// 日志工厂类
+    /// 日志管理器
     /// </summary>
-    public class LogManager
+    public static class LogManager
     {
         /// <summary>
-        /// 创建日志器
+        /// 当前的日志管理接口
         /// </summary>
-        /// <param name="binderType"></param>
-        /// <returns></returns>
-        public virtual ILog CreateLogger(Type type)
-        {
-            Guard.NotNull(type, "type");
-            return new DebugLogger { Name = type.Name };
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="name"></param>
-        /// <returns></returns>
-        public virtual ILog CreateLogger(string name)
-        {
-            Guard.NotNullOrEmpty(name, "name");
-            return new DebugLogger { Name = name };
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        public LogManager() { }
-
-        private static LogManager instance = new LogManager();
-        
-        /// <summary>
-        /// 
-        /// </summary>
-        public static LogManager Instance
-        {
-            get
-            {
-                return instance;
-            }
-            set
-            {
-                Guard.NotNull(value, "value");
-                instance = value;
-            }
-        }
+        private static ILogManager CurrentLogManager = new TraceLogManager();
 
         /// <summary>
-        /// 
+        /// 设置日志管理器
         /// </summary>
-        /// <param name="binderType"></param>
-        /// <returns></returns>
-        public static ILog GetLogger(Type type)
+        /// <param name="logManager"></param>
+        public static void SetLogManager(ILogManager logManager)
         {
-            Guard.NotNull(type, "type");
-            return Instance.CreateLogger(type);
+            Guard.NotNull(logManager, "logManager");
+            LogManager.CurrentLogManager = logManager;
         }
+
+
         /// <summary>
-        /// 
+        /// 得到一个日志记录器接口
         /// </summary>
-        /// <param name="name"></param>
-        /// <returns></returns>
+        /// <param name="name">记录器的名称</param>
+        /// <returns>一个日志记录器接口</returns>
         public static ILog GetLogger(string name)
         {
+            Guard.NotNull(CurrentLogManager, "currentLogManager");
             Guard.NotNullOrEmpty(name, "name");
-            return Instance.CreateLogger(name);
+            return CurrentLogManager.GetLogger(name);
         }
 
-        
+        /// <summary>
+        /// 关闭日志管理器
+        /// </summary>
+        public static void Shutdown()
+        {
+            Guard.NotNull(CurrentLogManager, "currentLogManager");
+            CurrentLogManager.Shutdown();
+        }
+
     }
 
     /// <summary>
     /// 
     /// </summary>
-    public class Log4nLogManager : LogManager
+    public class Log4nLogManager : ILogManager
     {
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="name"></param>
-        /// <returns></returns>
-        public override ILog CreateLogger(string name)
+
+        public ILog GetLogger(string name)
         {
             Guard.NotNullOrEmpty(name, "name");
             return new Log4NetLogger(name);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="binderType"></param>
-        /// <returns></returns>
-        public override ILog CreateLogger(Type type)
+        public void Shutdown()
         {
-            Guard.NotNull(type, "type");
-            return new Log4NetLogger(type);
+            var method = Log4NetLogger.LogManagerType.GetMethod("Shutdown");
+            if (method != null)
+            {
+                try
+                {
+                    method.Invoke(null, null);
+                }
+                finally { }
+            }
         }
     }
    

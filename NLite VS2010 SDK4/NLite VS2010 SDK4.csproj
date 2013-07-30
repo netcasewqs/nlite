@@ -519,6 +519,9 @@
     <Compile Include="..\NLite\Log\ILog.cs">
       <Link>Log\ILog.cs</Link>
     </Compile>
+    <Compile Include="..\NLite\Log\ILogManager.cs">
+      <Link>Log\ILogManager.cs</Link>
+    </Compile>
     <Compile Include="..\NLite\Log\LoggerManager.cs">
       <Link>Log\LoggerManager.cs</Link>
     </Compile>

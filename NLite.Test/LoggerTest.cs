@@ -54,8 +54,8 @@ namespace NLite.Test
             Console.WriteLine(log.IsInfoEnabled);
             Console.WriteLine(log.IsWarnEnabled);
 
-            log.TryLogFail(ErrorAction).Exception(e => Console.WriteLine(e.Message));
-            log.TryLogFail(SuccessAction).Success(()=>{});
+            //log.TryLogFail(ErrorAction).Exception(e => Console.WriteLine(e.Message));
+            //log.TryLogFail(SuccessAction).Success(()=>{});
 
         }
 
@@ -69,27 +69,27 @@ namespace NLite.Test
         }
     }
 
-    static class LogExtensions
-    {
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <modelExp name="log"></modelExp>
-        /// <modelExp name="action"></modelExp>
-        /// <returns></returns>
-        public static Result TryLogFail(this ILog log, Action action)
-        {
-            try
-            {
-                if (action != null)
-                    action();
-                return Result.OK;
-            }
-            catch (Exception ex)
-            {
-                log.Error(ex.Message, ex);
-                return new Result(false, ex);
-            }
-        }
-    }
+    //static class LogExtensions
+    //{
+    //    /// <summary>
+    //    /// 
+    //    /// </summary>
+    //    /// <modelExp name="log"></modelExp>
+    //    /// <modelExp name="action"></modelExp>
+    //    /// <returns></returns>
+    //    public static Result TryLogFail(this ILog log, Action action)
+    //    {
+    //        try
+    //        {
+    //            if (action != null)
+    //                action();
+    //            return Result.OK;
+    //        }
+    //        catch (Exception ex)
+    //        {
+    //            log.Error(ex.Message, ex);
+    //            return new Result(false, ex);
+    //        }
+    //    }
+    //}
 }

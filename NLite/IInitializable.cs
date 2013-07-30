@@ -68,7 +68,7 @@ namespace NLite
         /// 异常发生时触发
         /// </summary>
         /// <param name="e"></param>
-        protected virtual void OnExceptionFired(Exception e) { throw e.Handle(); }
+        protected virtual void OnExceptionFired(Exception e) { throw e; }
 
         void IInitializable.Init()
         {

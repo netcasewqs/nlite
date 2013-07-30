@@ -107,7 +107,7 @@ namespace NLite.Threading
                 }
                 catch(Exception ex)
                 {
-                    ex.Handle();
+                    ExceptionManager.Handle(ex);
                 }
             }
 
@@ -148,7 +148,7 @@ namespace NLite.Threading
                     }
                     catch (Exception ex)
                     {
-                        ex.Handle();
+                        ExceptionManager.Handle(ex);
                     }
                 }
 

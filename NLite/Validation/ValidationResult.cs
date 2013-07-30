@@ -100,7 +100,7 @@ namespace NLite
 #if !SILVERLIGHT
         [Serializable]
 #endif
-        struct ErrorItem : IErrorItem
+        class ErrorItem : IErrorItem
         {
             public string Message { get; internal set; }
             public string Key { get; internal set; }

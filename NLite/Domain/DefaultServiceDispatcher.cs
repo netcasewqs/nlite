@@ -22,15 +22,20 @@ namespace NLite.Domain
 
         private IServiceDescriptorManager DescriptorManager;
         private IServiceDispatchListenerManager ListenManager;
+        private IServiceLocator ServiceLocator;
+
         /// <summary>
         /// 构造服务分发器
         /// </summary>
         /// <param name="serviceDispatcherConfiguationItem">服务分发器配置节点</param>
-        public DefaultServiceDispatcher(IServiceDispatcherConfiguationItem serviceDispatcherConfiguationItem)
+        public DefaultServiceDispatcher(IServiceDispatcherConfiguationItem serviceDispatcherConfiguationItem,IServiceLocator serviceLocator)
         {
             Guard.NotNull(serviceDispatcherConfiguationItem, "serviceDispatcherConfiguationItem");
             Guard.NotNull(serviceDispatcherConfiguationItem.ServiceDescriptorManager, "serviceDispatcherConfiguationItem.ServiceDescriptorManager");
             Guard.NotNull(serviceDispatcherConfiguationItem.ListenManager, "serviceDispatcherConfiguationItem.ListenManager");
+            Guard.NotNull(serviceLocator, "serviceLocator");
+
+            ServiceLocator = serviceLocator;
             DescriptorManager = serviceDispatcherConfiguationItem.ServiceDescriptorManager;
             ListenManager = serviceDispatcherConfiguationItem.ListenManager;
         }
@@ -109,7 +114,7 @@ namespace NLite.Domain
                 }
                 catch (Exception ex)
                 {
-                    ex.Handle();
+                    ExceptionManager.Handle(ex);
                 }
             }
         }

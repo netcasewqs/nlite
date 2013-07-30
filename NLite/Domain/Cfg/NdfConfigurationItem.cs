@@ -15,6 +15,10 @@ namespace NLite.Domain.Cfg
         /// 监听管理器
         /// </summary>
         public IServiceDispatchListenerManager ListenManager { get; private set; }
+
+        /// <summary>
+        /// 计算服务名称
+        /// </summary>
         public Func<Type, string> PopulateServiceName { get; private set; }
         /// <summary>
         /// 服务元数据管理器
@@ -44,7 +48,7 @@ namespace NLite.Domain.Cfg
             PopulateServiceName = populateServiceName;
             Name = serviceDispatcherName;
             ListenManager = new ServiceDispatchListenerManager();
-            ServiceDispatcherCreator = ()=>new DefaultServiceDispatcher(this);
+            ServiceDispatcherCreator = ()=>new DefaultServiceDispatcher(this,ServiceLocator.Current);
           
         }
 
@@ -69,8 +73,6 @@ namespace NLite.Domain.Cfg
             kernel.Register(s => s.Bind<IServiceDispatcherConfiguationItem>(Name).Factory(() => this));
             ServiceDescriptorManager = new ServiceDescriptorManager(PopulateServiceName);
         }
-
-       
 
         public void ConfigureMvc()
         {

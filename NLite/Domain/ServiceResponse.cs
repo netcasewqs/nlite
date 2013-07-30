@@ -71,7 +71,7 @@ namespace NLite.Domain
 
             Success = false;
             exceptions.Add(ex);
-            ex.Handle();
+            ExceptionManager.Handle(ex);
         }
     }
 }

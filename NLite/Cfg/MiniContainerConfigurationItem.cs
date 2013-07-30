@@ -68,8 +68,8 @@ namespace NLite.Cfg
 
             if (!serviceRegistry.HasRegister<IExceptionCode>())
                 serviceRegistry.Register<ExceptionCode>();
-            if (!serviceRegistry.HasRegister<IExceptionRender>())
-                serviceRegistry.Register<DebugExceptionRender>();
+            //if (!serviceRegistry.HasRegister<IExceptionRender>())
+            //    serviceRegistry.Register<DebugExceptionRender>();
             if (!serviceRegistry.HasRegister<UnknowExceptionResolver>())
                 serviceRegistry.Register<UnknowExceptionResolver>();
             if (!serviceRegistry.HasRegister<IExceptionHandler>())

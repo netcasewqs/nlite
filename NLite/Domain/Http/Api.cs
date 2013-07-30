@@ -11,152 +11,152 @@ using System.IO;
 using NLite.Serialization;
 using NLite.Data;
 
-namespace NLite
-{
-    /// <summary>
-    /// 服务分发异常解析器
-    /// </summary>
-    public class ServiceDispatcherExceptionResolver : ExceptionResolver
-    {
-        /// <summary>
-        /// 构造服务分发异常解析器
-        /// </summary>
-        public ServiceDispatcherExceptionResolver()
-        {
-            Order = 1;
-        }
+//namespace NLite
+//{
+//    /// <summary>
+//    /// 服务分发异常解析器
+//    /// </summary>
+//    public class ServiceDispatcherExceptionResolver : ExceptionResolver
+//    {
+//        /// <summary>
+//        /// 构造服务分发异常解析器
+//        /// </summary>
+//        public ServiceDispatcherExceptionResolver()
+//        {
+//            Order = 1;
+//        }
 
      
-        /// <summary>
-        /// 解析异常
-        /// </summary>
-        /// <param name="ex"></param>
-        protected override void OnResolve(Exception ex)
-        {
-            var serviceDispatcherException = ex as ServiceDispatcherException;
-            var code = (int)serviceDispatcherException.ExceptionCode + ExceptionCode.ServiceDispatcherExceptionStart;
-            RenderException(code, ex);
-        }
+//        /// <summary>
+//        /// 解析异常
+//        /// </summary>
+//        /// <param name="ex"></param>
+//        protected override void OnResolve(Exception ex)
+//        {
+//            var serviceDispatcherException = ex as ServiceDispatcherException;
+//            var code = (int)serviceDispatcherException.ExceptionCode + ExceptionCode.ServiceDispatcherExceptionStart;
+//            RenderException(code, ex);
+//        }
 
-        /// <summary>
-        /// 判定特定的异常是否是服务分发器异常
-        /// </summary>
-        /// <param name="ex"></param>
-        /// <returns></returns>
-        public override bool HasSupport(Exception ex)
-        {
-            return ex is ServiceDispatcherException;
-        }
-    }
+//        /// <summary>
+//        /// 判定特定的异常是否是服务分发器异常
+//        /// </summary>
+//        /// <param name="ex"></param>
+//        /// <returns></returns>
+//        public override bool IsSupport(Exception ex)
+//        {
+//            return ex is ServiceDispatcherException;
+//        }
+//    }
 
-    /// <summary>
-    /// 领域异常解析器
-    /// </summary>
-    public class DomainExceptionResolver : ExceptionResolver
-    {
-        /// <summary>
-        /// 构造领域异常解析器
-        /// </summary>
-        public DomainExceptionResolver()
-        {
-            Order = 2;
-        }
+//    /// <summary>
+//    /// 领域异常解析器
+//    /// </summary>
+//    public class DomainExceptionResolver : ExceptionResolver
+//    {
+//        /// <summary>
+//        /// 构造领域异常解析器
+//        /// </summary>
+//        public DomainExceptionResolver()
+//        {
+//            Order = 2;
+//        }
 
-        /// <summary>
-        /// 判定特定的异常是否是领域异常
-        /// </summary>
-        /// <param name="ex"></param>
-        /// <returns></returns>
-        public override bool HasSupport(Exception ex)
-        {
-            return ex is DomainException;
-        }
+//        /// <summary>
+//        /// 判定特定的异常是否是领域异常
+//        /// </summary>
+//        /// <param name="ex"></param>
+//        /// <returns></returns>
+//        public override bool IsSupport(Exception ex)
+//        {
+//            return ex is DomainException;
+//        }
 
-        /// <summary>
-        /// 解析异常
-        /// </summary>
-        /// <param name="ex"></param>
-        protected override void OnResolve(Exception ex)
-        {
-            var domainException = ex as DomainException;
-            var code = domainException.ExceptionId + ExceptionCode.DomainExceptionStart;
-            RenderException(code, ex);
-        }
-    }
+//        /// <summary>
+//        /// 解析异常
+//        /// </summary>
+//        /// <param name="ex"></param>
+//        protected override void OnResolve(Exception ex)
+//        {
+//            var domainException = ex as DomainException;
+//            var code = domainException.ExceptionId + ExceptionCode.DomainExceptionStart;
+//            RenderException(code, ex);
+//        }
+//    }
 
-    /// <summary>
-    /// 数据库异常解析器类
-    /// </summary>
-    public class DbExceptionResolver : ExceptionResolver
-    {
-        /// <summary>
-        /// 构造数据库异常解析器
-        /// </summary>
-        public DbExceptionResolver()
-        {
-            Order = 3;
-        }
+//    /// <summary>
+//    /// 数据库异常解析器类
+//    /// </summary>
+//    public class DbExceptionResolver : ExceptionResolver
+//    {
+//        /// <summary>
+//        /// 构造数据库异常解析器
+//        /// </summary>
+//        public DbExceptionResolver()
+//        {
+//            Order = 3;
+//        }
 
-        /// <summary>
-        /// 判定特定的异常是否是数据库异常
-        /// </summary>
-        /// <param name="ex"></param>
-        /// <returns></returns>
-        public override bool HasSupport(Exception ex)
-        {
-            return ex is DbException;
-        }
+//        /// <summary>
+//        /// 判定特定的异常是否是数据库异常
+//        /// </summary>
+//        /// <param name="ex"></param>
+//        /// <returns></returns>
+//        public override bool IsSupport(Exception ex)
+//        {
+//            return ex is DbException;
+//        }
 
-        /// <summary>
-        /// 解析异常
-        /// </summary>
-        /// <param name="ex"></param>
-        protected override void OnResolve(Exception ex)
-        {
-            var queryException = ex as QueryException;
-            if (queryException != null)
-            {
-                RenderException(ExceptionCode.QueryException, ex);
-                return;
-            }
+//        /// <summary>
+//        /// 解析异常
+//        /// </summary>
+//        /// <param name="ex"></param>
+//        protected override void OnResolve(Exception ex)
+//        {
+//            var queryException = ex as QueryException;
+//            if (queryException != null)
+//            {
+//                RenderException(ExceptionCode.QueryException, ex);
+//                return;
+//            }
 
-            var insertException = ex as InsertException;
-            if (insertException != null)
-            {
-                RenderException(ExceptionCode.InsertException, ex);
-                return;
-            }
+//            var insertException = ex as InsertException;
+//            if (insertException != null)
+//            {
+//                RenderException(ExceptionCode.InsertException, ex);
+//                return;
+//            }
 
-            var deleteException = ex as DeleteException;
-            if (deleteException != null)
-            {
-                RenderException(ExceptionCode.DeleteException, ex);
-                return;
-            }
+//            var deleteException = ex as DeleteException;
+//            if (deleteException != null)
+//            {
+//                RenderException(ExceptionCode.DeleteException, ex);
+//                return;
+//            }
 
-            var updateException = ex as UpdateException;
-            if (updateException != null)
-            {
-                RenderException(ExceptionCode.UpdateException, ex);
-                return;
-            }
+//            var updateException = ex as UpdateException;
+//            if (updateException != null)
+//            {
+//                RenderException(ExceptionCode.UpdateException, ex);
+//                return;
+//            }
 
-            var persistenceException = ex as PersistenceException;
-            if (persistenceException != null)
-            {
-                RenderException(ExceptionCode.PersistenceException, ex);
-                return;
-            }
+//            var persistenceException = ex as PersistenceException;
+//            if (persistenceException != null)
+//            {
+//                RenderException(ExceptionCode.PersistenceException, ex);
+//                return;
+//            }
 
-            var dbException = ex as System.Data.Common.DbException;
-            if (dbException != null)
-            {
-                RenderException(ExceptionCode.DbExceptionStart, ex);
-                return;
-            }
-        }
-    }
-}
+//            var dbException = ex as System.Data.Common.DbException;
+//            if (dbException != null)
+//            {
+//                RenderException(ExceptionCode.DbExceptionStart, ex);
+//                return;
+//            }
+//        }
+//    }
+//}
 
 
 namespace NLite.Domain.Http

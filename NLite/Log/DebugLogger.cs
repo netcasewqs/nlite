@@ -1,24 +1,39 @@
 using System;
 using System.IO;
+using System.Diagnostics;
 
 namespace NLite.Log.Internal
 {
-    class DebugLogger : ILog
+    class TraceLogManager : ILogManager
     {
-        readonly TextWriter writer;
+        public ILog GetLogger(string name)
+        {
+            return new TraceLogger() { Name = name };
+        }
+
+        public void Shutdown()
+        {
+            Trace.Close();
+        }
+    }
+    /// <summary>
+    /// 
+    /// </summary>
+    class TraceLogger : ILog
+    {
         internal string Name;
 
-        public DebugLogger()
+        /// <summary>
+        /// 
+        /// </summary>
+        public TraceLogger()
         {
         }
 
-        public DebugLogger(TextWriter writer)
-        {
-            this.writer = writer;
-        }
-
-
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="message"></param>
         public void Debug(object message)
         {
             if (IsDebugEnabled)
@@ -27,11 +42,20 @@ namespace NLite.Log.Internal
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="format"></param>
+        /// <param name="args"></param>
         public void DebugFormat(string format, params object[] args)
         {
             Debug(string.Format(format, args));
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="message"></param>
         public void Info(object message)
         {
             if (IsInfoEnabled)
@@ -40,11 +64,20 @@ namespace NLite.Log.Internal
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="format"></param>
+        /// <param name="args"></param>
         public void InfoFormat(string format, params object[] args)
         {
             Info(string.Format(format, args));
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="message"></param>
         public void Warn(object message)
         {
             Warn(message, null);
@@ -90,7 +123,7 @@ namespace NLite.Log.Internal
         {
             if (IsFatalEnabled)
             {
-                Log( LogLevel.Fatal, message, exception);
+                Log(LogLevel.Fatal, message, exception);
             }
         }
 
@@ -99,20 +132,38 @@ namespace NLite.Log.Internal
             Fatal(string.Format(format, args));
         }
 
+        private string BuildLogMessage(object message, Exception exception)
+        {
+            if (exception == null)
+            {
+                return string.Format("[{0}] - [{1}] {2} ", DateTime.Now.ToString(), Name, message);
+            }
+            else
+            {
+                string msg = message as string;
+                msg = msg + " " + exception.Message;
+                return string.Format("[{0}] - [{1}] {2} : {3} {4}",
+                    DateTime.Now.ToString(), Name, exception.GetType().FullName, msg, exception.StackTrace);
+            }
+        }
 
         private void Log(LogLevel level, object message, Exception exception)
         {
-            string msg = null;
-            if (exception == null)
-                msg = string.Format("[{0}] - [{1}] {2} {3}", DateTime.Now.ToString(), Name, level, message);
-            else
-                msg = string.Format("[{0}] - [{1}] {2} {3} : {4} {5}", DateTime.Now.ToString(), Name, level, exception.GetType().FullName, exception.Message, exception.StackTrace);
-
-            if (writer != null)
-                writer.WriteLine(msg);
-            else
+            switch (level)
             {
-                System.Diagnostics.Debug.WriteLine(msg);
+                case LogLevel.Debug:
+                    System.Diagnostics.Debug.WriteLine(BuildLogMessage(message, exception));
+                    break;
+                case LogLevel.Error:
+                case LogLevel.Fatal:
+                    Trace.TraceError(BuildLogMessage(message, exception));
+                    break;
+                case LogLevel.Info:
+                    Trace.TraceInformation(BuildLogMessage(message, exception));
+                    break;
+                case LogLevel.Warn:
+                    Trace.TraceWarning(BuildLogMessage(message, exception));
+                    break;
             }
         }
 

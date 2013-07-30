@@ -318,6 +318,7 @@
     <Compile Include="Linq\SDK4\ForExpression.cs" />
     <Compile Include="Linq\SDK4\UsingExpression.cs" />
     <Compile Include="Linq\SDK4\WhileExpression.cs" />
+    <Compile Include="Log\ILogManager.cs" />
     <Compile Include="LoopDependencyException.cs" />
     <Compile Include="Collections\IPropertySet.cs" />
     <Compile Include="Collections\Map.cs" />

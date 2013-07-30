@@ -53,7 +53,7 @@ namespace NLite
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="bindingInfo"></param>
+        /// <param name="info"></param>
         /// <param name="context"></param>
         protected NLiteException(SerializationInfo info, StreamingContext context)
             : base(info, context)
@@ -73,99 +73,6 @@ namespace NLite
         //}
 
 
-    }
-    /// <summary>
-    /// 异常的扩展类
-    /// </summary>
-    public static class ExceptionService
-    {
-        /// <summary>
-        /// 处理异常
-        /// </summary>
-        /// <param name="ex"></param>
-        public static Exception Handle(this Exception ex)
-        {
-            return ExceptionManager.HandleException(ex);
-        }
-
-        /// <summary>
-        /// 处理异常
-        /// </summary>
-        /// <typeparam name="TNewExcption"></typeparam>
-        /// <param name="ex"></param>
-        /// <param name="message"></param>
-        public static TNewExcption Handle<TNewExcption>(this Exception ex, string message) where TNewExcption : Exception, new()
-        {
-            return ExceptionManager.HandleAndWrapper<TNewExcption>(ex, message);
-        }
-
-        /// <summary>
-        /// 处理异常
-        /// </summary>
-        /// <typeparam name="TNewExcption"></typeparam>
-        /// <param name="ex"></param>
-        public static TNewExcption Handle<TNewExcption>(this Exception ex) where TNewExcption : Exception, new()
-        {
-            return ExceptionManager.HandleAndWrapper<TNewExcption>(ex, ex.Message);
-        }
-    }
-
-    /// <summary>
-    /// Represents that the implemented classes are exception handlers.
-    /// </summary>
-    //[Contract]
-    public interface IExceptionHandler
-    {
-        /// <summary>
-        /// 处理异常
-        /// </summary>
-        /// <param name="ex"></param>
-        void HandleException(Exception ex);
-    }
-
-    /// <summary>
-    /// 异常解析器接口
-    /// </summary>
-    //[Contract]
-    public interface IExceptionResolver
-    {
-        /// <summary>
-        /// 解析器的顺序
-        /// </summary>
-        int Order { get; set; }
-        /// <summary>
-        /// 异常代码字典
-        /// </summary>
-        IExceptionCode ExceptionCode { get; }
-        /// <summary>
-        /// 异常呈现器集合
-        /// </summary>
-        IExceptionRender[] ExceptionRenders { get; }
-        /// <summary>
-        /// 是否支持特定类型异常的解析
-        /// </summary>
-        /// <param name="ex"></param>
-        /// <returns></returns>
-        bool HasSupport(Exception ex);
-        /// <summary>
-        /// 处理异常
-        /// </summary>
-        /// <param name="ex"></param>
-        void HandleException(Exception ex);
-    }
-
-    /// <summary>
-    /// 异常呈现器
-    /// </summary>
-    //[Contract]
-    public interface IExceptionRender
-    {
-        /// <summary>
-        /// 呈现异常
-        /// </summary>
-        /// <param name="code">异常代码</param>
-        /// <param name="ex">异常</param>
-        void RenderException(int code, Exception ex);
     }
 
     /// <summary>
@@ -262,7 +169,7 @@ namespace NLite
             get { return -1; }
         }
 
-      
+
         /// <summary>
         /// Db异常范围-20000开始
         /// </summary>
@@ -367,95 +274,270 @@ namespace NLite
             get { return 99999; }
         }
     }
+    ///// <summary>
+    ///// 异常的扩展类
+    ///// </summary>
+    //public static class ExceptionService
+    //{
+    //    /// <summary>
+    //    /// 处理异常
+    //    /// </summary>
+    //    /// <param name="ex"></param>
+    //    public static Exception Handle(this Exception ex)
+    //    {
+    //        return ExceptionManager.HandleException(ex);
+    //    }
+
+    //    /// <summary>
+    //    /// 处理异常
+    //    /// </summary>
+    //    /// <typeparam name="TNewExcption"></typeparam>
+    //    /// <param name="ex"></param>
+    //    /// <param name="message"></param>
+    //    public static TNewExcption Handle<TNewExcption>(this Exception ex, string message) where TNewExcption : Exception, new()
+    //    {
+    //        return ExceptionManager.HandleAndWrapper<TNewExcption>(ex, message);
+    //    }
+
+    //    /// <summary>
+    //    /// 处理异常
+    //    /// </summary>
+    //    /// <typeparam name="TNewExcption"></typeparam>
+    //    /// <param name="ex"></param>
+    //    public static TNewExcption Handle<TNewExcption>(this Exception ex) where TNewExcption : Exception, new()
+    //    {
+    //        return ExceptionManager.HandleAndWrapper<TNewExcption>(ex, ex.Message);
+    //    }
+    //}
+
+    /// <summary>
+    /// 异常处理器接口
+    /// </summary>
+    internal interface IExceptionHandler
+    {
+        /// <summary>
+        /// 处理异常
+        /// </summary>
+        /// <param name="ex">将要被处理的异常</param>
+        /// <param name="customInformation">自定义的异常信息</param>
+        void HandleException(Exception ex, string customInformation = null);
+    }
+
+    /// <summary>
+    /// 异常解析器接口
+    /// </summary>
+    public interface IExceptionResolver
+    {
+        /// <summary>
+        /// 获取/设置解析器的顺序号。
+        /// </summary>
+        int Order { get; set; }
+
+        /// <summary>
+        /// 获取/设置异常呈现器集合
+        /// </summary>
+        IExceptionRender[] ExceptionRenders { get; set; }
+
+        /// <summary>
+        /// 是否支持特定类型异常的解析
+        /// </summary>
+        /// <param name="ex">特定的异常</param>
+        /// <returns>ture表示支持，false表示不支持</returns>
+        bool IsSupport(Exception ex);
+
+        /// <summary>
+        /// 处理指定的异常
+        /// </summary>
+        /// <param name="ex">将要被处理的异常</param>
+        /// <param name="customInformation">自定义消息</param>
+        void HandleException(Exception ex, string customInformation = null);
+    }
+
+    /// <summary>
+    /// 异常呈现器
+    /// </summary>
+    public interface IExceptionRender
+    {
+        /// <summary>
+        /// 呈现异常
+        /// </summary>
+        /// <param name="ex">将要被呈现的异常</param>
+        /// <param name="customInformation"></param>
+        void RenderException(Exception ex, string customInformation = null);
+    }
+
+
 
     /// <summary>
     /// 异常处理器
     /// </summary>
-    public class ExceptionHandler : IExceptionHandler
+    internal class ExceptionHandler : IExceptionHandler
     {
         /// <summary>
-        /// 得到异常解析器集合
+        /// 异常解析器集合
         /// </summary>
-        [InjectMany]
-        public IExceptionResolver[] Resolvers { get; protected set; }
+        private IExceptionResolver[] _resolvers;
+
+        public ExceptionHandler()
+        {
+            Init(new[] { new UnknowExceptionResolver() }
+                 , new[] { new LogExceptionRender() });
+        }
+
+        /// <summary>
+        /// 初始化异常处理器
+        /// </summary>
+        /// <param name="resolvers">异常解析器集合</param>
+        /// <param name="renders">异常呈现器集合</param>
+        internal void Init(IExceptionResolver[] resolvers, IExceptionRender[] renders)
+        {
+            _resolvers = resolvers;
+
+            resolvers.Where(p => p.ExceptionRenders == null || p.ExceptionRenders.Length == 0)
+                .ToList()
+                .ForEach(p => p.ExceptionRenders = renders);
+        }
 
         /// <summary>
         /// 处理异常，按照解析器的Order从小到大进行排序然后依次处理
         /// </summary>
         /// <param name="ex"></param>
-        public virtual void HandleException(Exception ex)
+        /// <param name="customInformation"></param>
+        public void HandleException(Exception ex, string customInformation = null)
         {
-            if (Resolvers == null || Resolvers.Length == 0)
+            if (_resolvers == null || _resolvers.Length == 0)
+            {
                 throw new Exception("No any exceptionResolver");
+            }
 
-            var resolver = Resolvers.OrderBy(p => p.Order).FirstOrDefault(p => p.HasSupport(ex));
+            var resolver = _resolvers.OrderBy(p => p.Order).FirstOrDefault(p => p.IsSupport(ex));
             if (resolver != null)
-                resolver.HandleException(ex);
+            {
+                try
+                {
+                    resolver.HandleException(ex, customInformation);
+                }
+                catch
+                {
+                    Trace.TraceError(ex.Message + "\t" + ex.StackTrace);
+                }
+            }
         }
     }
 
     /// <summary>
     /// 异常解析器基类
     /// </summary>
-    [Component]
     public abstract class ExceptionResolver : IExceptionResolver
     {
-        /// <summary>
-        /// 异常代码字典
-        /// </summary>
-        [Inject]
-        public IExceptionCode ExceptionCode { get; protected set; }
 
         /// <summary>
-        /// 异常呈现器集合
+        /// 获取/设置异常呈现器集合
         /// </summary>
-        [InjectMany]
-        public IExceptionRender[] ExceptionRenders { get; protected set; }
+        public IExceptionRender[] ExceptionRenders { get; set; }
+
         /// <summary>
-        /// 异常解析器Order
+        /// 获取/设置异常解析器的序号
         /// </summary>
         public int Order { get; set; }
 
         /// <summary>
         /// 是否支持特定类型异常的解析
         /// </summary>
-        /// <param name="ex"></param>
-        /// <returns></returns>
-        public abstract bool HasSupport(Exception ex);
+        /// <param name="ex">异常对象</param>
+        /// <returns>ture表示支持，false表示不支持</returns>
+        public abstract bool IsSupport(Exception ex);
+
         /// <summary>
         /// 解析异常
         /// </summary>
-        /// <param name="ex"></param>
-        protected abstract void OnResolve(Exception ex);
+        /// <param name="ex">将要被解析的异常</param>
+        /// <param name="customInformation">自定义信息</param>
+        protected abstract void OnResolve(Exception ex, string customInformation = null);
 
         /// <summary>
         /// 处理异常
         /// </summary>
-        /// <param name="ex"></param>
-        public void HandleException(Exception ex)
+        /// <param name="ex">将要被处理的异常</param>
+        /// <param name="customInformation">自定义信息</param>
+        public void HandleException(Exception ex, string customInformation = null)
         {
             if (ExceptionRenders == null || ExceptionRenders.Length == 0)
+            {
                 throw new ArgumentNullException("ExceptionRender");
-            if (ExceptionCode == null)
-                throw new ArgumentNullException("ResponseCode");
-            OnResolve(ex);
+            }
+
+            OnResolve(ex, customInformation);
         }
 
         /// <summary>
         /// 呈现异常
         /// </summary>
-        /// <param name="code"></param>
-        /// <param name="ex"></param>
-        protected void RenderException(int code, Exception ex)
+        /// <param name="ex">异常对象</param>
+        /// <param name="customInformation">自定义信息</param>
+        protected void RenderException(Exception ex, string customInformation = null)
         {
-            ExceptionRenders.ForEach(p=>p.RenderException(code, ex));
+            ExceptionRenders.ToList().ForEach(p => p.RenderException(ex, customInformation));
+        }
+    }
+
+    /// <summary>
+    /// 异常管理器
+    /// </summary>
+    public static class ExceptionManager
+    {
+        /// <summary>
+        /// 异常处理器
+        /// </summary>
+        private static ExceptionHandler ExceptionHandler;
+
+        /// <summary>
+        /// 最后一次成功处理的异常
+        /// </summary>
+        [ThreadStatic]
+        private static Exception LastException;
+
+        /// <summary>
+        /// 设置异常处理器
+        /// </summary>
+        ///<param name="resolvers">异常解析器集合</param>
+        ///<param name="renders">异常呈现器集合</param>
+        public static void Init(IExceptionResolver[] resolvers, IExceptionRender[] renders)
+        {
+            Guard.NotNull(resolvers, "resolvers");
+            Guard.NotNull(renders, "renders");
+
+            ExceptionHandler = new ExceptionHandler();
+            ExceptionHandler.Init(resolvers, renders);
+        }
+
+
+        /// <summary>
+        /// 处理指定的异常
+        /// </summary>
+        /// <param name="ex">将要被处理的异常对象</param>
+        /// <param name="customInformation">自定义异常消息</param>
+        public static Exception Handle(Exception ex, string customInformation = null)
+        {
+           
+
+            if (ExceptionHandler != null)
+            {
+                if (LastException != ex)
+                {
+                    ExceptionHandler.HandleException(ex, customInformation);
+                    LastException = ex; ;
+                }
+            }
+
+            return ex;
         }
     }
 
     /// <summary>
     /// 未知异常解析器
     /// </summary>
-    public class UnknowExceptionResolver : ExceptionResolver
+    public sealed class UnknowExceptionResolver : ExceptionResolver
     {
         /// <summary>
         /// 构造函数
@@ -466,12 +548,13 @@ namespace NLite
         }
 
         /// <summary>
-        /// 支持所有异常
+        /// 是否支持指定的异常类型
         /// </summary>
         /// <param name="ex"></param>
         /// <returns></returns>
-        public override bool HasSupport(Exception ex)
+        public override bool IsSupport(Exception ex)
         {
+            // 支持所有的异常
             return true;
         }
 
@@ -479,153 +562,30 @@ namespace NLite
         /// 解析异常
         /// </summary>
         /// <param name="ex"></param>
-        protected override void OnResolve(Exception ex)
+        /// <param name="customInformation"></param>
+        protected override void OnResolve(Exception ex, string customInformation = null)
         {
-            RenderException(ExceptionCode.UnknowExceptionCode, ex);
-        }
-    }
-
-    /// <summary>
-    /// Debug异常呈现器
-    /// </summary>
-    public class DebugExceptionRender : IExceptionRender
-    {
-        /// <summary>
-        /// 呈现异常
-        /// </summary>
-        /// <param name="code"></param>
-        /// <param name="ex"></param>
-        public void RenderException(int code, Exception ex)
-        {
-            Debug.WriteLine("ErrorCode:" + code + "\t Error Message:" + ex.Message +"\n\t"+ex.StackTrace);
+            RenderException(ex, customInformation);
         }
     }
 
     /// <summary>
     /// 日志异常呈现器
     /// </summary>
-    public class LogExceptionReander : IExceptionRender
+    public class LogExceptionRender : IExceptionRender
     {
-        private static ILog log = LogManager.GetLogger(typeof(LogExceptionReander));
+        private static readonly ILog log = LogManager.GetLogger(typeof(LogExceptionRender).Name);
 
         /// <summary>
         /// 呈现异常
         /// </summary>
-        /// <param name="code"></param>
         /// <param name="ex"></param>
-        public void RenderException(int code, Exception ex)
+        /// <param name="customInformation"></param>
+        public void RenderException(Exception ex, string customInformation = null)
         {
-            log.Error("ErrorCode:" + code + "\t Error Message:" + ex.Message ,ex);
+            log.Error(customInformation ?? ex.Message, ex);
         }
     }
 
-    /// <summary>
-    /// 异常管理器
-    /// </summary>
-    public static class ExceptionManager
-    {
-        private static IExceptionHandler ExceptionHandler;
-        private static readonly object Mutext = new object();
-
-        private static void HandleExceptionInternal(Exception ex)
-        {
-            if (ExceptionHandler == null)
-                lock (Mutext)
-                {
-                    if(ExceptionHandler == null)
-                        ExceptionHandler = ServiceLocator.Get<IExceptionHandler>();
-                }
-
-            if (ExceptionHandler != null)
-            {
-                var tmpEx = Local.Get("Exception") as Exception;
-                if (tmpEx != ex)
-                {
-                    ExceptionHandler.HandleException(ex);
-                    Local.Set("Exception", ex);
-                }
-            }
-        }
-
-      
-        /// <summary>
-        /// 处理异常
-        /// </summary>
-        /// <param name="ex"></param>
-        /// <returns></returns>
-        public static Exception HandleException(Exception ex)
-        {
-            ExceptionManager.HandleExceptionInternal(ex);
-            return ex;
-        }
-
-        /// <summary>
-        /// 处理异常
-        /// </summary>
-        /// <typeparam name="TException"></typeparam>
-        /// <param name="ex"></param>
-        /// <returns></returns>
-        public static TException HandleException<TException>(TException ex)
-            where TException : Exception
-        {
-            ExceptionManager.HandleExceptionInternal((Exception)ex);
-            return ex;
-        }
-
-        /// <summary>
-        /// 处理并包装异常
-        /// </summary>
-        /// <typeparam name="TException"></typeparam>
-        /// <param name="message"></param>
-        /// <returns></returns>
-        public static TException HandleAndWrapper<TException>(string message) where TException : Exception, new()
-        {
-            return HandleAndWrapper<TException>(null, message);
-        }
-
-        /// <summary>
-        /// 抛出新异常
-        /// </summary>
-        /// <typeparam name="TException"></typeparam>
-        /// <param name="ex"></param>
-        /// <param name="message"></param>
-        /// <returns></returns>
-        public static TException ThrowNew<TException>(this Exception ex, string message)
-            where TException : Exception, new()
-        {
-            var targetException = default(TException);
-
-            if (ex != null)
-            {
-                var ctor = typeof(TException).GetConstructor(new Type[] { typeof(string), typeof(Exception) });
-                if (ctor != null)
-                    targetException = ctor.Invoke(new object[] { message, ex }) as TException;
-            }
-            else if (!string.IsNullOrEmpty(message))
-            {
-                var ctor = typeof(TException).GetConstructor(new Type[] { typeof(string) });
-                if (ctor != null)
-                    targetException = ctor.Invoke(new object[] { message }) as TException;
-            }
-            else
-                targetException = new TException();
-
-            return targetException;
-        }
-
-        /// <summary>
-        /// 处理并包装异常
-        /// </summary>
-        /// <typeparam name="TException"></typeparam>
-        /// <param name="ex"></param>
-        /// <param name="message"></param>
-        /// <returns></returns>
-        public static TException HandleAndWrapper<TException>(Exception ex, string message)
-            where TException : Exception, new()
-        {
-            var targetException = ThrowNew<TException>(ex, message);
-            targetException.Handle();
-            return targetException;
-        }
-    }
+   
 }
