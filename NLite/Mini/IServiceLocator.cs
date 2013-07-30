@@ -1,45 +1,46 @@
 using System;
 using System.Collections.Generic;
 using NLite.Internal;
+using System.Reflection;
 
 namespace NLite
 {
     /// <summary>
-    /// ·şÎñ¶¨Î»Æ÷½Ó¿Ú
+    /// æœåŠ¡å®šä½å™¨æ¥å£
     /// </summary>
     public interface IServiceLocator : IServiceProvider,IDisposable
     {
         
         /// <summary>
-        /// µÃµ½·şÎñ
+        /// å¾—åˆ°æœåŠ¡
         /// </summary>
-        /// <param name="id">·şÎñId</param>
-        /// <returns>·µ»Ø·şÎñÊµÀı</returns>
+        /// <param name="id">æœåŠ¡Id</param>
+        /// <returns>è¿”å›æœåŠ¡å®ä¾‹</returns>
         object Get(string id);
 
         /// <summary>
-        /// µÃµ½·şÎñ
+        /// å¾—åˆ°æœåŠ¡
         /// </summary>
-        /// <param name="serviceType">·şÎñÀàĞÍ</param>
-        /// <returns>·µ»Ø·şÎñÊµÀı</returns>
+        /// <param name="serviceType">æœåŠ¡ç±»å‹</param>
+        /// <returns>è¿”å›æœåŠ¡å®ä¾‹</returns>
         object Get(Type serviceType);
 
         /// <summary>
-        /// µÃµ½·şÎñ
+        /// å¾—åˆ°æœåŠ¡
         /// </summary>
-        /// <param name="id">·şÎñId</param>
-        /// <returns>·µ»Ø·şÎñÊµÀı</returns>
+        /// <param name="id">æœåŠ¡Id</param>
+        /// <returns>è¿”å›æœåŠ¡å®ä¾‹</returns>
         object Get(string id, IDictionary<string, object> args);
 
         /// <summary>
-        /// µÃµ½·şÎñ
+        /// å¾—åˆ°æœåŠ¡
         /// </summary>
-        /// <param name="service">·şÎñÀàĞÍ</param>
-        /// <returns>·µ»Ø·şÎñÊµÀı</returns>
+        /// <param name="service">æœåŠ¡ç±»å‹</param>
+        /// <returns>è¿”å›æœåŠ¡å®ä¾‹</returns>
         object Get(Type service, IDictionary<string, object> args);
 
         /// <summary>
-        /// µÃµ½·şÎñ
+        /// å¾—åˆ°æœåŠ¡
         /// </summary>
         /// <param name="id"></param>
         /// <param name="args"></param>
@@ -48,7 +49,7 @@ namespace NLite
 
 
         /// <summary>
-        /// µÃµ½·şÎñ
+        /// å¾—åˆ°æœåŠ¡
         /// </summary>
         /// <param name="serviceType"></param>
         /// <param name="args"></param>
@@ -56,14 +57,14 @@ namespace NLite
         object Get(Type serviceType, params object[] args);
 
         /// <summary>
-        /// µÃµ½ËùÓĞ·şÎñ
+        /// å¾—åˆ°æ‰€æœ‰æœåŠ¡
         /// </summary>
         /// <param name="service"></param>
         /// <returns></returns>
         IEnumerable<object> GetAll(Type service);
 
         /// <summary>
-        /// µÃµ½ËùÓĞ·şÎñ
+        /// å¾—åˆ°æ‰€æœ‰æœåŠ¡
         /// </summary>
         /// <typeparam name="T"></typeparam>
         /// <returns></returns>
@@ -72,28 +73,28 @@ namespace NLite
 
 
     /// <summary>
-    /// ·şÎñÖØ×éÍ¨Öª½Ó¿Ú
+    /// æœåŠ¡é‡ç»„é€šçŸ¥æ¥å£
     /// </summary>
     public interface IServiceReinjectedNotification
     {
         /// <summary>
         /// 
         /// </summary>
-        void OnReinjected();
+        void OnReinjected(string[] memberNames);
     }
  
     /// <summary>
-    /// ·şÎñ¶¨Î»Æ÷À©Õ¹Àà
+    /// æœåŠ¡å®šä½å™¨æ‰©å±•ç±»
     /// </summary>
     public static class ServiceLocatorExtensions
     {
 
         /// <summary>
-        /// Í¨¹ı×é¼şIdµÃµ½Ö¸¶¨µÄ×é¼ş
+        /// é€šè¿‡ç»„ä»¶Idå¾—åˆ°æŒ‡å®šçš„ç»„ä»¶
         /// </summary>
-        /// <typeparam name="TComponent">×é¼şÀàĞÍ</typeparam>
-        /// <param name="id">×é¼şId</param>
-        /// <returns>·µ»Ø×é¼şÊµÀı</returns>
+        /// <typeparam name="TComponent">ç»„ä»¶ç±»å‹</typeparam>
+        /// <param name="id">ç»„ä»¶Id</param>
+        /// <returns>è¿”å›ç»„ä»¶å®ä¾‹</returns>
         public static TComponent Get<TComponent>(this IServiceLocator locator, string id)
         {
             if (locator == null)
@@ -109,15 +110,15 @@ namespace NLite
 namespace NLite
 {
     /// <summary>
-    /// ·şÎñÌá¹©ÕßÀ©Õ¹Àà
+    /// æœåŠ¡æä¾›è€…æ‰©å±•ç±»
     /// </summary>
     public static class ServiceProviderExtensions
     {
         /// <summary>
-        /// Í¨¹ıÆõÔ¼ÀàĞÍµÃµ½×é¼şÊµÀı
+        /// é€šè¿‡å¥‘çº¦ç±»å‹å¾—åˆ°ç»„ä»¶å®ä¾‹
         /// </summary>
-        /// <typeparam name="TContract">ÆõÔ¼ÀàĞÍ</typeparam>
-        /// <returns>·µ»Ø×é¼şÊµÀı</returns>
+        /// <typeparam name="TContract">å¥‘çº¦ç±»å‹</typeparam>
+        /// <returns>è¿”å›ç»„ä»¶å®ä¾‹</returns>
         public static TContract Get<TContract>(this IServiceLocator locator)
         {
             if (locator == null)
@@ -126,7 +127,7 @@ namespace NLite
         }
         
         /// <summary>
-        /// Í¨¹ıÆõÔ¼ÀàĞÍµÃµ½Ö¸¶¨µÄ×é¼şÊµÀı
+        /// é€šè¿‡å¥‘çº¦ç±»å‹å¾—åˆ°æŒ‡å®šçš„ç»„ä»¶å®ä¾‹
         /// </summary>
         /// <typeparam name="TContract"></typeparam>
         /// <typeparam name="TComponent"></typeparam>
