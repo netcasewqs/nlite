@@ -108,30 +108,6 @@
     <Compile Include="..\NLite\CompoistionObject.cs">
       <Link>CompoistionObject.cs</Link>
     </Compile>
-    <Compile Include="..\NLite\ComponentModel\ComponentObject.cs">
-      <Link>ComponentModel\ComponentObject.cs</Link>
-    </Compile>
-    <Compile Include="..\NLite\ComponentModel\EnumDescriptionAttribute.cs">
-      <Link>ComponentModel\EnumDescriptionAttribute.cs</Link>
-    </Compile>
-    <Compile Include="..\NLite\ComponentModel\EnumTypeConverter.cs">
-      <Link>ComponentModel\EnumTypeConverter.cs</Link>
-    </Compile>
-    <Compile Include="..\NLite\ComponentModel\IChangeTracker.cs">
-      <Link>ComponentModel\IChangeTracker.cs</Link>
-    </Compile>
-    <Compile Include="..\NLite\ComponentModel\IgnoreAttribute.cs">
-      <Link>ComponentModel\IgnoreAttribute.cs</Link>
-    </Compile>
-    <Compile Include="..\NLite\ComponentModel\LocalizedObject.cs">
-      <Link>ComponentModel\LocalizedObject.cs</Link>
-    </Compile>
-    <Compile Include="..\NLite\ComponentModel\LocalizedPropertyAttribute.cs">
-      <Link>ComponentModel\LocalizedPropertyAttribute.cs</Link>
-    </Compile>
-    <Compile Include="..\NLite\ComponentModel\LocalizedPropertyDescriptor.cs">
-      <Link>ComponentModel\LocalizedPropertyDescriptor.cs</Link>
-    </Compile>
     <Compile Include="..\NLite\ComponentModel\PropertyChangedEventArgs.cs">
       <Link>ComponentModel\PropertyChangedEventArgs.cs</Link>
     </Compile>
@@ -378,8 +354,14 @@
     <Compile Include="..\NLite\Dynamic\QueryModel.cs">
       <Link>Dynamic\QueryModel.cs</Link>
     </Compile>
+    <Compile Include="..\NLite\EnumDescriptionAttribute.cs">
+      <Link>EnumDescriptionAttribute.cs</Link>
+    </Compile>
     <Compile Include="..\NLite\EnumExtensions.cs">
       <Link>EnumExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\EnumTypeConverter.cs">
+      <Link>EnumTypeConverter.cs</Link>
     </Compile>
     <Compile Include="..\NLite\ExceptionService.cs">
       <Link>ExceptionService.cs</Link>
@@ -389,42 +371,6 @@
     </Compile>
     <Compile Include="..\NLite\Extension.cs">
       <Link>Extension.cs</Link>
-    </Compile>
-    <Compile Include="..\NLite\Globalization\ILanguageChangedListner.cs">
-      <Link>Globalization\ILanguageChangedListner.cs</Link>
-    </Compile>
-    <Compile Include="..\NLite\Globalization\ILanguageManager.cs">
-      <Link>Globalization\ILanguageManager.cs</Link>
-    </Compile>
-    <Compile Include="..\NLite\Globalization\IResourceItem.cs">
-      <Link>Globalization\IResourceItem.cs</Link>
-    </Compile>
-    <Compile Include="..\NLite\Globalization\IResourceLocator.cs">
-      <Link>Globalization\IResourceLocator.cs</Link>
-    </Compile>
-    <Compile Include="..\NLite\Globalization\IResourceRegistry.cs">
-      <Link>Globalization\IResourceRegistry.cs</Link>
-    </Compile>
-    <Compile Include="..\NLite\Globalization\IResourceRepository.cs">
-      <Link>Globalization\IResourceRepository.cs</Link>
-    </Compile>
-    <Compile Include="..\NLite\Globalization\ISupportGlobalization.cs">
-      <Link>Globalization\ISupportGlobalization.cs</Link>
-    </Compile>
-    <Compile Include="..\NLite\Globalization\LanguageChangedLifecycleListner.cs">
-      <Link>Globalization\LanguageChangedLifecycleListner.cs</Link>
-    </Compile>
-    <Compile Include="..\NLite\Globalization\LanguageManager.cs">
-      <Link>Globalization\LanguageManager.cs</Link>
-    </Compile>
-    <Compile Include="..\NLite\Globalization\ResourceManager.cs">
-      <Link>Globalization\ResourceManager.cs</Link>
-    </Compile>
-    <Compile Include="..\NLite\Globalization\ResourceNotFoundException.cs">
-      <Link>Globalization\ResourceNotFoundException.cs</Link>
-    </Compile>
-    <Compile Include="..\NLite\Globalization\ResourceRepository.cs">
-      <Link>Globalization\ResourceRepository.cs</Link>
     </Compile>
     <Compile Include="..\NLite\ICommand.cs">
       <Link>ICommand.cs</Link>
@@ -437,6 +383,9 @@
     </Compile>
     <Compile Include="..\NLite\IExtension.cs">
       <Link>IExtension.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\IgnoreAttribute.cs">
+      <Link>IgnoreAttribute.cs</Link>
     </Compile>
     <Compile Include="..\NLite\IInitializable.cs">
       <Link>IInitializable.cs</Link>
@@ -495,12 +444,6 @@
     <Compile Include="..\NLite\Internal\HttpContextWrapper.cs">
       <Link>Internal\HttpContextWrapper.cs</Link>
     </Compile>
-    <Compile Include="..\NLite\Internal\IconResourceManager.cs">
-      <Link>Internal\IconResourceManager.cs</Link>
-    </Compile>
-    <Compile Include="..\NLite\Internal\ImageResourceManager.cs">
-      <Link>Internal\ImageResourceManager.cs</Link>
-    </Compile>
     <Compile Include="..\NLite\Internal\Internal.cs">
       <Link>Internal\Internal.cs</Link>
     </Compile>
@@ -509,9 +452,6 @@
     </Compile>
     <Compile Include="..\NLite\Internal\Key.cs">
       <Link>Internal\Key.cs</Link>
-    </Compile>
-    <Compile Include="..\NLite\Internal\StringResourceManager.cs">
-      <Link>Internal\StringResourceManager.cs</Link>
     </Compile>
     <Compile Include="..\NLite\Internal\SyncList.cs">
       <Link>Internal\SyncList.cs</Link>

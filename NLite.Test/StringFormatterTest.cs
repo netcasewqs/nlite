@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using NUnit.Framework;
-using NLite.Globalization;
+//using NLite.Globalization;
 using System.Reflection;
 using NLite.Reflection;
 using NLite.Collections;
@@ -44,9 +44,9 @@ namespace NLite.Test
             actual = StringFormatter.Format("aa ${Property:A}");
             Console.WriteLine(actual);
 
-            //Register Resource
-            LanguageManager.Instance.Language = "en";
-            ResourceRepository.StringRegistry.Register("NLite.Test.App_LocalResources", Assembly.GetExecutingAssembly());
+            ////Register Resource
+            //LanguageManager.Instance.Language = "en";
+            //ResourceRepository.StringRegistry.Register("NLite.Test.App_LocalResources", Assembly.GetExecutingAssembly());
 
             actual = StringFormatter.Format("aa ${res:Fomat.Test}", "abc", "-def");
             Console.WriteLine(actual);

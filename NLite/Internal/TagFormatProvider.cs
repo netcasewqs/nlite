@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using NLite.Globalization;
+//using NLite.Globalization;
 using NLite.Collections;
 
 namespace NLite.Text.Internal
@@ -85,22 +85,22 @@ namespace NLite.Text.Internal
         }
     }
 
-    sealed class ResourceFormatProvider : ITagFormatProvider
-    {
-        public bool SupportColon { get { return true; } }
-        public string Tag { get { return "RES"; } }
+    //sealed class ResourceFormatProvider : ITagFormatProvider
+    //{
+    //    public bool SupportColon { get { return true; } }
+    //    public string Tag { get { return "RES"; } }
 
-        public string Format(string str, params string[] args)
-        {
-            var strNew = ResourceRepository.Strings.Get(str);
-            if (args != null && args.Length > 0 && strNew.HasValue())
-            {
-                var agrArray = args.Cast<object>().ToArray();
-                strNew = strNew.Format(agrArray);//string.Format(strNew, agrArray);
-            }
-            return strNew;
-        }
-    }
+    //    public string Format(string str, params string[] args)
+    //    {
+    //        var strNew = ResourceRepository.Strings.Get(str);
+    //        if (args != null && args.Length > 0 && strNew.HasValue())
+    //        {
+    //            var agrArray = args.Cast<object>().ToArray();
+    //            strNew = strNew.Format(agrArray);//string.Format(strNew, agrArray);
+    //        }
+    //        return strNew;
+    //    }
+    //}
 
     /// <summary>
     /// ${property:PropertyName}

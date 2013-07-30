@@ -45,10 +45,10 @@ namespace NLite
         /// </summary>
         public string Activator { get; set; }
 
-        /// <summary>
-        /// 是否全局服务，指的是该组件是否注册到根容器中
-        /// </summary>
-        public bool Global { get; set; }
+        ///// <summary>
+        ///// 是否全局服务，指的是该组件是否注册到根容器中
+        ///// </summary>
+        //public bool Global { get; set; }
 
         /// <summary>
         /// 得到组件的工厂函数

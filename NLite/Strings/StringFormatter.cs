@@ -25,7 +25,7 @@ namespace NLite
             Register(new GuidFormateProvider());
             Register(new SdkPathFormateProvider());
             Register(new EnvironmentVariableFormatProvider());
-            Register(new ResourceFormatProvider());
+            //Register(new ResourceFormatProvider());
             Register(new PropertyFormatProvider());
         }
 
