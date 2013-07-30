@@ -11,48 +11,58 @@ using NLite.Threading;
 namespace NLite.Mini.Activation
 {
     /// <summary>
-    /// ³éÏó×é¼ş¹¤³§
+    /// æŠ½è±¡ç»„ä»¶å·¥å‚
     /// </summary>
     public abstract class AbstractActivator : BooleanDisposable, IActivator
     {
         /// <summary>
-        /// ´´½¨×é¼ş
+        /// åˆ›å»ºç»„ä»¶
         /// </summary>
-        /// <param name="context">´´½¨ÉÏÏÂÎÄ</param>
-        /// <returns>·µ»ØËù´´½¨µÄ×é¼ş</returns>
+        /// <param name="context">åˆ›å»ºä¸Šä¸‹æ–‡</param>
+        /// <returns>è¿”å›æ‰€åˆ›å»ºçš„ç»„ä»¶</returns>
         public virtual object Create(IComponentContext context)
         {
             Guard.NotNull(context, "context");
-            //1. ¼ÇÂ¼²¢¸ú×Ù×é¼ş´´½¨µÄ¶ÔÏóÍ¼
+            //1. è®°å½•å¹¶è·Ÿè¸ªç»„ä»¶åˆ›å»ºçš„å¯¹è±¡å›¾
             Tracker.Start(context);
           
             object instance = null;
 
-            //2. µÃµ½×é¼ş¼àÌı¹ÜÀíÆ÷
-            var componentListner = context.Kernel.ListenerManager as IComponentListener;
-
-            //3. ÔÚ×é¼ş´´½¨Ç°½øĞĞ¼àÌı
-            if (componentListner != null)
-                componentListner.OnPreCreation(context);
-
-            //4. ¾ßÌåµÄ Create instance
-            instance = InternalCreate(context);
-            context.Instance = instance;
-            if (componentListner != null)
+            try
             {
-                //5. ÔÚ×é¼ş´´½¨ºó½øĞĞ¼àÌı£¨ÕâÀï¾ÍÊÇÒÀÀµ×¢ÈëµÄÀ©ÕÅµã£©
-                componentListner.OnPostCreation(context);
+                //2. å¾—åˆ°ç»„ä»¶ç›‘å¬ç®¡ç†å™¨
+                var componentListner = context.Kernel.ListenerManager as IComponentListener;
 
-                //6. ÔÚ×é¼ş´´½¨ºó¶Ô×é¼ş³õÊ¼»¯½øĞĞ¼àÌı
-                componentListner.OnInitialization(context);
-                //7. ÔÚ×é¼ş³õÊ¼»¯ºó½øĞĞ¼àÌı
-                componentListner.OnPostInitialization(context);
+                //3. åœ¨ç»„ä»¶åˆ›å»ºå‰è¿›è¡Œç›‘å¬
+                if (componentListner != null)
+                    componentListner.OnPreCreation(context);
+
+                //4. å…·ä½“çš„ Create instance
+                instance = InternalCreate(context);
+                context.Instance = instance;
+                if (componentListner != null)
+                {
+                    //5. åœ¨ç»„ä»¶åˆ›å»ºåè¿›è¡Œç›‘å¬ï¼ˆè¿™é‡Œå°±æ˜¯ä¾èµ–æ³¨å…¥çš„æ‰©å¼ ç‚¹ï¼‰
+                    componentListner.OnPostCreation(context);
+
+                    //6. åœ¨ç»„ä»¶åˆ›å»ºåå¯¹ç»„ä»¶åˆå§‹åŒ–è¿›è¡Œç›‘å¬
+                    componentListner.OnInitialization(context);
+                    //7. åœ¨ç»„ä»¶åˆå§‹åŒ–åè¿›è¡Œç›‘å¬
+                    componentListner.OnPostInitialization(context);
+                }
+
+                context.Args = null;
+                context.NamedArgs = null;
+
             }
-
-            context.Args = null;
-            context.NamedArgs = null;
-
-            Tracker.Stop();
+            catch
+            {
+                throw;
+            }
+            finally
+            {
+                Tracker.Stop();
+            }
 
             return instance;
         }
@@ -137,7 +147,7 @@ namespace NLite.Mini.Activation
                 else
                 {
                     if (_root.Contains(frame))
-                        throw ExceptionManager.HandleAndWrapper<LoopDependencyException>(_root.ToStackString());
+                        throw new LoopDependencyException(_root.ToStackString());
                     _current.Attach(frame);
                     _current = frame;
                 }
