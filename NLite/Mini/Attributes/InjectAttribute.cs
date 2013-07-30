@@ -1,4 +1,5 @@
-﻿using System;
+using System;
+using NLite.Internal;
 
 namespace NLite
 {
@@ -26,5 +27,13 @@ namespace NLite
         public bool Reinjection { get; set; }
     }
 
-   
+    /// <summary>
+    /// 注入回调方法注册注解
+    /// </summary>
+    [AttributeUsage(AttributeTargets.Method
+        , AllowMultiple = false, Inherited = true)]
+    [MetadataAttributeAttribute]
+    public class InjectedNotificationAttribute : Attribute
+    {
+    }
 }
