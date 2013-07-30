@@ -16,42 +16,47 @@ namespace NLite
     #endif
     [DebuggerDisplay("{Id}/{Lifestyle}")]
     /// <summary>
-    /// ×é¼şÔªÊı¾İĞÅÏ¢½Ó¿Ú
+    /// ç»„ä»¶å…ƒæ•°æ®ä¿¡æ¯æ¥å£
     /// </summary>
     public class ComponentInfo : IComponentInfo
     {
         /// <summary>
-        /// µÃµ½×é¼şId
+        /// å¾—åˆ°ç»„ä»¶Id
         /// </summary>
         public string Id { get; private set; }
 
         /// <summary>
-        /// µÃµ½×é¼şÊµÏÖµÄËùÓĞÆõÔ¼
+        /// å¾—åˆ°ç»„ä»¶å®ç°çš„æ‰€æœ‰å¥‘çº¦
         /// </summary>
         public Type[] Contracts { get { return contracts.ToArray(); } }
 
         /// <summary>
-        /// µÃµ½×é¼şµÄ¾ßÌåÀàĞÍ
+        /// å¾—åˆ°ç»„ä»¶çš„å…·ä½“ç±»å‹
         /// </summary>
         public Type Implementation { get; private set; }
 
         /// <summary>
-        /// µÃµ½»òÉèÖÃ×é¼şµÄÉúÃüÖÜÆÚ
+        /// å¾—åˆ°æˆ–è®¾ç½®ç»„ä»¶çš„ç”Ÿå‘½å‘¨æœŸ
         /// </summary>
         public LifestyleFlags Lifestyle { get; set; }
 
         /// <summary>
-        /// µÃµ½»òÉèÖÃ×é¼şµÄ¹¤³§ÀàĞÍ£¨¸ÃÊôĞÔ³£³£×÷Îª×é¼şµÄ×Ô¶¨Òå¹¤³§£©
+        /// å¾—åˆ°æˆ–è®¾ç½®ç»„ä»¶çš„å·¥å‚ç±»å‹ï¼ˆè¯¥å±æ€§å¸¸å¸¸ä½œä¸ºç»„ä»¶çš„è‡ªå®šä¹‰å·¥å‚ï¼‰
         /// </summary>
         public string Activator { get; set; }
 
         /// <summary>
-        /// µÃµ½×é¼şµÄ¹¤³§º¯Êı
+        /// æ˜¯å¦å…¨å±€æœåŠ¡ï¼ŒæŒ‡çš„æ˜¯è¯¥ç»„ä»¶æ˜¯å¦æ³¨å†Œåˆ°æ ¹å®¹å™¨ä¸­
+        /// </summary>
+        public bool Global { get; set; }
+
+        /// <summary>
+        /// å¾—åˆ°ç»„ä»¶çš„å·¥å‚å‡½æ•°
         /// </summary>
         public Func<object> Factory { get; internal set; }
 
         /// <summary>
-        /// µÃµ½×é¼şµÄÀ©Õ¹ÊôĞÔ
+        /// å¾—åˆ°ç»„ä»¶çš„æ‰©å±•å±æ€§
         /// </summary>
         public IDictionary<string,object> ExtendedProperties
         {
