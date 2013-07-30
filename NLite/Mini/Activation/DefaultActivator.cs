@@ -13,7 +13,7 @@ using NLite.Mini.Resolving;
 namespace NLite.Mini.Activation
 {
     /// <summary>
-    /// 缺省组件工厂
+    /// 缂虹渷缁勪欢宸ュ巶
     /// </summary>
     public class DefaultActivator : AbstractActivator
     {
@@ -37,7 +37,7 @@ namespace NLite.Mini.Activation
             var impType = context.Component.Implementation;
 
             if (impType.IsAbstract || impType.IsInterface)
-                throw ExceptionManager.HandleAndWrapper<ActivatorException>(
+                throw new ActivatorException(
                    string.Format(Mini_Resources.TypeAbstract,
                        impType.FullName,
                        context.Component.Contracts[0].FullName));
@@ -68,7 +68,7 @@ namespace NLite.Mini.Activation
                     var validConstructorBinding = ctors.FirstOrDefault(p => p.IsMatch);
                     if (validConstructorBinding == null)
                     {
-                        throw ExceptionManager.HandleAndWrapper<ActivatorException>(
+                        throw new ActivatorException(
                          string.Format(Mini_Resources.NoConstructorsAvailable, impType, bindingFlags));
                     }
 
@@ -79,8 +79,8 @@ namespace NLite.Mini.Activation
                       if (impType.IsValueType)
                           return Activator.CreateInstance(impType);
 
-                    
-                      throw ExceptionManager.HandleAndWrapper<ActivatorException>(
+
+                      throw new ActivatorException(
                         string.Format(Mini_Resources.NoConstructorsAvailable, impType, bindingFlags));
                 }
 
