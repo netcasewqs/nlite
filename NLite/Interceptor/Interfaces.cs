@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,33 +15,33 @@ using System.Collections;
 namespace NLite.Interceptor
 {
     /// <summary>
-    /// Advice Type
+    /// 拦截类型
     /// </summary>
     [Flags]
     public enum AdviceType
     {
         /// <summary>
-        /// 
+        /// 不拦截
         /// </summary>
         None = 1,
         /// <summary>
-        /// 
+        /// 调用前拦截
         /// </summary>
         Before = 2,
         /// <summary>
-        /// 
+        /// 调用后拦截
         /// </summary>
         After = 4,
         /// <summary>
-        /// 
+        /// 异常拦截
         /// </summary>
         Exception = 8,
         /// <summary>
-        /// 
+        /// 调用前和调用后拦截
         /// </summary>
         Around = Before | After,
         /// <summary>
-        /// 
+        /// 调用前、异常和调用后都拦截
         /// </summary>
         All = Around | Exception
     }
@@ -52,17 +52,17 @@ namespace NLite.Interceptor
     public interface IInterceptor
     {
         /// <summary>
-        /// 
+        /// 调用前拦截
         /// </summary>
         /// <param name="ctx"></param>
         void OnInvocationExecuting(IInvocationExecutingContext ctx);
         /// <summary>
-        /// 
+        /// 调用后拦截
         /// </summary>
         /// <param name="ctx"></param>
         void OnInvocationExecuted(IInovacationExecutedContext ctx);
         /// <summary>
-        /// 
+        /// 异常拦截
         /// </summary>
         /// <param name="ctx"></param>
         void OnException(IInvocationExceptionContext ctx);
@@ -88,7 +88,7 @@ namespace NLite.Interceptor
     }
 
     /// <summary>
-    /// 
+    /// 执行前调用上下文
     /// </summary>
     public interface IInvocationExecutingContext : IInvocationContext
     {
@@ -96,12 +96,12 @@ namespace NLite.Interceptor
     }
 
     /// <summary>
-    /// 
+    /// 执行后调用上下文
     /// </summary>
     public interface IInovacationExecutedContext : IInvocationContext
     {
         /// <summary>
-        /// 
+        /// 得到或设置返回结果
         /// </summary>
         object Result { get; set; }
     }
@@ -111,12 +111,12 @@ namespace NLite.Interceptor
     /// </summary>
     public interface IInvocationExceptionContext : IInovacationExecutedContext
     {
-        /// <summary>
-        /// 
+       /// <summary>
+        /// 得到或设置异常
         /// </summary>
         Exception Exception { get; set; }
         /// <summary>
-        /// 
+        /// 得到或设置一个值，用来指示是否已经处理了异常
         /// </summary>
         bool ExceptionHandled { get; set; }
     }
