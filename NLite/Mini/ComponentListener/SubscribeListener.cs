@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Reflection;
 using NLite.Messaging;
@@ -30,7 +30,7 @@ namespace NLite.Mini.Listener
             if (!ctx.Component.ExtendedProperties.ContainsKey("subscribeProviders"))
                 return;
 
-            var subscribers = ctx.Component.ExtendedProperties["subscribeProviders"] as SubscribeProvider[];
+            var subscribers = ctx.Component.ExtendedProperties["subscribeProviders"] as ISubscribeInfoFactoryProvider[];
 
             if (subscribers == null || subscribers.Length == 0)
                 return;
@@ -40,7 +40,7 @@ namespace NLite.Mini.Listener
             foreach(var subscriber in subscribers)
             {
 
-                var unsubscriber = bus.Subscribe(subscriber.Creator(instance));
+                var unsubscriber = bus.Subscribe(subscriber.Factory(instance));
                 if (compositeDis != null)
                     compositeDis.AddDisposable(unsubscriber);
                 else if (disCollector != null)
