@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Created by SharpDevelop.
  * User: issuser
  * Date: 2011-1-20
@@ -25,6 +25,7 @@ namespace NLite.Reflection
     {
     
         private static HashSet<string> SystemAssemblyNames;
+        private static Dictionary<int, string> AssemblyNameCache;
 
         static Gac()
         {
@@ -44,15 +45,32 @@ namespace NLite.Reflection
             keywords.Add("EnvDTE");
 
             SystemAssemblyNames = new HashSet<string>();
-            foreach (var a in GacCache.GetAssemblyNames())
+
+            foreach (var a in GacCache.GetAssemblyStringNames())
             {
-                if (!string.IsNullOrEmpty(keywords.FirstOrDefault(p => a.Name.StartsWith(p))))
-                    SystemAssemblyNames.Add(a.FullName);
+                if (!string.IsNullOrEmpty(keywords.FirstOrDefault(p => a.StartsWith(p))))
+                    SystemAssemblyNames.Add(a);
             }
 
             keywords.Clear();
+            AssemblyNameCache = new Dictionary<int, string>();
         }
 
+        private static string GetAssemblyName(Assembly asm)
+        {
+            var key = asm.GetHashCode();
+            lock (AssemblyNameCache)
+            {
+                string name;
+                if (!AssemblyNameCache.TryGetValue(key, out name))
+                {
+                    name = asm.GetName().Name;
+                    AssemblyNameCache[key] = name;
+                }
+
+                return name;
+            }
+        }
         /// <summary>
         /// 得到Gac中所有的AssemblyName
         /// </summary>
@@ -71,7 +89,7 @@ namespace NLite.Reflection
         {
             if (asm == null)
                 throw new ArgumentNullException("asm");
-            return SystemAssemblyNames.Contains(asm.FullName);
+            return SystemAssemblyNames.Contains(GetAssemblyName(asm));
         }
 
         /// <summary>
@@ -83,7 +101,7 @@ namespace NLite.Reflection
         {
             if (type == null)
                 throw new ArgumentNullException("type");
-            return SystemAssemblyNames.Contains(type.Assembly.FullName);
+            return SystemAssemblyNames.Contains(GetAssemblyName( type.Assembly));
         }
 
 
@@ -188,7 +206,7 @@ namespace NLite.Reflection
 
         /// <summary>
         /// The CREATE_ASM_NAME_OBJ_FLAGS enumeration contains the following values:
-        ///	CANOF_PARSE_DISPLAY_NAME - If this flag is specified, the szAssemblyName parameter is a full assembly name and is parsed to
+        ///    CANOF_PARSE_DISPLAY_NAME - If this flag is specified, the szAssemblyName parameter is a full assembly name and is parsed to
         ///		the individual properties. If the flag is not specified, szAssemblyName is the "Name" portion of the assembly name.
         ///	CANOF_SET_DEFAULT_VALUES - If this flag is specified, certain properties, such as processor architecture, are set to
         ///		their default values.
@@ -479,6 +497,20 @@ namespace NLite.Reflection
                     IAssemblyEnum ae = GacCache.CreateGACEnum();
                     while (GacCache.GetNextAssembly(ae, out an) == 0)
                         yield return GetAssemblyName(an);
+                }
+                finally
+                {
+                }
+            }
+
+            public static IEnumerable<string> GetAssemblyStringNames()
+            {
+                IAssemblyName an;
+                try
+                {
+                    IAssemblyEnum ae = GacCache.CreateGACEnum();
+                    while (GacCache.GetNextAssembly(ae, out an) == 0)
+                        yield return GacCache.GetName(an);
                 }
                 finally
                 {
