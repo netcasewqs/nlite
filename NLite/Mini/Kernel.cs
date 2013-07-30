@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -12,6 +12,7 @@ using NLite.Mini.Listener;
 using NLite.Internal;
 using NLite.Mini.Resolving;
 using NLite.Mini.Fluent.Internal;
+using NLite.Messaging;
 
 namespace NLite.Mini
 {
@@ -118,8 +119,7 @@ namespace NLite.Mini
         /// <returns></returns>
         public bool HasRegister(string id)
         {
-            if (string.IsNullOrEmpty(id))
-                throw ExceptionManager.HandleAndWrapper<ArgumentNullException>("id");
+            Guard.NotNullOrEmpty(id, "id");
 
             var flag= HasRegisterExcludeParent(id);
             if (flag) return true;
@@ -138,8 +138,7 @@ namespace NLite.Mini
         /// <returns></returns>
         public bool HasRegister(Type contract)
         {
-            if (contract == null)
-                throw ExceptionManager.HandleAndWrapper<ArgumentNullException>("contract");
+            Guard.NotNull(contract, "contract");
 
             var flag = HasRegisterExcludeParent(contract);
             if (flag) return true;
@@ -175,8 +174,9 @@ namespace NLite.Mini
         public IServiceRegistry Register(IComponentInfo componentInfo)
         {
             Guard.NotNull(componentInfo, "componentInfo");
+            
             if (HasRegisterExcludeParent(componentInfo.Id))
-                throw ExceptionManager.HandleAndWrapper < RepeatRegistrationException>(
+                throw new RepeatRegistrationException(
                        String.Format("There is a component already registered for the given key {0}", componentInfo.Id));
 
             if (!Listner.OnMetadataRegistering(componentInfo) || IdStores.ContainsKey(componentInfo.Id))
@@ -273,7 +273,7 @@ namespace NLite.Mini
                 id = instance.GetType().FullName;
 
             if (HasRegisterExcludeParent(id))
-                throw ExceptionManager.HandleAndWrapper<RepeatRegistrationException>(
+                throw new RepeatRegistrationException(
                        String.Format("There is a component already registered for the given key {0}", id));
 
             var info = CreateComponentInfo(id, contract, instance.GetType(), ActivatorType.Instance, LifestyleFlags.Singleton);
