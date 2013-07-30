@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -285,7 +285,7 @@ namespace NLite.Serialization
             if(type == null)
                 throw new ArgumentNullException("type");
             if(type.IsAbstract || type.IsInterface)
-                throw ExceptionManager.HandleAndWrapper<ArgumentException>(
+                throw new ArgumentException(
                    string.Format(Mini_Resources.TypeAbstract,
                        type.FullName,
                        type.FullName));
