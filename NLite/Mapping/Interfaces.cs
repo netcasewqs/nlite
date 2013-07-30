@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,6 +15,7 @@ using NLite.Threading.Internal;
 using NLite.Reflection.Internal;
 using NLite.Internal;
 using System.Diagnostics.CodeAnalysis;
+using NLite.Mini.Resolving;
 
 
 
@@ -357,13 +358,8 @@ namespace NLite.Mapping
                             select new { Name = g.Key, g }
                         ).ToList();
 
-               var otherItems = (from item in type.GetCustomAttributes(false)
-                                 let itemType = item.GetType()
-                                 where itemType.HasAttribute<MetadataAttributeAttribute>(true)
-                                 group item by itemType into g
-                                 select g).ToList();
-
-               foreach (var item in otherItems)
+            
+               foreach (var item in MetadataAttributeVisitor.Current.VisitType(type))
                {
                    var group = item.ToList();
 
