@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using NLite.Mini.Context;
@@ -13,8 +13,8 @@ namespace NLite.Mini.Listener
     sealed class InjectionListener : ComponentListenerAdapter
     {
         ReinjectionManager reinjectionManager;
-        internal Dictionary<IComponentContext, IInjection[]> reinjectionMap;
-
+        internal Dictionary<IComponentContext, IMemberInjection[]> reinjectionMap;
+        private static IAttributeProviderVisitor<bool> ignoreVisitor = AttributeProviderVisitorRepository.Get<bool>();
         internal InjectionListener(ReinjectionManager reinjectionManager)
         {
             this.reinjectionManager = reinjectionManager;
@@ -49,26 +49,31 @@ namespace NLite.Mini.Listener
         /// <param name="ctx"></param>
         public override void OnPreCreation(IComponentContext ctx)
         {
-            if (ctx.Component.IsGenericType())
-            {
-                var componentType = ctx.Component.Implementation.MakeGenericType(ctx.GenericParameters);
-                var key = componentType.FullName + ":ctorInjections";
-                if (ctx.Component.ExtendedProperties.ContainsKey(key))
-                    return;
-                ResolveConstructorInjection(ctx.Component, componentType);
-                ResolveInjectionInfo(ctx.Component, componentType, componentType.FullName + ":InjectionInfos");
-            }
+            if (ctx.Component.Implementation == null)
+                return;
+
+            var isGeneric = ctx.Component.IsGenericType();
+            var componentType = isGeneric? ctx.Component.Implementation.MakeGenericType(ctx.GenericParameters):ctx.Component.Implementation;
+            var key = componentType.FullName + ":ctorInjections";
+
+            if (ctx.Component.ExtendedProperties.ContainsKey(key))
+                return;
+
+            ResolveConstructorInjection(ctx.Component, componentType);
+
+            key = componentType.FullName + ":InjectionInfos";
+
+            ResolveInjectionInfo(ctx.Component, componentType, key);
         }
 
         private void ResolveConstructorInjection(IComponentInfo info, Type componentType)
         {
             var key = componentType.FullName + ":ctorInjections";
 
-            var visitor = new InjectionInspector();
             info.ExtendedProperties[key] = componentType
                 .GetConstructors()
-                .Where(p => !p.HasAttribute<IgnoreAttribute>(false))
-                .Select(p => ConstructorInspector.Inspect(info, Kernel, p))
+                .Where(p => !ignoreVisitor.VisitConstructor(p))
+                .Select(p => AttributeProviderInspector.InspectConstructor(info, Kernel, p))
                 .OrderBy(p => p.IsMarkedInjection)
                 .OrderByDescending(p => p.Dependencies.Length)
                 .ToArray();
@@ -95,13 +100,13 @@ namespace NLite.Mini.Listener
             var key = componentType.FullName + ":InjectionInfos";
             var ep = ctx.Component.ExtendedProperties;
 
-            IInjection[] injections = null;
+            IMemberInjection[] injections = null;
             if (ep.ContainsKey(key))
-                injections = ep[key] as IInjection[];
+                injections = ep[key] as IMemberInjection[];
             else
             {
                 ResolveInjectionInfo(ctx.Component, componentType, key);
-                injections = ep[key] as IInjection[];
+                injections = ep[key] as IMemberInjection[];
             }
 
             if (injections == null || injections.Length == 0)
