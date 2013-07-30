@@ -11,26 +11,26 @@ using NLite.Mapping.Internal;
 namespace NLite.Mini.Resolving
 {
     /// <summary>
-    /// ×¢Èë½Ó¿Ú
+    /// æ³¨å…¥æ¥å£
     /// </summary>
-    interface IInjection
+    interface IMemberInjection
     {
         /// <summary>
-        /// ±»×¢ÈëµÄMember,ÈçField,Property,Method,Constructor
+        /// è¢«æ³¨å…¥çš„Member,å¦‚Field,Property,Method,Constructor
         /// </summary>
         MemberInfo Member { get; }
         /// <summary>
-        /// ÊÇ·ñÖ§³ÖÖØĞÂ×¢Èë
+        /// æ˜¯å¦æ”¯æŒé‡æ–°æ³¨å…¥
         /// </summary>
         bool Reinjection { get;}
         
         /// <summary>
-        /// ×¢Èë
+        /// æ³¨å…¥
         /// </summary>
         /// <param name="ctx"></param>
         void Inject(IComponentContext ctx);
         /// <summary>
-        /// ÅĞ¶Ïµ±Ç°±»×¢ÈëµÄMemberµÄTypeÊÇ·ñÊÇÖ¸¶¨ÀàĞÍµÄ»ùÀà
+        /// åˆ¤æ–­å½“å‰è¢«æ³¨å…¥çš„Memberçš„Typeæ˜¯å¦æ˜¯æŒ‡å®šç±»å‹çš„åŸºç±»
         /// </summary>
         /// <param name="t"></param>
         /// <returns></returns>
@@ -38,21 +38,21 @@ namespace NLite.Mini.Resolving
     }
 
     /// <summary>
-    /// AppSetting ×¢Èë½Ó¿Ú
+    /// AppSetting æ³¨å…¥æ¥å£
     /// </summary>
     interface IAppSettingInjection
     {
         /// <summary>
-        /// ±»×¢ÈëµÄMember,ÈçField,Property,Method,Constructor
+        /// è¢«æ³¨å…¥çš„Member,å¦‚Field,Property,Method,Constructor
         /// </summary>
         MemberInfo Member { get; }
         /// <summary>
-        /// ÊÇ·ñÖ§³ÖÖØĞÂ×¢Èë
+        /// æ˜¯å¦æ”¯æŒé‡æ–°æ³¨å…¥
         /// </summary>
         bool Reinjection { get; }
 
         /// <summary>
-        /// ×¢Èë
+        /// æ³¨å…¥
         /// </summary>
         /// <param name="instance"></param>
         void Inject(object instance);
@@ -60,25 +60,25 @@ namespace NLite.Mini.Resolving
     }
 
     /// <summary>
-    /// ×¢Èë»ùÀà
+    /// æ³¨å…¥åŸºç±»
     /// </summary>
-    abstract class InjectionBase : IInjection
+    abstract class InjectionBase : IMemberInjection
     {
         /// <summary>
-        /// ÊÇ·ñÖ§³ÖÖØĞÂ×¢Èë
+        /// æ˜¯å¦æ”¯æŒé‡æ–°æ³¨å…¥
         /// </summary>
         public bool Reinjection { get; set; }
         /// <summary>
-        /// ±»×¢ÈëµÄMember,ÈçField,Property,Method,Constructor
+        /// è¢«æ³¨å…¥çš„Member,å¦‚Field,Property,Method,Constructor
         /// </summary>
         public MemberInfo Member { get; set; }
         /// <summary>
-        /// ×¢Èë
+        /// æ³¨å…¥
         /// </summary>
         /// <param name="ctx"></param>
         public abstract void Inject(IComponentContext ctx);
         /// <summary>
-        /// ÅĞ¶Ïµ±Ç°±»×¢ÈëµÄMemberµÄTypeÊÇ·ñÊÇÖ¸¶¨ÀàĞÍµÄ»ùÀà
+        /// åˆ¤æ–­å½“å‰è¢«æ³¨å…¥çš„Memberçš„Typeæ˜¯å¦æ˜¯æŒ‡å®šç±»å‹çš„åŸºç±»
         /// </summary>
         /// <param name="t"></param>
         /// <returns></returns>
@@ -87,16 +87,16 @@ namespace NLite.Mini.Resolving
 
    
     /// <summary>
-    /// Field ×¢Èë
+    /// Field æ³¨å…¥
     /// </summary>
     class FieldInjection : InjectionBase
     {
         /// <summary>
-        /// Field ÉèÖÃÆ÷
+        /// Field è®¾ç½®å™¨
         /// </summary>
         public Setter Setter;
         /// <summary>
-        /// Field ËùÒÀÀµµÄÔªÊı¾İ
+        /// Field æ‰€ä¾èµ–çš„å…ƒæ•°æ®
         /// </summary>
         public IDependency Dependency;
 
@@ -154,7 +154,7 @@ namespace NLite.Mini.Resolving
         }
 
         /// <summary>
-        /// ÅĞ¶Ïµ±Ç°±»×¢ÈëµÄMemberµÄTypeÊÇ·ñÊÇÖ¸¶¨ÀàĞÍµÄ»ùÀà
+        /// åˆ¤æ–­å½“å‰è¢«æ³¨å…¥çš„Memberçš„Typeæ˜¯å¦æ˜¯æŒ‡å®šç±»å‹çš„åŸºç±»
         /// </summary>
         /// <param name="t"></param>
         /// <returns></returns>
@@ -219,7 +219,7 @@ namespace NLite.Mini.Resolving
         }
 
         /// <summary>
-        /// ÅĞ¶Ïµ±Ç°±»×¢ÈëµÄMemberµÄTypeÊÇ·ñÊÇÖ¸¶¨ÀàĞÍµÄ»ùÀà
+        /// åˆ¤æ–­å½“å‰è¢«æ³¨å…¥çš„Memberçš„Typeæ˜¯å¦æ˜¯æŒ‡å®šç±»å‹çš„åŸºç±»
         /// </summary>
         /// <param name="t"></param>
         /// <returns></returns>
@@ -311,7 +311,7 @@ namespace NLite.Mini.Resolving
         }
 
         /// <summary>
-        /// ÅĞ¶Ïµ±Ç°±»×¢ÈëµÄMemberµÄTypeÊÇ·ñÊÇÖ¸¶¨ÀàĞÍµÄ»ùÀà
+        /// åˆ¤æ–­å½“å‰è¢«æ³¨å…¥çš„Memberçš„Typeæ˜¯å¦æ˜¯æŒ‡å®šç±»å‹çš„åŸºç±»
         /// </summary>
         /// <param name="t"></param>
         /// <returns></returns>
@@ -324,20 +324,20 @@ namespace NLite.Mini.Resolving
     }
 
     /// <summary>
-    /// AppSetting×¢Èë»ùÀà
+    /// AppSettingæ³¨å…¥åŸºç±»
     /// </summary>
     abstract class AppSettingInjectionBase : IAppSettingInjection
     {
         /// <summary>
-        /// ÊÇ·ñÖ§³ÖÖØĞÂ×¢Èë
+        /// æ˜¯å¦æ”¯æŒé‡æ–°æ³¨å…¥
         /// </summary>
         public bool Reinjection { get; set; }
         /// <summary>
-        /// ±»×¢ÈëµÄMember,ÈçField,Property,Method,Constructor
+        /// è¢«æ³¨å…¥çš„Member,å¦‚Field,Property,Method,Constructor
         /// </summary>
         public MemberInfo Member { get; set; }
         /// <summary>
-        /// ×¢Èë
+        /// æ³¨å…¥
         /// </summary>
         /// <param name="instance"></param>
         public abstract void Inject(object  instance);
