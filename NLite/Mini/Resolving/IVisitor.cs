@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,188 +8,500 @@ using NLite.Reflection;
 using NLite.Collections;
 using NLite.Mini.Listener;
 using NLite.Messaging;
+using NLite.Internal;
 
 
 namespace NLite.Mini.Resolving
 {
-    interface IMemberInspector
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <typeparam name="TResult"></typeparam>
+    public interface IAttributeProviderVisitor<TResult>
     {
-        void InspectField(IComponentInfo ctx, IKernel kernel, FieldInfo f);
-        void InspectProperty(IComponentInfo ctx, IKernel kernel, PropertyInfo p);
-        void InspectMethod(IComponentInfo ctx, IKernel kernel, MethodInfo m);
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="asm"></param>
+        /// <returns></returns>
+        TResult VisitAssembly(Assembly asm);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="t"></param>
+        /// <returns></returns>
+        TResult VisitType(Type t);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ctor"></param>
+        /// <returns></returns>
+        TResult VisitConstructor(ConstructorInfo ctor);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="p"></param>
+        /// <returns></returns>
+        TResult VisitParameter(ParameterInfo p);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="f"></param>
+        /// <returns></returns>
+        TResult VisitField(FieldInfo f);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="p"></param>
+        /// <returns></returns>
+        TResult VisitProperty(PropertyInfo p);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="m"></param>
+        /// <returns></returns>
+        TResult VisitMethod(MethodInfo m);
     }
 
-    class ParameterInspector
+    /// <summary>
+    /// 
+    /// </summary>
+    public static class AttributeProviderVisitorRepository
     {
-        public static IDependency Inspect(IComponentInfo ctx, IKernel kernel, ParameterInfo p)
+        private static IDictionary<RuntimeTypeHandle, object> visitors = new Dictionary<RuntimeTypeHandle, object>();
+
+        static AttributeProviderVisitorRepository()
         {
-            var settingAttr = p.GetAttribute<SettingAttribute>(false);
-            if (settingAttr != null && !string.IsNullOrEmpty(settingAttr.Name))
-                return DependencyManager.GetAppSettingDependency(settingAttr.Name, p.ParameterType);
+            visitors[Types.Boolean.TypeHandle] = new DefaultIgnoreVisitor();
+            visitors[typeof(SettingAttribute).TypeHandle] = new DefaultSettingAttributeVisitor();
+            visitors[typeof(ComponentAttribute).TypeHandle] = new DefaultComponentAttributeVisitor();
+            visitors[typeof(InjectAttribute).TypeHandle] = new DefaultInjectAttributeVisitor();
 
-            var patt = p.GetAttribute<InjectAttribute>(false);
-            var dependencyCreationCtx = new DependencyCreationContext
-            {
-                Id = patt != null ? patt.Id : string.Empty,
-                DependencyType = p.ParameterType,
-                Kernel = kernel,
-                InjectMany = p.HasAttribute<InjectManyAttribute>(false)
-                                || (p.ParameterType.IsCollectionTypeExcludeStringAndDictionaryType() 
-                                     && kernel.HasRegister(TypeHelper.GetElementType(p.ParameterType))),
-                IsOptional = p.IsOptional,
-                DefaultValue = p.DefaultValue,
-            };
-            return DependencyManager.Get(dependencyCreationCtx);
+            visitors[typeof(InjectManyAttribute).TypeHandle] = new DefaultInjectManyAttributeVisitor();
+            visitors[typeof(SubscribeAttribute).TypeHandle] = new DefaultSubscribeAttributeVisitor();
+            visitors[typeof(InjectedNotificationAttribute).TypeHandle] = new DefaultInjectedNotificationAttributeVisitor();
         }
-      
-    }
 
-    class ConstructorInspector 
-    {
-        public static ConstructorInjection Inspect(IComponentInfo ctx, IKernel kernel, ConstructorInfo ctor)
+        /// <summary>
+        /// 
+        /// </summary>
+        public static int Count { get { return visitors.Count; } }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public static IAttributeProviderVisitor<T> Get<T>()
         {
-            var item = new ConstructorInjection(ctor.GetParameters().Select(p => ParameterInspector.Inspect(ctx, kernel, p)).ToArray())
-            {
-                Member = ctor,
-                Creator = ctor.GetCreator(),
-                IsMarkedInjection = ctor.HasAttribute<InjectAttribute>(false),
-            };
-            return item;
+            var key = typeof(T).TypeHandle;
+            object value;
+            visitors.TryGetValue(key, out value);
+
+            return value as IAttributeProviderVisitor<T>;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="visitor"></param>
+        public static void Add<T>(IAttributeProviderVisitor<T> visitor)
+        {
+            Guard.NotNull(visitor, "visitor");
+
+            lock (visitors)
+            {
+                visitors[typeof(T).TypeHandle] = visitor;
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public static bool Remove<T>()
+        {
+            var key = typeof(T).TypeHandle;
+            lock (visitors)
+            {
+                return visitors.Remove(key);
+            }
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public static IEnumerable<IAttributeProviderVisitor<object>> Items
+        {
+            get
+            {
+                return visitors.Values.Cast<IAttributeProviderVisitor<object>>().ToArray();
+            }
+        }
+
+        class DefaultIgnoreVisitor : IAttributeProviderVisitor<bool>
+        {
+            public bool VisitAssembly(Assembly asm)
+            {
+                return asm.IsSystemAssembly();
+            }
+
+            public bool VisitType(Type t)
+            {
+                return t.IsSystemAssemblyOfType();
+            }
+
+            public bool VisitConstructor(ConstructorInfo ctor)
+            {
+                return ctor.HasAttribute<IgnoreAttribute>(false);
+            }
+
+            public bool VisitParameter(ParameterInfo p)
+            {
+                return p.HasAttribute<IgnoreAttribute>(false);
+            }
+
+            public bool VisitField(FieldInfo f)
+            {
+                return f.HasAttribute<IgnoreAttribute>(true)
+                        || f.DeclaringType.IsSystemAssemblyOfType()
+                        || f.Name.EndsWith("k__BackingField")
+                        || f.IsStatic
+                        || f.IsInitOnly;
+            }
+
+            public bool VisitProperty(PropertyInfo p)
+            {
+                return p.HasAttribute<IgnoreAttribute>(true)
+                       || p.DeclaringType.IsSystemAssemblyOfType()
+                       || !p.CanWrite
+                       || p.GetIndexParameters().Length > 0
+                       || (p.GetSetMethod() != null && p.GetSetMethod().IsStatic)
+                       || (p.GetSetMethod(true) != null && p.GetSetMethod(true).IsStatic)
+                       ;
+            }
+
+            public bool VisitMethod(MethodInfo m)
+            {
+                return m.HasAttribute<IgnoreAttribute>(true)
+                    || m.DeclaringType.IsSystemAssemblyOfType()
+                    || m.IsStatic
+                    //|| m.ReturnType != Types.Void
+                    //|| m.GetParameters().Length == 0
+                    || m.IsSpecialName;
+            }
+        }
+
+        class DefaultSettingAttributeVisitor : IAttributeProviderVisitor<SettingAttribute>
+        {
+            public SettingAttribute VisitAssembly(Assembly asm)
+            {
+                throw new NotImplementedException();
+            }
+
+            public SettingAttribute VisitType(Type t)
+            {
+                throw new NotImplementedException();
+            }
+
+            public SettingAttribute VisitConstructor(ConstructorInfo ctor)
+            {
+                throw new NotImplementedException();
+            }
+
+            public SettingAttribute VisitParameter(ParameterInfo p)
+            {
+                return p.GetAttribute<SettingAttribute>(true);
+            }
+
+            public SettingAttribute VisitField(FieldInfo f)
+            {
+                return f.GetAttribute<SettingAttribute>(true);
+            }
+
+            public SettingAttribute VisitProperty(PropertyInfo p)
+            {
+                return p.GetAttribute<SettingAttribute>(true);
+            }
+
+            public SettingAttribute VisitMethod(MethodInfo m)
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        class DefaultComponentAttributeVisitor : IAttributeProviderVisitor<ComponentAttribute>
+        {
+            public ComponentAttribute VisitAssembly(Assembly asm)
+            {
+                throw new NotImplementedException();
+            }
+
+            public ComponentAttribute VisitType(Type t)
+            {
+                return t.GetAttribute<ComponentAttribute>(true);
+            }
+
+            public ComponentAttribute VisitConstructor(ConstructorInfo ctor)
+            {
+                throw new NotImplementedException();
+            }
+
+            public ComponentAttribute VisitParameter(ParameterInfo p)
+            {
+                throw new NotImplementedException();
+            }
+
+            public ComponentAttribute VisitField(FieldInfo f)
+            {
+                return f.GetAttribute<ComponentAttribute>(true);
+            }
+
+            public ComponentAttribute VisitProperty(PropertyInfo p)
+            {
+                return p.GetAttribute<ComponentAttribute>(true);
+            }
+
+            public ComponentAttribute VisitMethod(MethodInfo m)
+            {
+                return m.GetAttribute<ComponentAttribute>(true);
+            }
+        }
+
+        class DefaultInjectAttributeVisitor : IAttributeProviderVisitor<InjectAttribute>
+        {
+            public InjectAttribute VisitAssembly(Assembly asm)
+            {
+                throw new NotImplementedException();
+            }
+
+            public InjectAttribute VisitType(Type t)
+            {
+                throw new NotImplementedException();
+            }
+
+            public InjectAttribute VisitConstructor(ConstructorInfo ctor)
+            {
+                return ctor.GetAttribute<InjectAttribute>(false);
+            }
+
+            public InjectAttribute VisitParameter(ParameterInfo p)
+            {
+                return p.GetAttribute<InjectAttribute>(true);
+            }
+
+            public InjectAttribute VisitField(FieldInfo f)
+            {
+                return f.GetAttribute<InjectAttribute>(true);
+            }
+
+            public InjectAttribute VisitProperty(PropertyInfo p)
+            {
+                return p.GetAttribute<InjectAttribute>(true);
+            }
+
+            public InjectAttribute VisitMethod(MethodInfo m)
+            {
+                return m.GetAttribute<InjectAttribute>(true);
+            }
+        }
+
+        class DefaultInjectManyAttributeVisitor : IAttributeProviderVisitor<InjectManyAttribute>
+        {
+            public InjectManyAttribute VisitAssembly(Assembly asm)
+            {
+                throw new NotImplementedException();
+            }
+
+            public InjectManyAttribute VisitType(Type t)
+            {
+                throw new NotImplementedException();
+            }
+
+            public InjectManyAttribute VisitConstructor(ConstructorInfo ctor)
+            {
+                throw new NotImplementedException();
+            }
+
+            public InjectManyAttribute VisitParameter(ParameterInfo p)
+            {
+                return p.GetAttribute<InjectManyAttribute>(true);
+            }
+
+            public InjectManyAttribute VisitField(FieldInfo f)
+            {
+                return f.GetAttribute<InjectManyAttribute>(true);
+            }
+
+            public InjectManyAttribute VisitProperty(PropertyInfo p)
+            {
+                return p.GetAttribute<InjectManyAttribute>(true);
+            }
+
+            public InjectManyAttribute VisitMethod(MethodInfo m)
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        class DefaultSubscribeAttributeVisitor : IAttributeProviderVisitor<SubscribeAttribute>
+        {
+
+            public SubscribeAttribute VisitAssembly(Assembly asm)
+            {
+                throw new NotImplementedException();
+            }
+
+            public SubscribeAttribute VisitType(Type t)
+            {
+                throw new NotImplementedException();
+            }
+
+            public SubscribeAttribute VisitConstructor(ConstructorInfo ctor)
+            {
+                throw new NotImplementedException();
+            }
+
+            public SubscribeAttribute VisitParameter(ParameterInfo p)
+            {
+                throw new NotImplementedException();
+            }
+
+            public SubscribeAttribute VisitField(FieldInfo f)
+            {
+                throw new NotImplementedException();
+            }
+
+            public SubscribeAttribute VisitProperty(PropertyInfo p)
+            {
+                throw new NotImplementedException();
+            }
+
+            public SubscribeAttribute VisitMethod(MethodInfo m)
+            {
+                return m.GetAttribute<SubscribeAttribute>(true);
+            }
+        }
+
+        class DefaultInjectedNotificationAttributeVisitor : IAttributeProviderVisitor<InjectedNotificationAttribute>
+        {
+            public InjectedNotificationAttribute VisitAssembly(Assembly asm)
+            {
+                throw new NotImplementedException();
+            }
+
+            public InjectedNotificationAttribute VisitType(Type t)
+            {
+                throw new NotImplementedException();
+            }
+
+            public InjectedNotificationAttribute VisitConstructor(ConstructorInfo ctor)
+            {
+                throw new NotImplementedException();
+            }
+
+            public InjectedNotificationAttribute VisitParameter(ParameterInfo p)
+            {
+                throw new NotImplementedException();
+            }
+
+            public InjectedNotificationAttribute VisitField(FieldInfo f)
+            {
+                throw new NotImplementedException();
+            }
+
+            public InjectedNotificationAttribute VisitProperty(PropertyInfo p)
+            {
+                throw new NotImplementedException();
+            }
+
+            public InjectedNotificationAttribute VisitMethod(MethodInfo m)
+            {
+                if (m.IsGenericMethod)
+                    return null;
+
+                var args = m.GetParameters();
+                if (args.Length > 1)
+                    return null;
+
+                if (args.Length == 1 && args[0].ParameterType != typeof(string[]))
+                    return null;
+
+               return m.GetAttribute<InjectedNotificationAttribute>(true);
+            }
+        }
     }
 
-    class InjectionInspector :  IMemberInspector
+    /// <summary>
+    /// 
+    /// </summary>
+    public interface IMetadataAttributeVisitor
     {
-        List<IInjection> injections = new List<IInjection>();
+        IEnumerable<IGrouping<Type, Attribute>> VisitType(Type type);
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    public static class MetadataAttributeVisitor
+    {
+        private static IMetadataAttributeVisitor metadataAttributeVisitor = new DefaultMetadataAttributeVisitor();
+
+        public static IMetadataAttributeVisitor Current
+        {
+            get
+            {
+                if (metadataAttributeVisitor == null)
+                    metadataAttributeVisitor = new DefaultMetadataAttributeVisitor();
+                return metadataAttributeVisitor;
+            }
+        }
+
+        public static void SetMetadataAttributeVisitor(IMetadataAttributeVisitor visitor)
+        {
+            Guard.NotNull(visitor, "visitor");
+        }
+        class DefaultMetadataAttributeVisitor : IMetadataAttributeVisitor
+        {
+            public IEnumerable<IGrouping<Type,Attribute>> VisitType(Type type)
+            {
+                return from item in type.GetCustomAttributes(false).Cast<Attribute>()
+                                 let itemType = item.GetType()
+                                 where itemType.HasAttribute<MetadataAttributeAttribute>(true)
+                                 group item by itemType into g
+                                 select g;
+            }
+        }
+    }
+
+    class AttributeProviderInspector
+    {
+        List<IMemberInjection> injections = new List<IMemberInjection>();
         List<IAppSettingInjection> appSettingInjections = new List<IAppSettingInjection>();
+        List<ISubscribeInfoFactoryProvider> providers = new List<ISubscribeInfoFactoryProvider>();
+        List<IExportInfo> exports = new List<IExportInfo>();
 
-        public IInjection[] Injections
-        {
-            get { return injections.ToArray(); }
-        }
+        static IAttributeProviderVisitor<SettingAttribute> settingAttributeVisitor = AttributeProviderVisitorRepository.Get<SettingAttribute>();
+        static IAttributeProviderVisitor<InjectAttribute> injectAttributeVisitor = AttributeProviderVisitorRepository.Get<InjectAttribute>();
+        static IAttributeProviderVisitor<InjectManyAttribute> injectManyAttributeVisitor = AttributeProviderVisitorRepository.Get<InjectManyAttribute>();
+        static IAttributeProviderVisitor<ComponentAttribute> componentAttributeVisitor = AttributeProviderVisitorRepository.Get<ComponentAttribute>();
+        static IAttributeProviderVisitor<SubscribeAttribute> subscribeAttributeVisitor = AttributeProviderVisitorRepository.Get<SubscribeAttribute>();
+        static IAttributeProviderVisitor<InjectedNotificationAttribute> callbackAttributeVisitor = AttributeProviderVisitorRepository.Get<InjectedNotificationAttribute>();
 
-        public IAppSettingInjection[] AppSettingInjections
-        {
-            get { return appSettingInjections.ToArray(); }
-        }
-
-        public void InspectField(IComponentInfo ctx, IKernel kernel, FieldInfo f)
-        {
-            var settingAttr = f.GetAttribute<SettingAttribute>(false);
-            if (settingAttr != null && !string.IsNullOrEmpty(settingAttr.Name))
-            {
-                appSettingInjections.Add(new AppSettingFieldInjection
-                {
-                    Member = f,
-                    Setter = f.ToMemberSetter(),//通过Emit的方式进行注入
-                    Dependency = DependencyManager.GetAppSettingDependency(settingAttr.Name, f.FieldType),
-                });
-                return;
-            }
-
-            var manyAttr = f.GetAttribute<InjectManyAttribute>(true);
-            if (manyAttr != null)
-            {
-                injections.Add(new FieldInjection//字段注入元数据
-                {
-                    Member = f,
-                    Reinjection = manyAttr != null ? manyAttr.Reinjection : true,
-                    Setter = f.ToMemberSetter(),//通过Emit的方式进行注入,
-                    Dependency = DependencyManager.Get(null, f.FieldType, kernel, true)
-                });
-                return;
-            }
-
-            var att = f.GetAttribute<InjectAttribute>(true);
-           if (att != null)
-            {
-                injections.Add(new FieldInjection//字段注入元数据
-                {
-                    Member = f,
-                    Reinjection = att != null ? att.Reinjection : true,
-                    Setter = f.ToMemberSetter(),//通过Emit的方式进行注入,
-                    Dependency = DependencyManager.Get(att != null ? att.Id : string.Empty, f.FieldType, kernel, false)
-                });
-                return;
-            }
-        }
-
-        public void InspectProperty(IComponentInfo ctx, IKernel kernel, PropertyInfo p)
-        {
-            var settingAttr = p.GetAttribute<SettingAttribute>(false);
-            if (settingAttr != null && !string.IsNullOrEmpty(settingAttr.Name))
-            {
-                appSettingInjections.Add(new AppSettingPropertyInjection
-                {
-                    Member = p,
-                    Setter = p.ToMemberSetter(),//通过Emit的方式进行注入
-                    Dependency = DependencyManager.GetAppSettingDependency(settingAttr.Name, p.PropertyType),
-                });
-                return;
-            }
-
-            var manyAttr = p.GetAttribute<InjectManyAttribute>(true);
-            if (manyAttr != null)
-            {
-                injections.Add(new FieldInjection//字段注入元数据
-                {
-                    Member = p,
-                    Reinjection = manyAttr != null ? manyAttr.Reinjection : true,
-                    Setter = p.ToMemberSetter(),//通过Emit的方式进行注入,
-                    Dependency = DependencyManager.Get(null, p.PropertyType, kernel, true)
-                });
-
-                return;
-            }
-
-            var att = p.GetAttribute<InjectAttribute>(true);
-            if (att != null)
-            {
-                injections.Add(new PropertyInjection
-                {
-                    Member = p,
-                    Reinjection = att != null ? att.Reinjection : true,
-                    Setter = p.ToMemberSetter(),
-                    Dependency = DependencyManager.Get(att != null ? att.Id : string.Empty, p.PropertyType, kernel, false)
-                });
-                return;
-            }
-
-        }
-
-        public void InspectMethod(IComponentInfo ctx, IKernel kernel, MethodInfo m)
-        {
-            var att = m.GetAttribute<InjectAttribute>(false);
-            if (att == null)
-                return;
-
-            var ps = m.GetParameters();
-            List<IDependency> dependencyList = new List<IDependency>(ps.Length);
-            foreach (var p in ps)
-            {
-                if (p.ParameterType.IsByRef || p.IsRetval || p.IsOut)
-                    return;
-                dependencyList.Add(ParameterInspector.Inspect(ctx, kernel, p));
-            }
-
-            var id = att != null ? att.Id : string.Empty;
-
-            injections.Add(new MethodInjection(dependencyList.ToArray())//方法注入元数据
-            {
-                Member = m,
-                Method = DynamicMethodFactory.GetProc(m),
-            });
-        }
-    }
-
-    class MemberExportInspector : IMemberInspector
-    {
         static readonly Dictionary<int, Type> Actions;
         static readonly Dictionary<int, Type> Funcs;
         static int MaxParameterLength;
 
-        static MemberExportInspector()
+        static AttributeProviderInspector()
         {
 #if SDK4
                 MaxParameterLength = 8;
@@ -223,75 +535,189 @@ namespace NLite.Mini.Resolving
                 Funcs[8] = typeof(Func<,,,,,,,,>);
 #endif
         }
-        List<IExportInfo> items = new List<IExportInfo>();
 
-        public IExportInfo[] Exports
+        private static IMemberInjection CreateFieldInjection(IKernel kernel, FieldInfo f, InjectAttribute att)
         {
-            get { return items.ToArray(); }
-        }
-
-        public void InspectField(IComponentInfo ctx, IKernel kernel, FieldInfo f)
-        {
-            var attr = f.GetAttribute<ComponentAttribute>(true);
-            if (attr == null)
-                return;
-
-            items.Add( new FieldExportInfo
+            return new FieldInjection//字段注入元数据
             {
-                Id = attr != null ? attr.Id : null,
-                Field = f,
-                Getter = DynamicMethodFactory.GetGetter(f)
-            });
+                Member = f,
+                Reinjection = att != null ? att.Reinjection : true,
+                Setter = f.ToMemberSetter(),//通过Emit的方式进行注入,
+                Dependency = DependencyManager.Get(att != null ? att.Id : string.Empty, f.FieldType, kernel, false)
+            };
         }
 
-        public void InspectProperty(IComponentInfo ctx, IKernel kernel, PropertyInfo p)
+        private static IMemberInjection CreateFieldInjection(IKernel kernel, FieldInfo f, InjectManyAttribute manyAttr)
         {
-            var attr = p.GetAttribute<ComponentAttribute>(true);
-            if (attr == null)
-                return;
-
-            items.Add(new PropertyExportInfo
+            return new FieldInjection//字段注入元数据
             {
-               Id = attr != null ? attr.Id : null,
-               Property = p,
-               Getter = DynamicMethodFactory.GetGetter(p)
-            });
+                Member = f,
+                Reinjection = manyAttr != null ? manyAttr.Reinjection : true,
+                Setter = f.ToMemberSetter(),//通过Emit的方式进行注入,
+                Dependency = DependencyManager.Get(null, f.FieldType, kernel, true)
+            };
         }
 
-        public void InspectMethod(IComponentInfo ctx, IKernel kernel, MethodInfo m)
+        private static IAppSettingInjection CreateFieldInjection(FieldInfo f, SettingAttribute settingAttr)
         {
-            var attr = m.GetAttribute<ComponentAttribute>(true);
-            if (attr == null)
-                return;
+            return new AppSettingFieldInjection
+            {
+                Member = f,
+                Setter = f.ToMemberSetter(),//通过Emit的方式进行注入
+                Dependency = DependencyManager.GetAppSettingDependency(settingAttr.Name, f.FieldType),
+            };
+        }
 
-            Type contract = attr.Contract;
+        private static IMemberInjection CreatePropertyInjection(IKernel kernel, PropertyInfo p, InjectAttribute att)
+        {
+            return new PropertyInjection
+            {
+                Member = p,
+                Reinjection = att != null ? att.Reinjection : true,
+                Setter = p.ToMemberSetter(),
+                Dependency = DependencyManager.Get(att != null ? att.Id : string.Empty, p.PropertyType, kernel, false)
+            };
+        }
 
-            if (contract != null)
-                Check(contract);
+        private static IMemberInjection CreatePropertyInjection(IKernel kernel, PropertyInfo p, InjectManyAttribute manyAttr)
+        {
+            return new PropertyInjection//字段注入元数据
+            {
+                Member = p,
+                Reinjection = manyAttr != null ? manyAttr.Reinjection : true,
+                Setter = p.ToMemberSetter(),//通过Emit的方式进行注入,
+                Dependency = DependencyManager.Get(null, p.PropertyType, kernel, true)
+            };
+        }
+
+        private static IAppSettingInjection CreatePropertyInjection(PropertyInfo p, SettingAttribute settingAttr)
+        {
+            return new AppSettingPropertyInjection
+            {
+                Member = p,
+                Setter = p.ToMemberSetter(),//通过Emit的方式进行注入
+                Dependency = DependencyManager.GetAppSettingDependency(settingAttr.Name, p.PropertyType),
+            };
+        }
+
+        private static IMemberInjection CreateMethodInjection(IComponentInfo ctx, IKernel kernel, MethodInfo m, InjectAttribute att)
+        {
+            var ps = m.GetParameters();
+            List<IDependency> dependencyList = new List<IDependency>(ps.Length);
+            foreach (var p in ps)
+            {
+                if (p.ParameterType.IsByRef || p.IsRetval || p.IsOut)
+                    return null;
+                dependencyList.Add(AttributeProviderInspector.InspectParameter(ctx, kernel, p));
+            }
+
+            var id = att != null ? att.Id : string.Empty;
+            var injection = new MethodInjection(dependencyList.ToArray())//方法注入元数据
+            {
+                Member = m,
+                Method = DynamicMethodFactory.GetProc(m),
+                Reinjection = att.Reinjection,
+            };
+
+            return injection;
+        }
+
+        private static ISubscribeInfoFactoryProvider CreateSubscribeInfoFactoryProvider(MethodInfo m, SubscribeAttribute attr)
+        {
+            var ps = m.GetParameters();
+            var length = ps.Length;
+            if (length > 2)
+                return null;
+            var returnType = m.ReturnType;
+            if (returnType == Types.Void)
+            {
+                switch (length)
+                {
+                    case 0:
+                        return new ActionSubscribeProvider(m, attr.Topic, attr.Mode);
+                    case 1:
+                        return new Action1SubscribeProvider(m, ps, attr.Topic, attr.Mode);
+                    case 2:
+                        return new Action2SubscribeProvider(m, ps, attr.Topic, attr.Mode);
+                }
+            }
             else
-                contract = PopulateMethodContract(m);
-
-            items.Add( new MethodExportInfo
             {
-                Id = attr != null ? attr.Id : Guid.NewGuid().ToString(),
-                Contract = contract,
-                Method = m
-            });
+                switch (length)
+                {
+                    case 0:
+                        return new FuncSubscribeProvider(m, attr.Topic, attr.Mode);
+                    case 1:
+                        return new Func1SubscribeProvider(m, ps, attr.Topic, attr.Mode);
+                    case 2:
+                        return new Func2SubscribeProvider(m, ps, attr.Topic, attr.Mode);
+                }
+            }
+
+            return null;
+        }
+
+        private InjectAttribute GetInjectAttribute(FieldInfo f)
+        {
+            //return f.GetAttribute<InjectAttribute>(true);
+            return injectAttributeVisitor.VisitField(f);
+        }
+
+        private InjectManyAttribute GetInjectManyAttribute(FieldInfo f)
+        {
+            //return f.GetAttribute<InjectManyAttribute>(true);
+            return injectManyAttributeVisitor.VisitField(f);
+        }
+
+        private SettingAttribute GetSettingAttribute(FieldInfo f)
+        {
+            //return f.GetAttribute<SettingAttribute>(false);
+            return settingAttributeVisitor.VisitField(f);
+        }
+
+        private InjectAttribute GetInjectAttribute(PropertyInfo f)
+        {
+            //return f.GetAttribute<InjectAttribute>(true);
+            return injectAttributeVisitor.VisitProperty(f);
+        }
+
+        private InjectManyAttribute GetInjectManyAttribute(PropertyInfo f)
+        {
+            //return f.GetAttribute<InjectManyAttribute>(true);
+            return injectManyAttributeVisitor.VisitProperty(f);
+        }
+
+        private SettingAttribute GetSettingAttribute(PropertyInfo f)
+        {
+            //return f.GetAttribute<SettingAttribute>(false);
+            return settingAttributeVisitor.VisitProperty(f);
+        }
+
+        private SubscribeAttribute GetSubscribeAttribute(MethodInfo m)
+        {
+            //return m.GetAttribute<SubscribeAttribute>(true);
+            return subscribeAttributeVisitor.VisitMethod(m);
+        }
+
+        private InjectAttribute GetInjectAttribute(MethodInfo m)
+        {
+            return injectAttributeVisitor.VisitMethod(m);
+            //return m.GetAttribute<InjectAttribute>(false);
         }
 
         private static void Check(Type contract)
         {
             if (!contract.IsSubclassOf(Types.Delegate))
-                throw ExceptionManager.HandleAndWrapper<MemberExportException>(Mini_Resources.ContractTypeShouldBeDelegateType);//契约必须是委托类型
+                throw new MemberExportException(Mini_Resources.ContractTypeShouldBeDelegateType);//契约必须是委托类型
         }
 
         private static Type PopulateMethodContract(MethodInfo m)
         {
             var args = m.GetParameters();
             if (args.Length > MaxParameterLength)
-                throw ExceptionManager.HandleAndWrapper<MemberExportException>(Mini_Resources.MethodParametersToolMany);
+                throw  new MemberExportException(Mini_Resources.MethodParametersToolMany);
             if (args.Any(p => p.IsOut || p.ParameterType.IsByRef || p.IsRetval))
-                throw ExceptionManager.HandleAndWrapper<MemberExportException>(Mini_Resources.MethodNotAllowRefOrOutParameters);
+                throw new MemberExportException(Mini_Resources.MethodNotAllowRefOrOutParameters);
 
             if (m.ReturnType == Types.Void)
                 return Actions[args.Length]
@@ -303,73 +729,210 @@ namespace NLite.Mini.Resolving
             return Funcs[args.Length]
                 .MakeGenericType(genericArgsType.ToArray());
         }
-    }
 
-    class SubscribeInspector
-    {
-        List<SubscribeProvider> items = new List<SubscribeProvider>();
-        public SubscribeProvider[] Providers
+        public IMemberInjection[] Injections
         {
-            get { return items.ToArray(); }
+            get { return injections.ToArray(); }
         }
+
+        public IAppSettingInjection[] AppSettingInjections
+        {
+            get { return appSettingInjections.ToArray(); }
+        }
+
+        public ISubscribeInfoFactoryProvider[] SubscribeInfoFactoryProviders
+        {
+            get { return providers.ToArray(); }
+        }
+
+        public IExportInfo[] Exports
+        {
+            get { return exports.ToArray(); }
+        }
+
+        public void InspectField(IComponentInfo ctx, IKernel kernel, FieldInfo f)
+        {
+            var settingAttr = GetSettingAttribute(f);
+            if (settingAttr != null && !string.IsNullOrEmpty(settingAttr.Name))
+            {
+                appSettingInjections.Add(CreateFieldInjection(f, settingAttr));
+                return;
+            }
+
+            var manyAttr = GetInjectManyAttribute(f);
+            if (manyAttr != null)
+            {
+                injections.Add(CreateFieldInjection(kernel, f, manyAttr));
+                return;
+            }
+
+            var injectAttr = GetInjectAttribute(f);
+            if (injectAttr != null)
+            {
+                injections.Add(CreateFieldInjection(kernel, f, injectAttr));
+                return;
+            }
+
+            //var componentAttr =  f.GetAttribute<ComponentAttribute>(true);
+            var componentAttr = componentAttributeVisitor.VisitField(f);
+            if (componentAttr != null)
+            {
+                exports.Add(new FieldExportInfo
+                {
+                    Id = componentAttr != null ? componentAttr.Id : null,
+                    Field = f,
+                    Getter = DynamicMethodFactory.GetGetter(f)
+                });
+                return;
+            }
+        }
+
+        public void InspectProperty(IComponentInfo ctx, IKernel kernel, PropertyInfo p)
+        {
+            var settingAttr = GetSettingAttribute(p);
+            if (settingAttr != null && !string.IsNullOrEmpty(settingAttr.Name))
+            {
+                appSettingInjections.Add(CreatePropertyInjection(p, settingAttr));
+                return;
+            }
+
+            var manyAttr = GetInjectManyAttribute(p);
+            if (manyAttr != null)
+            {
+                injections.Add(CreatePropertyInjection(kernel, p, manyAttr));
+                return;
+            }
+
+            var injectAttr = GetInjectAttribute(p);
+            if (injectAttr != null)
+            {
+                injections.Add(CreatePropertyInjection(kernel, p, injectAttr));
+                return;
+            }
+
+            //var componentAttr = p.GetAttribute<ComponentAttribute>(true);
+            var componentAttr = componentAttributeVisitor.VisitProperty(p);
+            if (componentAttr != null)
+            {
+                exports.Add(new PropertyExportInfo
+                {
+                    Id = componentAttr != null ? componentAttr.Id : null,
+                    Property = p,
+                    Getter = DynamicMethodFactory.GetGetter(p)
+                });
+                return;
+            }
+        }
+
         public void InspectMethod(IComponentInfo ctx, IKernel kernel, MethodInfo m)
         {
-            var attr = m.GetAttribute<SubscribeAttribute>(true);
-            if (attr == null)
-                return;
-            var ps = m.GetParameters();
-            var length = ps.Length;
-            if (length > 2)
-                return;
-            var returnType = m.ReturnType;
-            if (returnType == Types.Void)
+            //var componentAttr = m.GetAttribute<ComponentAttribute>(true);
+            var componentAttr = componentAttributeVisitor.VisitMethod(m);
+            if (componentAttr != null)
             {
-                switch (length)
+                Type contract = componentAttr.Contract;
+
+                if (contract != null)
+                    Check(contract);
+                else
+                    contract = PopulateMethodContract(m);
+
+                exports.Add(new MethodExportInfo
                 {
-                    case 0:
-                        items.Add(new ActionSubscribeProvider(m, attr.Topic, attr.Mode));
-                        break;
-                    case 1:
-                        items.Add(new Action1SubscribeProvider(m, ps, attr.Topic, attr.Mode));
-                        break;
-                    case 2:
-                        items.Add(new Action2SubscribeProvider(m, ps, attr.Topic, attr.Mode));
-                        break;
-                }
+                    Id = componentAttr != null ? componentAttr.Id : Guid.NewGuid().ToString(),
+                    Contract = contract,
+                    Method = m
+                });
+                return;
             }
-            else
+
+            if (m.ReturnType != Types.Void)
+                return;
+
+            var injectAttr = GetInjectAttribute(m);
+            if (injectAttr != null)
             {
-                switch (length)
+                var injection = CreateMethodInjection(ctx, kernel, m, injectAttr);
+                if (injection != null)
                 {
-                    case 0:
-                        items.Add(new FuncSubscribeProvider(m, attr.Topic, attr.Mode));
-                        break;
-                    case 1:
-                        items.Add(new Func1SubscribeProvider(m, ps, attr.Topic, attr.Mode));
-                        break;
-                    case 2:
-                        items.Add(new Func2SubscribeProvider(m, ps, attr.Topic, attr.Mode));
-                        break;
+                    injections.Add(injection);
                 }
+                return;
             }
+
+            var subscribeAttr = GetSubscribeAttribute(m);
+            if (subscribeAttr != null)
+            {
+                var item = CreateSubscribeInfoFactoryProvider(m, subscribeAttr);
+                if (item != null)
+                    providers.Add(item);
+                return;
+            }
+
+            var callbackAttr = callbackAttributeVisitor.VisitMethod(m);
+            if (callbackAttr != null)
+            {
+
+                var parameterCount = m.GetParameters().Length;
+                var callback =parameterCount == 1 ?
+                    Delegate.CreateDelegate(typeof(Action<,>).MakeGenericType(m.DeclaringType,typeof(string[])), m)
+                    : Delegate.CreateDelegate(typeof(Action<>).MakeGenericType(m.DeclaringType),m);
+
+                ctx.ExtendedProperties["ReinjectedNotification"] = new KeyValuePair<int,Delegate>(parameterCount,callback);
+            }
+        }
+
+        public static IDependency InspectParameter(IComponentInfo ctx, IKernel kernel, ParameterInfo p)
+        {
+            var settingAttr = p.GetAttribute<SettingAttribute>(false);
+            if (settingAttr != null && !string.IsNullOrEmpty(settingAttr.Name))
+                return DependencyManager.GetAppSettingDependency(settingAttr.Name, p.ParameterType);
+
+            var patt = p.GetAttribute<InjectAttribute>(false);
+            var dependencyCreationCtx = new DependencyCreationContext
+            {
+                Id = patt != null ? patt.Id : string.Empty,
+                DependencyType = p.ParameterType,
+                Kernel = kernel,
+                InjectMany = p.HasAttribute<InjectManyAttribute>(false)
+                                || (p.ParameterType.IsCollectionTypeExcludeStringAndDictionaryType()
+                                     && !TypeHelper.GetElementType(p.ParameterType).IsSystemAssemblyOfType()/*kernel.HasRegister(TypeHelper.GetElementType(p.ParameterType))*/),
+                IsOptional = p.IsOptional,
+                DefaultValue = p.DefaultValue,
+            };
+            return DependencyManager.Get(dependencyCreationCtx);
+        }
+
+        public static ConstructorInjection InspectConstructor(IComponentInfo ctx, IKernel kernel, ConstructorInfo ctor)
+        {
+            var item = new ConstructorInjection(ctor.GetParameters().Select(p => AttributeProviderInspector.InspectParameter(ctx, kernel, p)).ToArray())
+            {
+                Member = ctor,
+                Creator = ctor.GetCreator(),
+                IsMarkedInjection = ctor.HasAttribute<InjectAttribute>(false),
+            };
+            return item;
         }
     }
 
     class MemberInspector
     {
-
         private const BindingFlags Flags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
         private const BindingFlags FieldFlags = BindingFlags.SetField | Flags;
         private const BindingFlags PropertyFlags = BindingFlags.SetProperty | Flags;
 
-        MemberExportInspector exportInspector = new MemberExportInspector();
-        InjectionInspector injectionInspector = new InjectionInspector();
-        SubscribeInspector subscriberInspector = new SubscribeInspector();
+        AttributeProviderInspector injectionInspector;
 
+        private IAttributeProviderVisitor<bool> ignoreVisitor;
 
         public void Inspect(IComponentInfo info, IKernel kernel, Type componentType, string injectionKey)
         {
-            if (!componentType.IsSystemAssemblyOfType())
+            injectionInspector = new AttributeProviderInspector();
+            ignoreVisitor = AttributeProviderVisitorRepository.Get<bool>();
+
+            Guard.NotNull(ignoreVisitor, "ignoreVisitor");
+
+            if(!ignoreVisitor.VisitType(componentType))//if (!componentType.IsSystemAssemblyOfType())
             {
                 InspectFields(info, kernel, componentType);
                 InspectPropeties(info, kernel, componentType);
@@ -377,70 +940,32 @@ namespace NLite.Mini.Resolving
             }
 
             info.ExtendedProperties[injectionKey] = injectionInspector.Injections;
-            info.ExtendedProperties["MembersRegistered"] = exportInspector.Exports;
+            info.ExtendedProperties["MembersRegistered"] = injectionInspector.Exports;
             info.ExtendedProperties["AppSettings"] = injectionInspector.AppSettingInjections;
-            info.ExtendedProperties["subscribeProviders"] = subscriberInspector.Providers;
+            info.ExtendedProperties["subscribeProviders"] = injectionInspector.SubscribeInfoFactoryProviders;
+
+            injectionInspector = null;
         }
 
-      
         private void InspectFields(IComponentInfo ctx, IKernel kernel, Type componentType)
         {
-            var fields = componentType
-                .GetFields(FieldFlags)
-                .Where(p => p.DeclaringType == componentType
-                    || (!p.DeclaringType.IsSystemAssemblyOfType()))
-                .Where(p => !p.Name.EndsWith("k__BackingField"));
-
-            foreach (var f in fields)
-            {
-                exportInspector.InspectField(ctx, kernel, f);
-               
-                if (f.HasAttribute<IgnoreAttribute>(false))
-                    continue;
-                injectionInspector.InspectField(ctx, kernel, f);
-            }
+            componentType.GetFields(FieldFlags)
+                .Where(p => !ignoreVisitor.VisitField(p))
+                .ForEach(p => injectionInspector.InspectField(ctx, kernel, p));
         }
 
         private void InspectPropeties(IComponentInfo ctx, IKernel kernel, Type componentType)
         {
-            var props = componentType
-                .GetProperties(PropertyFlags)
-                .Where(p => p.GetIndexParameters().Length == 0)
-                .Where(p => p.DeclaringType == componentType
-                    || (!p.DeclaringType.IsSystemAssemblyOfType()));
-
-            foreach (var p in props)
-            {
-                exportInspector.InspectProperty(ctx, kernel, p);
-              
-                if (p.HasAttribute<IgnoreAttribute>(false))
-                    continue;
-                injectionInspector.InspectProperty(ctx, kernel, p);
-            }
+            componentType.GetProperties(PropertyFlags)
+                .Where(p => !ignoreVisitor.VisitProperty(p))
+                .ForEach(p => injectionInspector.InspectProperty(ctx, kernel, p));
         }
 
         private void InspectMethods(IComponentInfo ctx, IKernel kernel, Type componentType)
         {
-            var methods = componentType
-                .GetMethods(Flags)
-                .Where(p=>!p.IsSpecialName)
-                .Where(p => p.DeclaringType == componentType 
-                    || (!p.DeclaringType.IsSystemAssemblyOfType())) ;
-            foreach (var m in methods)
-            {
-                //if (m.IsSpecialName)//Property
-                //    continue;
-                //if (m.DeclaringType == Types.Object)
-                //    continue;
-
-                exportInspector.InspectMethod(ctx, kernel, m);
-
-                subscriberInspector.InspectMethod(ctx, kernel, m);
-
-                if (m.ReturnType != Types.Void || m.HasAttribute<IgnoreAttribute>(false))
-                    continue;
-                injectionInspector.InspectMethod(ctx, kernel, m);
-            }
+            componentType.GetMethods(Flags)
+                .Where(p => !ignoreVisitor.VisitMethod(p))
+                .ForEach(p => injectionInspector.InspectMethod(ctx, kernel, p));
         }
     }
 }
