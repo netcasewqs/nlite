@@ -41,10 +41,13 @@ namespace NLite.Mini.Listener
             {
 
                 var unsubscriber = bus.Subscribe(subscriber.Factory(instance));
-                if (compositeDis != null)
-                    compositeDis.AddDisposable(unsubscriber);
-                else if (disCollector != null)
-                    disCollector.Disposes.AddDisposable(unsubscriber);
+                if (!subscriber.Method.IsStatic)
+                {
+                    if (compositeDis != null)
+                        compositeDis.AddDisposable(unsubscriber);
+                    else if (disCollector != null)
+                        disCollector.Disposes.AddDisposable(unsubscriber);
+                }
             }
 
         }

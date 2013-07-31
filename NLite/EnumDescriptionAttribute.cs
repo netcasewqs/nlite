@@ -45,8 +45,8 @@ namespace NLite
         {
             get
             {
-                if (!string.IsNullOrEmpty(ResourceKey))
-                    return ResourceKey.StringResource();
+                //if (!string.IsNullOrEmpty(ResourceKey))
+                //    return ResourceKey.StringResource();
                 if (!string.IsNullOrEmpty(DefaultDescription))
                     return DefaultDescription;
                 return Name;

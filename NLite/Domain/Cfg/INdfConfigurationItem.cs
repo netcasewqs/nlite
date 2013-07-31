@@ -9,7 +9,6 @@ namespace NLite.Domain
     /// <summary>
     /// 服务分发器配置项接口
     /// </summary>
-    [Contract]
     public interface IServiceDispatcherConfiguationItem:IExtension<Configuration>
     {
         /// <summary>
@@ -23,12 +22,14 @@ namespace NLite.Domain
         /// <summary>
         /// 服务元数据管理器
         /// </summary>
-        ServiceDescriptorManager ServiceDescriptorManager { get; set; }
+        IServiceDescriptorManager ServiceDescriptorManager { get; set; }
         /// <summary>
         /// 监听管理器
         /// </summary>
         IServiceDispatchListenerManager ListenManager { get; }
     }
+
+
 
     /// <summary>
     /// 服务元数据管理器
@@ -60,6 +61,9 @@ namespace NLite.Domain
             Inner.OperationDescriptorResolved += OnOperationDescriptorResolved;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public virtual Func<Type, string> PopulateServiceName { get; private set; }
         /// <summary>
         /// 注册领域服务元数据

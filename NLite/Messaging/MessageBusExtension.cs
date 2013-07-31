@@ -4,6 +4,8 @@ using System.Reflection;
 using NLite.Internal;
 using NLite.Messaging.Internal;
 using NLite.Reflection;
+using System.Collections.Generic;
+using NLite.Mini.Resolving;
 
 namespace NLite.Messaging
 {
@@ -14,7 +16,7 @@ namespace NLite.Messaging
     {
         #region Func<object,TData,TResult>
         /// <summary>
-        /// 
+        /// 订阅消息
         /// </summary>
         /// <typeparam name="TData"></typeparam>
         /// <param name="bus"></param>
@@ -30,7 +32,7 @@ namespace NLite.Messaging
         }
 
         /// <summary>
-        /// 
+        /// 订阅消息
         /// </summary>
         /// <typeparam name="TData"></typeparam>
         /// <param name="bus"></param>
@@ -108,7 +110,7 @@ namespace NLite.Messaging
 
         #region Func<TData,TResult>
         /// <summary>
-        /// 
+        /// 订阅消息
         /// </summary>
         /// <typeparam name="TData"></typeparam>
         /// <param name="bus"></param>
@@ -124,7 +126,7 @@ namespace NLite.Messaging
         }
 
         /// <summary>
-        /// 
+        /// 订阅消息
         /// </summary>
         /// <typeparam name="TData"></typeparam>
         /// <param name="bus"></param>
@@ -203,7 +205,7 @@ namespace NLite.Messaging
 
         #region Func<TResult>
         /// <summary>
-        /// 
+        /// 订阅消息
         /// </summary>
         /// <param name="bus"></param>
         /// <param name="topic">消息主题</param>
@@ -218,7 +220,7 @@ namespace NLite.Messaging
         }
 
         /// <summary>
-        /// 
+        /// 订阅消息
         /// </summary>
         /// <param name="bus"></param>
         /// <param name="topic">消息主题</param>
@@ -251,7 +253,7 @@ namespace NLite.Messaging
         #region Func<object,TData,object>
 
         /// <summary>
-        /// 
+        /// 订阅消息
         /// </summary>
         /// <typeparam name="TData"></typeparam>
         /// <param name="bus"></param>
@@ -267,7 +269,7 @@ namespace NLite.Messaging
         }
 
         /// <summary>
-        /// 
+        /// 订阅消息
         /// </summary>
         /// <typeparam name="TData"></typeparam>
         /// <param name="bus"></param>
@@ -346,7 +348,7 @@ namespace NLite.Messaging
 
         #region Func<TData,object>
         /// <summary>
-        /// 
+        /// 订阅消息
         /// </summary>
         /// <typeparam name="TData"></typeparam>
         /// <param name="bus"></param>
@@ -441,7 +443,7 @@ namespace NLite.Messaging
 
         #region Func<object>
         /// <summary>
-        /// 
+        /// 订阅消息
         /// </summary>
         /// <param name="bus"></param>
         /// <param name="topic">消息主题</param>
@@ -456,7 +458,7 @@ namespace NLite.Messaging
         }
 
         /// <summary>
-        /// 
+        /// 订阅消息
         /// </summary>
         /// <param name="bus"></param>
         /// <param name="topic">消息主题</param>
@@ -489,7 +491,7 @@ namespace NLite.Messaging
         #region Action<object,TData>
 
         /// <summary>
-        /// 
+        /// 订阅消息
         /// </summary>
         /// <typeparam name="TData"></typeparam>
         /// <param name="bus"></param>
@@ -584,7 +586,7 @@ namespace NLite.Messaging
 
         #region Action<TData>
         /// <summary>
-        /// 
+        /// 订阅消息
         /// </summary>
         /// <typeparam name="TData"></typeparam>
         /// <param name="bus"></param>
@@ -679,7 +681,7 @@ namespace NLite.Messaging
 
         #region Action
         /// <summary>
-        /// 
+        /// 订阅消息
         /// </summary>
         /// <param name="bus"></param>
         /// <param name="topic">消息主题</param>
@@ -694,7 +696,7 @@ namespace NLite.Messaging
         }
 
         /// <summary>
-        /// 
+        /// 订阅消息
         /// </summary>
         /// <param name="bus"></param>
         /// <param name="topic">消息主题</param>
@@ -722,6 +724,72 @@ namespace NLite.Messaging
             bus.Unsubscribe(topic, null, ObserverHandler.Create(handler));
         }
         #endregion
+
+
+        private static Dictionary<RuntimeTypeHandle,IDisposable> subscriberTypes = new Dictionary<RuntimeTypeHandle,IDisposable>();
+     
+        /// <summary>
+        /// 订阅消息
+        /// </summary>
+        /// <param name="bus">消息总线</param>
+        /// <param name="subscriber">订阅者，方法上标记有SubscribeAttribute 标签的</param>
+        /// <returns></returns>
+        public static IDisposable Subscribe(this IMessageBus bus, object subscriber)
+        {
+            Guard.NotNull(bus, "bus");
+            Guard.NotNull(subscriber, "subscriber");
+
+            var key = subscriber.GetType().TypeHandle;
+            IDisposable unsubscribers;
+
+            lock (subscriberTypes)
+            {
+                if (subscriberTypes.TryGetValue(key, out unsubscribers))
+                    return unsubscribers;
+
+                var subscribers = AttributeProviderInspector.InspectSubscribeMethods(subscriber.GetType());
+
+                if (subscribers == null || subscribers.Length == 0)
+                {
+                    subscriberTypes.Add(key, Disposable.Empty);
+                    return Disposable.Empty;
+                }
+
+                var disposeArray = new CompositeDisposable();
+
+                var disCollector = subscriber as IDisposeCollector;
+                var compositeDis = subscriber as ICompositeDisposable;
+                foreach (var item in subscribers)
+                {
+
+                    var unsubscriber = bus.Subscribe(item.Factory(subscriber));
+                    disposeArray.AddDisposable(unsubscriber);
+
+                    if (!item.Method.IsStatic)
+                    {
+                        if (compositeDis != null)
+                            compositeDis.AddDisposable(unsubscriber);
+                        else if (disCollector != null)
+                            disCollector.Disposes.AddDisposable(unsubscriber);
+                    }
+                }
+
+                subscriberTypes[key] = disposeArray;
+                return disposeArray;
+            }
+
+        }
+
+        /// <summary>
+        /// 关闭消息总线
+        /// </summary>
+        /// <param name="bus"></param>
+        public static void Shutdown(this IMessageBus bus)
+        {
+            bus.RemoveAll();
+            subscriberTypes.Clear();
+        }
+
 
         #region Remove
         /// <summary>

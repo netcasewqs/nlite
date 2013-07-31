@@ -64,7 +64,7 @@ namespace NLite.Domain.Spec
             var cfg = new Configuration();
             var Options = new ServiceDispatcherConfiguationItem("default");
 
-            cfg.Configure();
+            cfg.ConfigureMiniContainer();
             cfg.ConfigureServiceDispatcher(Options);
             Options.ListenManager.Register(new ControllerListener());
 

@@ -27,17 +27,7 @@ namespace NLite.Domain
          Dictionary<Type, IServiceDescriptor[]> TypeMap;
          public event Action<IServiceDescriptor> ServiceDescriptorResolved;
          public event Action<IOperationDescriptor> OperationDescriptorResolved;
-        // internal IServiceDispatcherConfiguationItem Options;
-
-         //static string serviceSuffix;
-         //static int serviceStringLength;
-         //static DefaultServiceDescriptorManager()
-         //{
-         //    serviceSuffix = PropertyManager.Get<string>("serviceSuffix");
-         //    if (string.IsNullOrEmpty(serviceSuffix))
-         //        serviceSuffix = "Service";
-         //    serviceStringLength = serviceSuffix.Length;
-         //}
+        
 
          public Func<Type, string> PopulateServiceName { get; private set; }
          public DefaultServiceDescriptorManager(Func<Type,string> populateServiceName)
@@ -49,19 +39,11 @@ namespace NLite.Domain
          }
 
 
-
          public IServiceDescriptor[] Register(Type t)
          {
              if (TypeMap.ContainsKey(t))
                  return EmptyServiceDescriptors;
 
-             //string serviceName = t.Name;
-             //if (!serviceName.EndsWith(serviceSuffix))
-             //    return EmptyServiceDescriptors;
-
-             //var items = new List<IServiceDescriptor>();
-             //serviceName = serviceName.Substring(0, serviceName.Length - serviceStringLength).ToLower();
-             //items.Add(InternalRegister(t, serviceName));
              var serviceName = PopulateServiceName(t);
              if (string.IsNullOrEmpty(serviceName))
                  return EmptyServiceDescriptors;

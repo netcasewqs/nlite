@@ -11,12 +11,12 @@ namespace NLite.Domain.Spec
     public class TestBase
     {
         protected Configuration cfg = new Configuration();
-        protected IServiceDispatcherConfiguationItem Options;
+        protected ServiceDispatcherConfiguationItem Options;
 
         [SetUp]
         public void Init()
         {
-            cfg.Configure();
+            cfg.ConfigureMiniContainer();
             Options = new ServiceDispatcherConfiguationItem(ServiceDispatcher.DefaultServiceDispatcherName);
             cfg.ConfigureServiceDispatcher(Options);
             OnInit();

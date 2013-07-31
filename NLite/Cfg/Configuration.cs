@@ -16,7 +16,7 @@ namespace NLite.Cfg
         /// <summary>
         /// 配置DI容器
         /// </summary>
-        public void Configure()
+        public void ConfigureMiniContainer()
         {
             Add<MiniContainerConfigurationItem>();
         }

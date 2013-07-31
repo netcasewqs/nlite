@@ -634,10 +634,14 @@ namespace NLite.Mini.Resolving
                 switch (length)
                 {
                     case 0:
+                        if(m.IsStatic)
+                            return new StaticActionSubscribeProvider(m, attr.Topic, attr.Mode);
                         return new ActionSubscribeProvider(m, attr.Topic, attr.Mode);
                     case 1:
+                        if (m.IsStatic) return new StaticAction1SubscribeProvider(m, ps, attr.Topic, attr.Mode);
                         return new Action1SubscribeProvider(m, ps, attr.Topic, attr.Mode);
                     case 2:
+                        if( m.IsStatic) return  new StaticAction2SubscribeProvider(m, ps, attr.Topic, attr.Mode);
                         return new Action2SubscribeProvider(m, ps, attr.Topic, attr.Mode);
                 }
             }
@@ -646,10 +650,16 @@ namespace NLite.Mini.Resolving
                 switch (length)
                 {
                     case 0:
+                        if(m.IsStatic)
+                            return new StaticFuncSubscribeProvider(m, attr.Topic, attr.Mode);
                         return new FuncSubscribeProvider(m, attr.Topic, attr.Mode);
                     case 1:
+                        if (m.IsStatic)
+                            return new StaticFunc1SubscribeProvider(m, ps, attr.Topic, attr.Mode);
                         return new Func1SubscribeProvider(m, ps, attr.Topic, attr.Mode);
                     case 2:
+                        if (m.IsStatic)
+                            return new StaticFunc2SubscribeProvider(m, ps, attr.Topic, attr.Mode);
                         return new Func2SubscribeProvider(m, ps, attr.Topic, attr.Mode);
                 }
             }
@@ -657,49 +667,49 @@ namespace NLite.Mini.Resolving
             return null;
         }
 
-        private InjectAttribute GetInjectAttribute(FieldInfo f)
+        private static InjectAttribute GetInjectAttribute(FieldInfo f)
         {
             //return f.GetAttribute<InjectAttribute>(true);
             return injectAttributeVisitor.VisitField(f);
         }
 
-        private InjectManyAttribute GetInjectManyAttribute(FieldInfo f)
+        private static InjectManyAttribute GetInjectManyAttribute(FieldInfo f)
         {
             //return f.GetAttribute<InjectManyAttribute>(true);
             return injectManyAttributeVisitor.VisitField(f);
         }
 
-        private SettingAttribute GetSettingAttribute(FieldInfo f)
+        private static SettingAttribute GetSettingAttribute(FieldInfo f)
         {
             //return f.GetAttribute<SettingAttribute>(false);
             return settingAttributeVisitor.VisitField(f);
         }
 
-        private InjectAttribute GetInjectAttribute(PropertyInfo f)
+        private static InjectAttribute GetInjectAttribute(PropertyInfo f)
         {
             //return f.GetAttribute<InjectAttribute>(true);
             return injectAttributeVisitor.VisitProperty(f);
         }
 
-        private InjectManyAttribute GetInjectManyAttribute(PropertyInfo f)
+        private static InjectManyAttribute GetInjectManyAttribute(PropertyInfo f)
         {
             //return f.GetAttribute<InjectManyAttribute>(true);
             return injectManyAttributeVisitor.VisitProperty(f);
         }
 
-        private SettingAttribute GetSettingAttribute(PropertyInfo f)
+        private static SettingAttribute GetSettingAttribute(PropertyInfo f)
         {
             //return f.GetAttribute<SettingAttribute>(false);
             return settingAttributeVisitor.VisitProperty(f);
         }
 
-        private SubscribeAttribute GetSubscribeAttribute(MethodInfo m)
+        private static SubscribeAttribute GetSubscribeAttribute(MethodInfo m)
         {
             //return m.GetAttribute<SubscribeAttribute>(true);
             return subscribeAttributeVisitor.VisitMethod(m);
         }
 
-        private InjectAttribute GetInjectAttribute(MethodInfo m)
+        private static InjectAttribute GetInjectAttribute(MethodInfo m)
         {
             return injectAttributeVisitor.VisitMethod(m);
             //return m.GetAttribute<InjectAttribute>(false);
@@ -824,6 +834,18 @@ namespace NLite.Mini.Resolving
             }
         }
 
+        internal static ISubscribeInfoFactoryProvider[] InspectSubscribeMethods(Type subscreberType)
+        {
+            return subscreberType.GetMethods(MemberInspector.Flags | BindingFlags.Static)
+                .Where(m => !m.DeclaringType.IsSystemAssemblyOfType())
+                .Where(m => !m.IsSpecialName)
+                .Select(m=>new { Attribute = GetSubscribeAttribute(m),Method = m})
+                .Where (p =>p.Attribute != null)
+                .Select(p=> CreateSubscribeInfoFactoryProvider(p.Method,p.Attribute))
+                .ToArray()
+                ;
+        }
+
         public void InspectMethod(IComponentInfo ctx, IKernel kernel, MethodInfo m)
         {
             //var componentAttr = m.GetAttribute<ComponentAttribute>(true);
@@ -917,7 +939,7 @@ namespace NLite.Mini.Resolving
 
     class MemberInspector
     {
-        private const BindingFlags Flags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
+        internal const BindingFlags Flags = BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic;
         private const BindingFlags FieldFlags = BindingFlags.SetField | Flags;
         private const BindingFlags PropertyFlags = BindingFlags.SetProperty | Flags;
 

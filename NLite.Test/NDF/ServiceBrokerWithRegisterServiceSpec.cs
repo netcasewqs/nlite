@@ -17,7 +17,7 @@ namespace NLite.Domain.Spec
         protected override void Given()
         {
             var cfg = new Configuration();
-            cfg.Configure();
+            cfg.ConfigureMiniContainer();
 
             SubjectUnderTest = new ServiceDispatcherConfiguationItem(ServiceDispatcher.DefaultServiceDispatcherName);
             cfg.ConfigureServiceDispatcher(SubjectUnderTest);

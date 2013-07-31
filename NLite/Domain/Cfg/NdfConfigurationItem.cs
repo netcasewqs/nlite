@@ -23,7 +23,7 @@ namespace NLite.Domain.Cfg
         /// <summary>
         /// 服务元数据管理器
         /// </summary>
-        public ServiceDescriptorManager ServiceDescriptorManager { get; set; }
+        public IServiceDescriptorManager ServiceDescriptorManager { get; set; }
         /// <summary>
         /// 服务分发器工厂
         /// </summary>
@@ -66,7 +66,7 @@ namespace NLite.Domain.Cfg
         /// 安装服务分发器配置
         /// </summary>
         /// <param name="cfg"></param>
-        public void Attach(Configuration cfg)
+        void IExtension<Configuration>.Attach(Configuration cfg)
         {
             var kernel = ServiceLocator.Current as IKernel;
             Guard.NotNull(kernel, "kernel");
@@ -74,6 +74,11 @@ namespace NLite.Domain.Cfg
             ServiceDescriptorManager = new ServiceDescriptorManager(PopulateServiceName);
         }
 
+
+
+        /// <summary>
+        /// 
+        /// </summary>
         public void ConfigureMvc()
         {
             ListenManager.Register(new ControllerListener());

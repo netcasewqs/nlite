@@ -228,9 +228,6 @@
     <Compile Include="..\NLite\Domain\Listener\OperationFilterAttribute.cs">
       <Link>Domain\Listener\OperationFilterAttribute.cs</Link>
     </Compile>
-    <Compile Include="..\NLite\Domain\Listener\PageServiceListener.cs">
-      <Link>Domain\Listener\PageServiceListener.cs</Link>
-    </Compile>
     <Compile Include="..\NLite\Domain\Listener\ServiceDescriptorListener.cs">
       <Link>Domain\Listener\ServiceDescriptorListener.cs</Link>
     </Compile>
@@ -359,9 +356,6 @@
     </Compile>
     <Compile Include="..\NLite\EnumExtensions.cs">
       <Link>EnumExtensions.cs</Link>
-    </Compile>
-    <Compile Include="..\NLite\EnumTypeConverter.cs">
-      <Link>EnumTypeConverter.cs</Link>
     </Compile>
     <Compile Include="..\NLite\ExceptionService.cs">
       <Link>ExceptionService.cs</Link>

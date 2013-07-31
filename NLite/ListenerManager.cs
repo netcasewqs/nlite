@@ -135,7 +135,13 @@ namespace NLite
             {
                 var dis = item as IDisposable;
                 if (dis != null)
-                    dis.Dispose();
+                {
+                    try
+                    {
+                        dis.Dispose();
+                    }
+                    finally { }
+                }
             }
 
             listeners.Clear();
