@@ -51,8 +51,9 @@ namespace NLite.Test.IoC
             Assert.IsTrue(ServiceRegistry.HasRegister<IPerson>());
 
             ServiceRegistry.Current.UnRegister(typeof(IPerson));
-            Assert.IsFalse(ServiceRegistry.HasRegister("person"));
+           
             Assert.IsFalse(ServiceRegistry.HasRegister<IPerson>());
+            Assert.IsTrue(ServiceRegistry.HasRegister("person"));
 
         }
 

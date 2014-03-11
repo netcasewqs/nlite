@@ -22,22 +22,24 @@ namespace NLite.Domain
 
         private IServiceDescriptorManager DescriptorManager;
         private IServiceDispatchListenerManager ListenManager;
-        private IServiceLocator ServiceLocator;
+        private Func<string, object> ServiceLocator;
 
-        /// <summary>
-        /// 构造服务分发器
-        /// </summary>
-        /// <param name="serviceDispatcherConfiguationItem">服务分发器配置节点</param>
-        public DefaultServiceDispatcher(IServiceDispatcherConfiguationItem serviceDispatcherConfiguationItem,IServiceLocator serviceLocator)
+        public DefaultServiceDispatcher(Func<string, object> serviceLocator, IServiceDispatchListenerManager listenManager, IServiceDescriptorManager descriptorManager)
         {
-            Guard.NotNull(serviceDispatcherConfiguationItem, "serviceDispatcherConfiguationItem");
-            Guard.NotNull(serviceDispatcherConfiguationItem.ServiceDescriptorManager, "serviceDispatcherConfiguationItem.ServiceDescriptorManager");
-            Guard.NotNull(serviceDispatcherConfiguationItem.ListenManager, "serviceDispatcherConfiguationItem.ListenManager");
             Guard.NotNull(serviceLocator, "serviceLocator");
+            Guard.NotNull(descriptorManager, "descriptorManager");
+            Guard.NotNull(listenManager, "listenManager");
 
             ServiceLocator = serviceLocator;
-            DescriptorManager = serviceDispatcherConfiguationItem.ServiceDescriptorManager;
-            ListenManager = serviceDispatcherConfiguationItem.ListenManager;
+            DescriptorManager = descriptorManager;
+            ListenManager = listenManager;
+        }
+
+        public DefaultServiceDispatcher(Func<string, object> serviceLocator)
+            : this(serviceLocator, 
+            new ServiceDispatchListenerManager(),
+            new DefaultServiceDescriptorManager(ServiceDispatcher.GetServiceNameByDefault))
+        {
         }
 
         private void OnAfterAction(IOperationExecutedContext ctx)
@@ -215,7 +217,7 @@ namespace NLite.Domain
             object service = null;
             try
             {
-                service = ServiceLocator.Get(serviceDesc.Id);
+                service = ServiceLocator(serviceDesc.Id);
             }
             catch (Exception ex)
             {

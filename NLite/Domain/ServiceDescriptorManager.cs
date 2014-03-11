@@ -38,9 +38,13 @@ namespace NLite.Domain
              TypeMap = new Dictionary<Type, IServiceDescriptor[]>();
          }
 
+         public DefaultServiceDescriptorManager() : this(ServiceDispatcher.GetServiceNameByDefault) { }
+
 
          public IServiceDescriptor[] Register(Type t)
          {
+             Guard.NotNull(t, "t");
+
              if (TypeMap.ContainsKey(t))
                  return EmptyServiceDescriptors;
 
@@ -86,6 +90,8 @@ namespace NLite.Domain
          /// <returns></returns>
          public IServiceDescriptor GetServiceDescriptor(string serviceName)
          {
+             Guard.NotNull(serviceName, "serviceName");
+
              IServiceDescriptor desc = null;
              Metadatas.TryGetValue(serviceName, out desc);
              return desc;
@@ -94,7 +100,15 @@ namespace NLite.Domain
          public IServiceDescriptor[] GetServiceDescriptors<T>()
          {
              var serviceType = typeof(T);
-             return TypeMap[serviceType];
+
+             IServiceDescriptor[] descriptors;
+
+             if (!TypeMap.TryGetValue(serviceType, out descriptors))
+             {
+                 descriptors = new IServiceDescriptor[0];
+             }
+
+             return descriptors;
          }
 
          public IEnumerable<IServiceDescriptor> ServiceDescriptors

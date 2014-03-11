@@ -203,37 +203,34 @@ namespace NLite.Collections
         /// <returns></returns>
         public bool TryGetPropertyValue(Type toType, string property, out object defaultValue)
         {
-            
+            if (!properties.TryGetValue(property, out defaultValue))
+                return false;
+
+            if (defaultValue == null)
+                return false;
+
+            var fromType = defaultValue.GetType();
+            if (fromType.Name == "RuntimeType")
+                return true;
+
+            if (fromType == Types.String)
+                defaultValue = StringFormatter.Format(defaultValue as string);
+            else if (fromType == PropertySet.SerializedValueType)
             {
-                if (!properties.TryGetValue(property, out defaultValue))
-                    return false;
-
-                if (defaultValue == null)
-                    return false;
-
-                var fromType = defaultValue.GetType();
-                if (fromType.Name == "RuntimeType")
-                    return true;
-
-                if (fromType == Types.String)
-                    defaultValue = StringFormatter.Format(defaultValue as string);
-                else if (fromType == PropertySet.SerializedValueType)
+                try
                 {
-                    try
-                    {
-                        defaultValue = ((SerializedValue)defaultValue).Deserialize(toType);
-                    }
-                    catch (Exception ex)
-                    {
-                        new Exception("Error loading property '" + property + "': " + ex.Message, ex);
-                    }
+                    defaultValue = ((SerializedValue)defaultValue).Deserialize(toType);
                 }
-
-                defaultValue = Mapper.Map(defaultValue, fromType, toType);
-                lock (properties)
-                    properties[property] = defaultValue;
-                return defaultValue != null;
+                catch (Exception ex)
+                {
+                    new Exception("Error loading property '" + property + "': " + ex.Message, ex);
+                }
             }
+
+            defaultValue = Mapper.Map(defaultValue, fromType, toType);
+            lock (properties)
+                properties[property] = defaultValue;
+            return defaultValue != null;
         }
 
         /// <summary>
@@ -246,7 +243,8 @@ namespace NLite.Collections
         public T Get<T>(string property, T defaultValue)
         {
             var o = (object)defaultValue;
-            TryGetPropertyValue(typeof(T), property, out o);
+            if (!TryGetPropertyValue(typeof(T), property, out o) || o == null)
+                return defaultValue;
             return (T)o;
         }
 

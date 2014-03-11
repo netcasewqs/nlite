@@ -16,7 +16,7 @@ namespace NLite.Mini.Listener
         /// </summary>
         protected override void Init()
         {
-            PropertyManager.Instance.FileChanged += new EventHandler(Instance_FileChanged);
+            //PropertyManager.Instance.FileChanged += new EventHandler(Instance_FileChanged);
             PropertyManager.Instance.Properties.PropertyChanged += new EventHandler<System.ComponentModel.PropertyChangedEventArgs>(Properties_PropertyChanged);
         }
 

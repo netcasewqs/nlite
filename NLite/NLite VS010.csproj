@@ -116,8 +116,7 @@
     <SignAssembly>true</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>
-    </AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>NLite.snk</AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
   <ItemGroup>
@@ -154,6 +153,18 @@
     <Compile Include="Cfg\MiniContainerConfigurationItem.cs" />
     <Compile Include="Collections\IDataContext.cs" />
     <Compile Include="CompoistionObject.cs" />
+    <Compile Include="Globalization\ILanguageChangedListner.cs" />
+    <Compile Include="Globalization\ILanguageManager.cs" />
+    <Compile Include="Globalization\IResourceItem.cs" />
+    <Compile Include="Globalization\IResourceLocator.cs" />
+    <Compile Include="Globalization\IResourceRegistry.cs" />
+    <Compile Include="Globalization\IResourceRepository.cs" />
+    <Compile Include="Globalization\ISupportGlobalization.cs" />
+    <Compile Include="Globalization\LanguageChangedLifecycleListner.cs" />
+    <Compile Include="Globalization\LanguageManager.cs" />
+    <Compile Include="Globalization\ResourceManager.cs" />
+    <Compile Include="Globalization\ResourceNotFoundException.cs" />
+    <Compile Include="Globalization\ResourceRepository.cs" />
     <Compile Include="IgnoreAttribute.cs" />
     <Compile Include="Data\DbCommandExtensions.cs" />
     <Compile Include="Data\DynamicRow.cs" />
@@ -297,8 +308,11 @@
     <Compile Include="Collections\CollectionExtensions.cs" />
     <Compile Include="Internal\Constance.cs" />
     <Compile Include="Internal\DebuggerEnumerableView.cs" />
+    <Compile Include="Internal\IconResourceManager.cs" />
+    <Compile Include="Internal\ImageResourceManager.cs" />
     <Compile Include="Internal\IQueue.cs" />
     <Compile Include="Internal\Key.cs" />
+    <Compile Include="Internal\StringResourceManager.cs" />
     <Compile Include="Internal\SyncList.cs" />
     <Compile Include="Internal\SyncQueue.cs" />
     <Compile Include="Internal\Tracker.cs" />
@@ -592,6 +606,7 @@
   <ItemGroup>
     <None Include="ClassDiagram1.cd" />
     <None Include="Domain\ClassDiagram1.cd" />
+    <None Include="NLite.snk" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Mini\Mini_Resources.resx">

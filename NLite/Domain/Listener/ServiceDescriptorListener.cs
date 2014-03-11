@@ -14,9 +14,9 @@ using NLite.Mini.Listener;
 namespace NLite.Domain.Listener
 {
 	 /// <summary>
-    /// 
+    /// 服务元数据组件监听器
     /// </summary>
-     class ServiceDescriptorComponentListener : ComponentListenerAdapter
+     public class ServiceDescriptorComponentListener : ComponentListenerAdapter
      {
          IServiceDescriptorManager ServiceDescriptorManager;
 
@@ -46,6 +46,8 @@ namespace NLite.Domain.Listener
                  {
                      //Kernel.UnRegister(info.Id);
                      LastService = t;
+
+                     //一个组件拥有多个Id
                      foreach (var item in rs)
                      {
                          if (!Kernel.HasRegister(item.Id))

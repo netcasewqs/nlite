@@ -263,10 +263,10 @@ namespace NLite.Mini
         /// <returns></returns>
         public IServiceRegistry RegisterInstance(string id, Type contract, object instance)
         {
-            Guard.NotNull(contract, "contract");
+            //Guard.NotNull(contract, "contract");
             Guard.NotNull(instance, "instance");
 
-            if (!contract.IsAssignableFrom(instance.GetType()))
+            if ( contract != null && !contract.IsAssignableFrom(instance.GetType()))
                 throw new ArgumentException("!contract.IsAssignableFrom(instance.GetType())");
 
             if (string.IsNullOrEmpty(id))
@@ -357,9 +357,14 @@ namespace NLite.Mini
             if (HasRegisterExcludeParent(contract))
             {
                 var pairs = TypeStores[contract];
+                TypeStores.Remove(contract);
+
                 var ids = (from item in IdStores.Keys
                            from p in pairs
-                           where IdStores[item].Component == p.Component
+                           from t in TypeStores.Values.SelectMany(c=>c)
+                           where t.Component != p.Component 
+                                && IdStores[item].Component == p.Component
+                                && t.Component == IdStores[item].Component
                            select item).ToArray();
 
                 if (ids.Length > 0)
@@ -369,7 +374,7 @@ namespace NLite.Mini
                 foreach (var pair in pairs)
                 {
                     pair.Component.ExtendedProperties.Clear();
-                    TypeStores.Remove(contract);
+                   
                     pair.LifestyleManager.Dispose();
                 }
             }

@@ -3,6 +3,7 @@
 using System;
 using System.Reflection;
 using System.Runtime.InteropServices;
+using System.Security;
 
 #endregion
 
@@ -29,3 +30,8 @@ using System.Runtime.InteropServices;
 // You can specify all the values or you can use the default the Revision and 
 // Build Numbers by using the '*' as shown below:
 [assembly: AssemblyVersion("0.9.7")]
+
+#if SDK4
+//[assembly: AllowPartiallyTrustedCallers]//选择低信任级别调用者
+//[assembly: SecurityCritical]   //选择透明性，但某些代码为关键代码
+#endif

@@ -47,8 +47,8 @@ namespace NLite.Domain.Cfg
 
             PopulateServiceName = populateServiceName;
             Name = serviceDispatcherName;
-            ListenManager = new ServiceDispatchListenerManager();
-            ServiceDispatcherCreator = ()=>new DefaultServiceDispatcher(this,ServiceLocator.Current);
+           
+            ServiceDispatcherCreator = ()=>new DefaultServiceDispatcher((string id)=>ServiceLocator.Current.Get(id),ListenManager,ServiceDescriptorManager);
           
         }
 
@@ -70,8 +70,17 @@ namespace NLite.Domain.Cfg
         {
             var kernel = ServiceLocator.Current as IKernel;
             Guard.NotNull(kernel, "kernel");
+          
+            ServiceDescriptorManager = new DefaultServiceDescriptorManager(PopulateServiceName);
+            ListenManager = new ServiceDispatchListenerManager();
+
+            var listner = new ServiceDescriptorComponentListener(ServiceDescriptorManager);
+
+         
+            kernel.RegisterInstance(ServiceDescriptorManager);
             kernel.Register(s => s.Bind<IServiceDispatcherConfiguationItem>(Name).Factory(() => this));
-            ServiceDescriptorManager = new ServiceDescriptorManager(PopulateServiceName);
+
+            kernel.ListenerManager.Register(listner);
         }
 
 
