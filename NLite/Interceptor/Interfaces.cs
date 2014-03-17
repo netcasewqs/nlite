@@ -157,6 +157,7 @@ namespace NLite.Interceptor
     /// <summary>
     /// 
     /// </summary>
+    [Obsolete]
     public sealed class InterceptorBroker:IInterceptor
     {
         private IInterceptorRepository Repository;
@@ -185,44 +186,58 @@ namespace NLite.Interceptor
 
         private static MethodInfo PopulateMethod(Type type,MethodInfo m)
         {
+            
             if (type.IsGenericType)
             {
                 var genericType = type.GetGenericTypeDefinition();
-                var typeArgs = type.GetGenericArguments();
-                var genericArgs = genericType.GetGenericArguments();
-                var dic = new Dictionary<Type, Type>();
-                for (int i = 0; i < typeArgs.Length; i++)
-                    dic[typeArgs[i]] = genericArgs[i];
-
-                //var genericMethodArgs = m.GetGenericArguments();
-                var tmpM = m.IsGenericMethod ?  m.GetGenericMethodDefinition() : m;
-
-                var args = new List<Type>();
-                foreach (var p in tmpM.GetParameters())
+               
+                foreach (var method in genericType.GetMethods())
                 {
-                    if (p.ParameterType.IsGenericParameter)
-                        args.Add(p.ParameterType);
-                    else
+                    if (method.IsPublic && method.Name == m.Name)
                     {
-                        if (dic.ContainsKey(p.ParameterType))
-                            args.Add(dic[p.ParameterType]);
-                        else
-                            args.Add(p.ParameterType);
+                        var args = m.GetParameters();
+                        var args2 = method.GetParameters();
+
+                        if (args.Length == args2.Length)
+                        {
+                            bool matched = true;
+                            for (var i = 0; i < args2.Length; i++)
+                            {
+                                if (args[i].Name != args2[i].Name )
+                                {
+                                    matched = false;
+                                }
+
+                                if (args[i].IsOut != args2[i].IsOut)
+                                {
+                                    matched = false;
+                                }
+
+                                if (args[i].IsIn != args2[i].IsIn)
+                                {
+                                    matched = false;
+                                }
+                                if (args[i].IsOptional != args2[i].IsOptional)
+                                {
+                                    matched = false;
+                                }
+
+                                if (args[i].IsRetval != args2[i].IsRetval)
+                                {
+                                    matched = false;
+                                }
+
+                            }
+
+                            if (matched)
+                                return method;
+                        }
                     }
                 }
 
-                //var genericMethodArgs = tmpM.GetParameters().Select(p => p.ParameterType.IsGenericParameter
-                //    ? p.ParameterType.GetGenericTypeDefinition()
-                //    : dic.ContainsKey(p.ParameterType) ?
-                //        dic[p.ParameterType]
-                //        : p.ParameterType).ToArray();
-
-                var m2 = genericType.GetMethod(m.Name, args.ToArray());
-
-                if (m2 != null)
-                    return m2;
-                else if (m.IsGenericMethod)
+                if (m.IsGenericMethod)
                     return m.GetGenericMethodDefinition();
+               
                 return m;
             }
             else if (m.IsGenericMethod)
@@ -356,8 +371,13 @@ namespace NLite.Interceptor
                 throw new ArgumentNullException("method");
 
             ICollection<IInterceptor> interceptors;
-            if (!Cache.TryGetValue(method, out interceptors))
-                Cache[method.GetBaseDefinition()] = interceptors = new List<IInterceptor>();
+
+            lock (Cache)
+            {
+                if (!Cache.TryGetValue(method, out interceptors))
+                    Cache[method.GetBaseDefinition()] = interceptors = new List<IInterceptor>();
+            }
+
             return interceptors;
             //return Cache.GetOrAdd(method.GetBaseDefinition(), () => new List<IInterceptor>());
         }

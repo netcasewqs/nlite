@@ -44,15 +44,15 @@ namespace NLite.Interceptor.Metadata
     public enum AccessFlags
     {
         /// <summary>
-        /// 
+        /// 公共的
         /// </summary>
         Public = 1,
         /// <summary>
-        /// 
+        /// 受保护的
         /// </summary>
         Protected = 2,
         /// <summary>
-        /// 
+        /// 全部
         /// </summary>
         All = Public | Protected,
     }

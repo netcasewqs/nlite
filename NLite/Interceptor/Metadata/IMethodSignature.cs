@@ -45,7 +45,7 @@ namespace NLite.Interceptor.Metadata
     public static class MethodSignatureExtensions
     {
         /// <summary>
-        /// 
+        /// 全部参数
         /// </summary>
         /// <param name="signature"></param>
         /// <returns></returns>
@@ -55,7 +55,7 @@ namespace NLite.Interceptor.Metadata
         }
 
         /// <summary>
-        /// 
+        /// 全部方法
         /// </summary>
         /// <param name="signature"></param>
         /// <returns></returns>
@@ -65,7 +65,7 @@ namespace NLite.Interceptor.Metadata
         }
 
         /// <summary>
-        /// 
+        /// 全部访问权限
         /// </summary>
         /// <param name="signature"></param>
         /// <returns></returns>

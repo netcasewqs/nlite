@@ -29,7 +29,7 @@ using System.Security;
 //
 // You can specify all the values or you can use the default the Revision and 
 // Build Numbers by using the '*' as shown below:
-[assembly: AssemblyVersion("0.9.7")]
+[assembly: AssemblyVersion("0.9.8")]
 
 #if SDK4
 //[assembly: AllowPartiallyTrustedCallers]//选择低信任级别调用者

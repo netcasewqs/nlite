@@ -153,6 +153,26 @@
     <Compile Include="Cfg\MiniContainerConfigurationItem.cs" />
     <Compile Include="Collections\IDataContext.cs" />
     <Compile Include="CompoistionObject.cs" />
+    <Compile Include="Interceptor\InterceptorWrapper.cs" />
+    <Compile Include="Interceptor\InvocationWrapper.cs" />
+    <Compile Include="DynamicProxy\DefaultArgumentHandler.cs" />
+    <Compile Include="DynamicProxy\DefaultMethodEmitter.cs" />
+    <Compile Include="DynamicProxy\DefaultProxyMethodBuilder.cs" />
+    <Compile Include="DynamicProxy\Interfaces\IArgumentHandler.cs" />
+    <Compile Include="DynamicProxy\Interfaces\IInterceptor.cs" />
+    <Compile Include="DynamicProxy\Interfaces\IMethodBodyEmitter.cs" />
+    <Compile Include="DynamicProxy\Interfaces\IProxy.cs" />
+    <Compile Include="DynamicProxy\Interfaces\IProxyMethodBuilder.cs" />
+    <Compile Include="DynamicProxy\InvocationInfo.cs" />
+    <Compile Include="DynamicProxy\IProxyCache.cs" />
+    <Compile Include="DynamicProxy\ProxyCache.cs" />
+    <Compile Include="DynamicProxy\ProxyCacheEntry.cs" />
+    <Compile Include="DynamicProxy\ProxyDummy.cs" />
+    <Compile Include="DynamicProxy\ProxyFactory.cs" />
+    <Compile Include="DynamicProxy\ProxyImplementor.cs" />
+    <Compile Include="DynamicProxy\ProxyObjectReference.cs" />
+    <Compile Include="DynamicProxy\StindMap.cs" />
+    <Compile Include="DynamicProxy\TypeExtensions.cs" />
     <Compile Include="Globalization\ILanguageChangedListner.cs" />
     <Compile Include="Globalization\ILanguageManager.cs" />
     <Compile Include="Globalization\IResourceItem.cs" />
@@ -493,6 +513,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>Mini_Resources.resx</DependentUpon>
     </Compile>
+    <Compile Include="Mini\Proxy\EmitProxyFactory.cs" />
     <Compile Include="Mini\Proxy\IProxyFactory.cs" />
     <Compile Include="Mini\Proxy\RealProxyFactory.cs" />
     <Compile Include="Mini\RepeatRegistrationException.cs" />
@@ -533,6 +554,8 @@
     <Compile Include="Reflection\EmitHelper.cs" />
     <Compile Include="Reflection\Gac.cs" />
     <Compile Include="Reflection\Internal\InternalClasses.cs" />
+    <Compile Include="Reflection\IProxyInvocationHandler.cs" />
+    <Compile Include="Reflection\OpCodesMap.cs" />
     <Compile Include="Reflection\TypeHelper.cs" />
     <Compile Include="Result.cs" />
     <Compile Include="Security\Cryptographer.cs" />

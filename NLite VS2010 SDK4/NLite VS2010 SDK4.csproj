@@ -349,6 +349,60 @@
     <Compile Include="..\NLite\Domain\ServiceResponse.cs">
       <Link>Domain\ServiceResponse.cs</Link>
     </Compile>
+    <Compile Include="..\NLite\DynamicProxy\DefaultArgumentHandler.cs">
+      <Link>DynamicProxy\DefaultArgumentHandler.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\DynamicProxy\DefaultMethodEmitter.cs">
+      <Link>DynamicProxy\DefaultMethodEmitter.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\DynamicProxy\DefaultProxyMethodBuilder.cs">
+      <Link>DynamicProxy\DefaultProxyMethodBuilder.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\DynamicProxy\Interfaces\IArgumentHandler.cs">
+      <Link>DynamicProxy\Interfaces\IArgumentHandler.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\DynamicProxy\Interfaces\IInterceptor.cs">
+      <Link>DynamicProxy\Interfaces\IInterceptor.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\DynamicProxy\Interfaces\IMethodBodyEmitter.cs">
+      <Link>DynamicProxy\Interfaces\IMethodBodyEmitter.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\DynamicProxy\Interfaces\IProxy.cs">
+      <Link>DynamicProxy\Interfaces\IProxy.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\DynamicProxy\Interfaces\IProxyMethodBuilder.cs">
+      <Link>DynamicProxy\Interfaces\IProxyMethodBuilder.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\DynamicProxy\InvocationInfo.cs">
+      <Link>DynamicProxy\InvocationInfo.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\DynamicProxy\IProxyCache.cs">
+      <Link>DynamicProxy\IProxyCache.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\DynamicProxy\ProxyCache.cs">
+      <Link>DynamicProxy\ProxyCache.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\DynamicProxy\ProxyCacheEntry.cs">
+      <Link>DynamicProxy\ProxyCacheEntry.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\DynamicProxy\ProxyDummy.cs">
+      <Link>DynamicProxy\ProxyDummy.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\DynamicProxy\ProxyFactory.cs">
+      <Link>DynamicProxy\ProxyFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\DynamicProxy\ProxyImplementor.cs">
+      <Link>DynamicProxy\ProxyImplementor.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\DynamicProxy\ProxyObjectReference.cs">
+      <Link>DynamicProxy\ProxyObjectReference.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\DynamicProxy\StindMap.cs">
+      <Link>DynamicProxy\StindMap.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\DynamicProxy\TypeExtensions.cs">
+      <Link>DynamicProxy\TypeExtensions.cs</Link>
+    </Compile>
     <Compile Include="..\NLite\Dynamic\QueryModel.cs">
       <Link>Dynamic\QueryModel.cs</Link>
     </Compile>
@@ -394,8 +448,14 @@
     <Compile Include="..\NLite\Interceptor\Fluent\Aspect.cs">
       <Link>Interceptor\Fluent\Aspect.cs</Link>
     </Compile>
+    <Compile Include="..\NLite\Interceptor\InterceptorWrapper.cs">
+      <Link>Interceptor\InterceptorWrapper.cs</Link>
+    </Compile>
     <Compile Include="..\NLite\Interceptor\Interfaces.cs">
       <Link>Interceptor\Interfaces.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Interceptor\InvocationWrapper.cs">
+      <Link>Interceptor\InvocationWrapper.cs</Link>
     </Compile>
     <Compile Include="..\NLite\Interceptor\LoggerInterceptor.cs">
       <Link>Interceptor\LoggerInterceptor.cs</Link>
@@ -891,6 +951,9 @@
     </Compile>
     <Compile Include="..\NLite\Mini\Mini_Resources.Designer.cs">
       <Link>Mini\Mini_Resources.Designer.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Mini\Proxy\EmitProxyFactory.cs">
+      <Link>Mini\Proxy\EmitProxyFactory.cs</Link>
     </Compile>
     <Compile Include="..\NLite\Mini\Proxy\IProxyFactory.cs">
       <Link>Mini\Proxy\IProxyFactory.cs</Link>

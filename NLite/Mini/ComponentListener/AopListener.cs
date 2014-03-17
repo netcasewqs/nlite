@@ -5,6 +5,7 @@ using System.Reflection;
 using NLite.Interceptor;
 using NLite.Interceptor.Matcher;
 using NLite.Interceptor.Metadata;
+using NLite.Mini.Proxy;
 
 namespace NLite.Mini.Listener
 {
@@ -16,7 +17,6 @@ namespace NLite.Mini.Listener
         private IAspectRepository AspectRepository;
         private IAspectMatcher AspectMatcher;
         private IInterceptorRepository InterceptorRepository;
-
 
         /// <summary>
         /// 
@@ -30,12 +30,13 @@ namespace NLite.Mini.Listener
             Kernel.RegisterInstance(AspectMatcher);
             Kernel.RegisterInstance(InterceptorRepository);
             Kernel.RegisterInstance(AspectRepository);
+            Kernel.RegisterInstance(ProxyFactory.Default);
         }
 
         /// <summary>
         /// 在组件元数据注册后进行监听，如果符合代理条件的就在元数据的扩展属性里面添加一个"proxy"标记位
         /// </summary>
-        /// <param name="bindingInfo"></param>
+        /// <param name="info"></param>
         public override void OnMetadataRegistered(IComponentInfo info)
         {
             if (HasMatch(info))
@@ -99,8 +100,8 @@ namespace NLite.Mini.Listener
             foreach (var item in joinPoints)
                 RegisterInteceptors(item.Method, item.PointCuts, interceptorMap);
 
-            info.ExtendedProperties["interceptors"] = advices;
-            info.ExtendedProperties["methods"] = joinPoints.Select(p => p.Method).ToArray();
+            info.ExtendedProperties["interceptors"] = advices.Distinct().ToArray();
+            info.ExtendedProperties["methods"] = joinPoints.Select(p => p.Method).Distinct().ToArray();
 
             return true;
         }

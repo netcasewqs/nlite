@@ -17,7 +17,6 @@ namespace NLite.Test.IoC.Inteceptors
         {
             base.Init();
             kernel.ListenerManager.Register(new NLite.Mini.Listener.AopListener());
-            ServiceRegistry.Current.RegisterInstance(ProxyFactory.Default);
         }
 
 

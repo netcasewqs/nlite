@@ -16,7 +16,7 @@ namespace NLite.Reflection
         /// <param name="member">成员</param>
         /// <param name="inherit">是否集成</param>
         /// <returns>返回元数据</returns>
-        public static T GetAttribute<T>(this ICustomAttributeProvider member, bool inherit)
+        public static T GetAttribute<T>(this ICustomAttributeProvider member, bool inherit = false)
             where T : Attribute
         {
             Guard.NotNull(member, "member");
@@ -36,7 +36,7 @@ namespace NLite.Reflection
         /// <param name="member">成员</param>
         /// <param name="inherit">是否集成</param>
         /// <returns>返回成员元数据数组</returns>
-        public static T[] GetAttributes<T>(this ICustomAttributeProvider member, bool inherit)
+        public static T[] GetAttributes<T>(this ICustomAttributeProvider member, bool inherit = false)
             where T : Attribute
         {
             Guard.NotNull(member, "member");
@@ -52,7 +52,7 @@ namespace NLite.Reflection
         /// <param name="member">成员</param>
         /// <param name="inherit">是否继承</param>
         /// <returns></returns>
-        public static bool HasAttribute<T>(this ICustomAttributeProvider member, bool inherit)
+        public static bool HasAttribute<T>(this ICustomAttributeProvider member, bool inherit = false)
             where T : Attribute
         {
             Guard.NotNull(member, "member");

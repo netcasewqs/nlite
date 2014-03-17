@@ -28,7 +28,7 @@ namespace NLite.Domain.Spec
             }
         }
 
-        interface ICalculate
+        public interface ICalculate
         {
             int Add(int a, int b);
             int Sub(int a, int b);

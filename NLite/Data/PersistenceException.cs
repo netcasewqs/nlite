@@ -14,6 +14,14 @@ namespace NLite.Data
         public DatabaseException(string message, Exception innerException) : base(message, innerException) { }
     }
 
+     [Serializable]
+    public class ConnectionException : DatabaseException
+    {
+        public ConnectionException() { }
+        public ConnectionException(string message) : base(message) { }
+        public ConnectionException(string message, Exception innerException) : base(message, innerException) { }
+    }
+
     [Serializable]
     public class PersistenceException : DatabaseException
     {

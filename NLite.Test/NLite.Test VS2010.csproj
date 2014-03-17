@@ -97,8 +97,14 @@
     <Compile Include="IoC\ExceptionTest.cs" />
     <Compile Include="IoC\FieldInjectionTest.cs" />
     <Compile Include="IoC\InitializableComponentTest.cs" />
+    <Compile Include="IoC\Inteceptors\Contract\IBusinessList.cs" />
+    <Compile Include="IoC\Inteceptors\Contract\ReflectCriteria.cs" />
+    <Compile Include="IoC\Inteceptors\Core\BusinessListProxy.cs" />
+    <Compile Include="IoC\Inteceptors\Core\System\Button.cs" />
+    <Compile Include="IoC\Inteceptors\Core\System\ButtonList.cs" />
     <Compile Include="IoC\Inteceptors\GenericProxyTest.cs" />
     <Compile Include="IoC\Inteceptors\RemotingProxy\InterfaceProxyTest.cs" />
+    <Compile Include="IoC\Inteceptors\ServiceTest.cs" />
     <Compile Include="IoC\Inteceptors\SimpleTest.cs" />
     <Compile Include="IoC\LazyInjectionTest.cs" />
     <Compile Include="IoC\LifestyleManagerFactoryTest.cs" />
