@@ -6,6 +6,8 @@ using NLite.Interceptor;
 using NLite.Interceptor.Matcher;
 using NLite.Interceptor.Metadata;
 using NLite.Mini.Proxy;
+using NLite.Reflection;
+using NLite.Interceptor.Internal;
 
 namespace NLite.Mini.Listener
 {
@@ -39,10 +41,67 @@ namespace NLite.Mini.Listener
         /// <param name="info"></param>
         public override void OnMetadataRegistered(IComponentInfo info)
         {
+            CheckAndRegisterAspect(info);
+
             if (HasMatch(info))
                 info.ExtendedProperties["proxy"] = true;
 
             base.OnMetadataRegistered(info);
+        }
+
+        private void CheckAndRegisterAspect(IComponentInfo info)
+        {
+            AspectInfo aspect = null;
+
+            var adviceTypes = info.Implementation.GetAttributes<InterceptorAttribute>(true).Select(p => p.InterceptorType).ToArray();
+            if (adviceTypes != null && adviceTypes.Length != 0)
+            {
+                aspect = new AspectInfo { TargetType = new SignleTargetTypeInfo { SingleType = info.Implementation } };
+
+                var pointCut = new PointCutInfo();
+
+                aspect.AddPointCut(pointCut);
+
+                pointCut.Signature = new MethodSignature
+                {
+                    Deep = 3,
+                };
+
+                pointCut.Advices = adviceTypes;
+            }
+
+            var pointCuts = (from m in info.Implementation.GetMethods().Where(m => m.IsPublic || m.IsFamily)
+                             let attrs = m.GetAttributes<InterceptorAttribute>(true)
+                             where attrs != null && attrs.Length > 0
+                             select new PointCutInfo
+                             {
+                                 Advices = attrs.Select(p => p.InterceptorType).ToArray(),
+                                 Signature = new MethodSignature
+                                 {
+                                     Method = m.Name,
+                                     ReturnType = m.ReturnType.FullName,
+                                     Flags = CutPointFlags.Method,
+                                     Access = AccessFlags.All,
+                                     Arguments = m.GetParameterTypes().Select(p => p.FullName).ToArray()
+                                 }
+                             }).ToArray();
+
+
+            if (pointCuts != null && pointCuts.Length > 0)
+            {
+                if (aspect == null)
+                    aspect = new AspectInfo();
+
+                foreach (var pointCut in pointCuts)
+                {
+                    aspect.AddPointCut(pointCut);
+                }
+            }
+
+            if (aspect != null)
+            {
+                AspectRepository.Register(aspect);
+            }
         }
 
 
@@ -74,10 +133,15 @@ namespace NLite.Mini.Listener
                                    from pointCut in pointCuts
                                    from type in pointCut.Advices
                                    select type).Distinct()
-                           select Activator.CreateInstance(item) as NLite.Interceptor.IInterceptor)
-                            .ToArray();
+                           select
+                           new 
+                           {
+                              Type =  item,
+                              Factory = new Func<IInterceptor>(()=>Activator.CreateInstance(item) as IInterceptor) ,
+                            })
+                            .ToDictionary(p=>p.Type,p=>p.Factory);
 
-            if (advices.Length == 0)
+            if (advices.Count == 0)
                 return false;
 
             var matcher = new JoinPointMatcher(pointCuts);
@@ -93,14 +157,11 @@ namespace NLite.Mini.Listener
             if (joinPoints.Length == 0)
                 return false;
 
-            var interceptorMap = new Dictionary<Type, NLite.Interceptor.IInterceptor>(advices.Length);
-            foreach (var item in advices)
-                interceptorMap[item.GetType()] = item;
 
             foreach (var item in joinPoints)
-                RegisterInteceptors(item.Method, item.PointCuts, interceptorMap);
+                RegisterInteceptors(item.Method, item.PointCuts, advices);
 
-            info.ExtendedProperties["interceptors"] = advices.Distinct().ToArray();
+            info.ExtendedProperties["interceptors"] = advices.Values.Distinct().ToArray();
             info.ExtendedProperties["methods"] = joinPoints.Select(p => p.Method).Distinct().ToArray();
 
             return true;
@@ -108,7 +169,7 @@ namespace NLite.Mini.Listener
 
         private void RegisterInteceptors(MethodInfo method
             , IEnumerable<ICutPointInfo> pointCuts
-            , Dictionary<Type, NLite.Interceptor.IInterceptor> interceptorMap)
+            , Dictionary<Type, Func<NLite.Interceptor.IInterceptor>> interceptorMap)
         {
             var temps = InterceptorRepository.Get(method);
 

@@ -25,17 +25,17 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
+    <DebugType>none</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>..\SDK4_Bin\</OutputPath>
     <DefineConstants>TRACE;SDK4</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <DocumentationFile>..\SDK4_Bin\NLite.XML</DocumentationFile>
-    <DebugSymbols>true</DebugSymbols>
+    <DebugSymbols>false</DebugSymbols>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>NLite.snk</AssemblyOriginatorKeyFile>
@@ -367,9 +367,6 @@
     <Compile Include="..\NLite\DynamicProxy\Interfaces\IMethodBodyEmitter.cs">
       <Link>DynamicProxy\Interfaces\IMethodBodyEmitter.cs</Link>
     </Compile>
-    <Compile Include="..\NLite\DynamicProxy\Interfaces\IProxy.cs">
-      <Link>DynamicProxy\Interfaces\IProxy.cs</Link>
-    </Compile>
     <Compile Include="..\NLite\DynamicProxy\Interfaces\IProxyMethodBuilder.cs">
       <Link>DynamicProxy\Interfaces\IProxyMethodBuilder.cs</Link>
     </Compile>
@@ -390,9 +387,6 @@
     </Compile>
     <Compile Include="..\NLite\DynamicProxy\ProxyFactory.cs">
       <Link>DynamicProxy\ProxyFactory.cs</Link>
-    </Compile>
-    <Compile Include="..\NLite\DynamicProxy\ProxyImplementor.cs">
-      <Link>DynamicProxy\ProxyImplementor.cs</Link>
     </Compile>
     <Compile Include="..\NLite\DynamicProxy\ProxyObjectReference.cs">
       <Link>DynamicProxy\ProxyObjectReference.cs</Link>
@@ -786,6 +780,9 @@
     </Compile>
     <Compile Include="..\NLite\Mini\Attributes\InjectManyAttribute.cs">
       <Link>Mini\Attributes\InjectManyAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Mini\Attributes\InterceptorAttribute.cs">
+      <Link>Mini\Attributes\InterceptorAttribute.cs</Link>
     </Compile>
     <Compile Include="..\NLite\Mini\Attributes\ResourceAttribute.cs">
       <Link>Mini\Attributes\ResourceAttribute.cs</Link>

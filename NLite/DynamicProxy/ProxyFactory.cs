@@ -30,15 +30,13 @@ namespace NLite.DynamicProxy
         /// <param name="interceptor"></param>
         /// <param name="baseInterfaces"></param>
         /// <returns></returns>
-        public static object CreateProxy(Type instanceType, IInterceptor interceptor, params Type[] baseInterfaces)
+        public static object CreateProxy(Type instanceType, IInvocationHandler interceptor, params Type[] baseInterfaces)
         {
             instanceType = CheckArguments(instanceType, baseInterfaces);
 
             Type proxyType = CreateProxyType(instanceType, baseInterfaces);
-            object result = Activator.CreateInstance(proxyType);
-            IProxy proxy = (IProxy)result;
-            proxy.Interceptor = interceptor;
-
+            object result = Activator.CreateInstance(proxyType,interceptor);
+         
             return result;
         }
 
@@ -68,7 +66,7 @@ namespace NLite.DynamicProxy
         /// <param name="interceptor"></param>
         /// <param name="baseInterfaces"></param>
         /// <returns></returns>
-        public  static T CreateProxy<T>(IInterceptor interceptor, params Type[] baseInterfaces)
+        public  static T CreateProxy<T>(IInvocationHandler interceptor, params Type[] baseInterfaces)
         {
             return (T)CreateProxy(typeof(T), interceptor, baseInterfaces);
         }
@@ -106,14 +104,13 @@ namespace NLite.DynamicProxy
             AssemblyBuilder assemblyBuilder = currentDomain.DefineDynamicAssembly(name, access);
 
 #if DEBUG          
-            ModuleBuilder moduleBuilder =
-                assemblyBuilder.DefineDynamicModule(moduleName, string.Format("{0}.mod", moduleName), true);
+            ModuleBuilder moduleBuilder = assemblyBuilder.DefineDynamicModule(moduleName, "generatedAssembly.dll");
 #else
             ModuleBuilder moduleBuilder = assemblyBuilder.DefineDynamicModule(moduleName);
 #endif
 
             TypeAttributes typeAttributes = TypeAttributes.AutoClass | TypeAttributes.Class |
-                                            TypeAttributes.Public | TypeAttributes.BeforeFieldInit;
+                                           /* TypeAttributes.Public | */TypeAttributes.BeforeFieldInit;
 
             List<Type> interfaceList = new List<Type>();
             if (baseInterfaces != null && baseInterfaces.Length > 0)
@@ -144,11 +141,10 @@ namespace NLite.DynamicProxy
             TypeBuilder typeBuilder =
                 moduleBuilder.DefineType(typeName, typeAttributes, parentType, interfaceList.ToArray());
 
-            ConstructorBuilder defaultConstructor = DefineConstructor(typeBuilder);
+            var interceptorField = typeBuilder.DefineField("__Handler", typeof(IInvocationHandler),
+                                           FieldAttributes.Private);
 
-            // Implement IProxy
-            ProxyImplementor implementor = new ProxyImplementor();
-            implementor.ImplementProxy(typeBuilder);
+            ConstructorBuilder defaultConstructor = DefineConstructor2(typeBuilder,interceptorField);
 
             MethodInfo[] methods = baseType.GetMethods(BindingFlags.Public | BindingFlags.Instance).Distinct().ToArray();
             var proxyList = new HashSet<MethodInfo>();
@@ -157,7 +153,7 @@ namespace NLite.DynamicProxy
 
             Debug.Assert(_proxyMethodBuilder != null, "ProxyMethodBuilder cannot be null");
 
-            FieldInfo interceptorField = implementor.InterceptorField;
+            //FieldInfo interceptorField = implementor.InterceptorField;
             foreach (MethodInfo method in proxyList)
             {
 
@@ -174,9 +170,10 @@ namespace NLite.DynamicProxy
             AddSerializationSupport(baseType, baseInterfaces, typeBuilder, interceptorField, defaultConstructor);
 #endif
             Type proxyType = typeBuilder.CreateType();
-
+           
 #if DEBUG
             assemblyBuilder.Save("generatedAssembly.dll");
+          
 #endif
             return proxyType;
         }
@@ -249,6 +246,31 @@ namespace NLite.DynamicProxy
 
             IL.Emit(OpCodes.Ldarg_0);
             IL.Emit(OpCodes.Call, baseConstructor);
+            IL.Emit(OpCodes.Ret);
+
+            return constructor;
+        }
+
+        private static ConstructorBuilder DefineConstructor2(TypeBuilder typeBuilder,FieldBuilder field)
+        {
+            MethodAttributes constructorAttributes = MethodAttributes.Public |
+                                                     MethodAttributes.HideBySig | MethodAttributes.SpecialName |
+                                                     MethodAttributes.RTSpecialName;
+
+            ConstructorBuilder constructor =
+                typeBuilder.DefineConstructor(constructorAttributes, CallingConventions.Standard, new Type[] { typeof(IInvocationHandler)});
+
+            ILGenerator IL = constructor.GetILGenerator();
+
+            constructor.SetImplementationFlags(MethodImplAttributes.IL | MethodImplAttributes.Managed);
+
+            IL.Emit(OpCodes.Ldarg_0);
+            IL.Emit(OpCodes.Call, baseConstructor);
+
+            IL.Emit(OpCodes.Ldarg_0);
+            IL.Emit(OpCodes.Ldarg_1);
+            IL.Emit(OpCodes.Stfld, field);
+
             IL.Emit(OpCodes.Ret);
 
             return constructor;
@@ -329,7 +351,7 @@ namespace NLite.DynamicProxy
 
 
 
-            IL.Emit(OpCodes.Ldtoken, typeof(IInterceptor));
+            IL.Emit(OpCodes.Ldtoken, typeof(IInvocationHandler));
             IL.Emit(OpCodes.Call, getTypeFromHandle);
             IL.Emit(OpCodes.Stloc, interceptorType);
 
@@ -342,7 +364,7 @@ namespace NLite.DynamicProxy
             IL.Emit(OpCodes.Ldstr, "__interceptor");
             IL.Emit(OpCodes.Ldloc, interceptorType);
             IL.Emit(OpCodes.Callvirt, getValue);
-            IL.Emit(OpCodes.Castclass, typeof(IInterceptor));
+            IL.Emit(OpCodes.Castclass, typeof(IInvocationHandler));
             IL.Emit(OpCodes.Stfld, interceptorField);
 
             IL.Emit(OpCodes.Ret);

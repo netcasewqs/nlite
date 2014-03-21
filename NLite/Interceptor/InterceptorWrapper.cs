@@ -7,11 +7,11 @@ using System.Reflection;
 
 namespace NLite.DynamicProxy
 {
-    class InterceptorWrapper : IInterceptor
+    class DefaultInvocationHandler : IInvocationHandler
     {
         private string[] methods;
         private object target;
-        public InterceptorWrapper(object target, string[] methods)
+        public DefaultInvocationHandler(object target, string[] methods)
         {
             this.target = target;
             this.methods  = methods;
@@ -36,7 +36,7 @@ namespace NLite.DynamicProxy
             }
 
 
-            return interceptors.ToArray();
+            return interceptors.Select(p=>p()).ToArray();
         }
 
         private static MethodInfo PopulateMethod(Type type, MethodInfo m)
@@ -100,7 +100,7 @@ namespace NLite.DynamicProxy
             return m;
         }
 
-        public object Intercept(NLite.DynamicProxy.InvocationInfo info)
+        public object Invoke(NLite.DynamicProxy.InvocationInfo info)
         {
             if (!methods.Contains(info.TargetMethod.Name))
             {

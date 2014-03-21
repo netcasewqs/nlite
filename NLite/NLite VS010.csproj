@@ -113,7 +113,7 @@
     <DefineConstants>TRACE;SDK35</DefineConstants>
   </PropertyGroup>
   <PropertyGroup>
-    <SignAssembly>true</SignAssembly>
+    <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
     <AssemblyOriginatorKeyFile>NLite.snk</AssemblyOriginatorKeyFile>
@@ -161,7 +161,6 @@
     <Compile Include="DynamicProxy\Interfaces\IArgumentHandler.cs" />
     <Compile Include="DynamicProxy\Interfaces\IInterceptor.cs" />
     <Compile Include="DynamicProxy\Interfaces\IMethodBodyEmitter.cs" />
-    <Compile Include="DynamicProxy\Interfaces\IProxy.cs" />
     <Compile Include="DynamicProxy\Interfaces\IProxyMethodBuilder.cs" />
     <Compile Include="DynamicProxy\InvocationInfo.cs" />
     <Compile Include="DynamicProxy\IProxyCache.cs" />
@@ -169,7 +168,6 @@
     <Compile Include="DynamicProxy\ProxyCacheEntry.cs" />
     <Compile Include="DynamicProxy\ProxyDummy.cs" />
     <Compile Include="DynamicProxy\ProxyFactory.cs" />
-    <Compile Include="DynamicProxy\ProxyImplementor.cs" />
     <Compile Include="DynamicProxy\ProxyObjectReference.cs" />
     <Compile Include="DynamicProxy\StindMap.cs" />
     <Compile Include="DynamicProxy\TypeExtensions.cs" />
@@ -438,6 +436,7 @@
     <Compile Include="Messaging\MessageReceivingEventArgs.cs" />
     <Compile Include="Messaging\MessageExceptionEventArgs.cs" />
     <Compile Include="Messaging\MessageSendingEventArgs.cs" />
+    <Compile Include="Mini\Attributes\InterceptorAttribute.cs" />
     <Compile Include="Mini\Attributes\ResourceAttribute.cs" />
     <Compile Include="Mini\Attributes\SettingAttribute.cs">
       <SubType>Code</SubType>

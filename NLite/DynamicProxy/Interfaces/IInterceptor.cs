@@ -1,7 +1,7 @@
 namespace NLite.DynamicProxy
 {
-    public interface IInterceptor
+    public interface IInvocationHandler
     {
-        object Intercept(InvocationInfo info);
+        object Invoke(InvocationInfo info);
     }
 }

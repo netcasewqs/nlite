@@ -5,6 +5,6 @@ namespace NLite.DynamicProxy
 {
     interface IProxyMethodBuilder
     {
-        void CreateProxiedMethod(FieldInfo field, MethodInfo method, TypeBuilder typeBuilder);
+        void CreateProxiedMethod(FieldInfo invocationHandlerField, MethodInfo method, TypeBuilder typeBuilder);
     }
 }

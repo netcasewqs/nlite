@@ -154,150 +154,150 @@ namespace NLite.Interceptor
    
 
 
-    /// <summary>
-    /// 
-    /// </summary>
-    [Obsolete]
-    public sealed class InterceptorBroker:IInterceptor
-    {
-        private IInterceptorRepository Repository;
+    ///// <summary>
+    ///// 
+    ///// </summary>
+    //[Obsolete]
+    //public sealed class InterceptorBroker:IInterceptor
+    //{
+    //    private IInterceptorRepository Repository;
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public InterceptorBroker()
-        {
-            Repository = ServiceLocator.Get<IInterceptorRepository>();
-        }
+    //    /// <summary>
+    //    /// 
+    //    /// </summary>
+    //    public InterceptorBroker()
+    //    {
+    //        Repository = ServiceLocator.Get<IInterceptorRepository>();
+    //    }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ctx"></param>
-        public void OnInvocationExecuting(IInvocationExecutingContext ctx)
-        {
-            var interceptors = GetInterceptors(ctx.Target.GetType(), ctx.Method);
-            if (interceptors.Length == 0)
-                return;
+    //    /// <summary>
+    //    /// 
+    //    /// </summary>
+    //    /// <param name="ctx"></param>
+    //    public void OnInvocationExecuting(IInvocationExecutingContext ctx)
+    //    {
+    //        var interceptors = GetInterceptors(ctx.Target.GetType(), ctx.Method);
+    //        if (interceptors.Length == 0)
+    //            return;
 
-            foreach (var interceptor in interceptors)
-                interceptor.OnInvocationExecuting(ctx);
-        }
+    //        foreach (var interceptor in interceptors)
+    //            interceptor.OnInvocationExecuting(ctx);
+    //    }
 
-        private static MethodInfo PopulateMethod(Type type,MethodInfo m)
-        {
+    //    private static MethodInfo PopulateMethod(Type type,MethodInfo m)
+    //    {
             
-            if (type.IsGenericType)
-            {
-                var genericType = type.GetGenericTypeDefinition();
+    //        if (type.IsGenericType)
+    //        {
+    //            var genericType = type.GetGenericTypeDefinition();
                
-                foreach (var method in genericType.GetMethods())
-                {
-                    if (method.IsPublic && method.Name == m.Name)
-                    {
-                        var args = m.GetParameters();
-                        var args2 = method.GetParameters();
+    //            foreach (var method in genericType.GetMethods())
+    //            {
+    //                if (method.IsPublic && method.Name == m.Name)
+    //                {
+    //                    var args = m.GetParameters();
+    //                    var args2 = method.GetParameters();
 
-                        if (args.Length == args2.Length)
-                        {
-                            bool matched = true;
-                            for (var i = 0; i < args2.Length; i++)
-                            {
-                                if (args[i].Name != args2[i].Name )
-                                {
-                                    matched = false;
-                                }
+    //                    if (args.Length == args2.Length)
+    //                    {
+    //                        bool matched = true;
+    //                        for (var i = 0; i < args2.Length; i++)
+    //                        {
+    //                            if (args[i].Name != args2[i].Name )
+    //                            {
+    //                                matched = false;
+    //                            }
 
-                                if (args[i].IsOut != args2[i].IsOut)
-                                {
-                                    matched = false;
-                                }
+    //                            if (args[i].IsOut != args2[i].IsOut)
+    //                            {
+    //                                matched = false;
+    //                            }
 
-                                if (args[i].IsIn != args2[i].IsIn)
-                                {
-                                    matched = false;
-                                }
-                                if (args[i].IsOptional != args2[i].IsOptional)
-                                {
-                                    matched = false;
-                                }
+    //                            if (args[i].IsIn != args2[i].IsIn)
+    //                            {
+    //                                matched = false;
+    //                            }
+    //                            if (args[i].IsOptional != args2[i].IsOptional)
+    //                            {
+    //                                matched = false;
+    //                            }
 
-                                if (args[i].IsRetval != args2[i].IsRetval)
-                                {
-                                    matched = false;
-                                }
+    //                            if (args[i].IsRetval != args2[i].IsRetval)
+    //                            {
+    //                                matched = false;
+    //                            }
 
-                            }
+    //                        }
 
-                            if (matched)
-                                return method;
-                        }
-                    }
-                }
+    //                        if (matched)
+    //                            return method;
+    //                    }
+    //                }
+    //            }
 
-                if (m.IsGenericMethod)
-                    return m.GetGenericMethodDefinition();
+    //            if (m.IsGenericMethod)
+    //                return m.GetGenericMethodDefinition();
                
-                return m;
-            }
-            else if (m.IsGenericMethod)
-                return m.GetGenericMethodDefinition();
-            return m;
-        }
+    //            return m;
+    //        }
+    //        else if (m.IsGenericMethod)
+    //            return m.GetGenericMethodDefinition();
+    //        return m;
+    //    }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ctx"></param>
-        public void OnInvocationExecuted(IInovacationExecutedContext ctx)
-        {
-            var interceptors = GetInterceptors(ctx.Target.GetType(), ctx.Method);
-            if (interceptors.Length == 0)
-                return;
-            foreach (var interceptor in interceptors)
-                interceptor.OnInvocationExecuted(ctx);
+    //    /// <summary>
+    //    /// 
+    //    /// </summary>
+    //    /// <param name="ctx"></param>
+    //    public void OnInvocationExecuted(IInovacationExecutedContext ctx)
+    //    {
+    //        var interceptors = GetInterceptors(ctx.Target.GetType(), ctx.Method);
+    //        if (interceptors.Length == 0)
+    //            return;
+    //        foreach (var interceptor in interceptors)
+    //            interceptor.OnInvocationExecuted(ctx);
 
-        }
+    //    }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ctx"></param>
-        public void OnException(IInvocationExceptionContext ctx)
-        {
-            var interceptors = GetInterceptors(ctx.Target.GetType(), ctx.Method);
-            if (interceptors.Length == 0)
-                return;
-            foreach (var interceptor in interceptors)
-            {
-                interceptor.OnException(ctx);
-                if (ctx.ExceptionHandled)
-                    break;
-            }
-        }
+    //    /// <summary>
+    //    /// 
+    //    /// </summary>
+    //    /// <param name="ctx"></param>
+    //    public void OnException(IInvocationExceptionContext ctx)
+    //    {
+    //        var interceptors = GetInterceptors(ctx.Target.GetType(), ctx.Method);
+    //        if (interceptors.Length == 0)
+    //            return;
+    //        foreach (var interceptor in interceptors)
+    //        {
+    //            interceptor.OnException(ctx);
+    //            if (ctx.ExceptionHandled)
+    //                break;
+    //        }
+    //    }
 
-        private IInterceptor[] GetInterceptors(Type type , MethodInfo methodInfo)
-        {
+    //    private IInterceptor[] GetInterceptors(Type type , MethodInfo methodInfo)
+    //    {
 
-            var interceptors = Repository.Get(methodInfo);
-            if (interceptors.Count == 0)
-            {
-                var method = PopulateMethod(type, methodInfo);
-                var tmp = Repository.Get(method);
-                foreach (var item in tmp)
-                    interceptors.Add(item);
+    //        var interceptors = Repository.Get(methodInfo);
+    //        if (interceptors.Count == 0)
+    //        {
+    //            var method = PopulateMethod(type, methodInfo);
+    //            var tmp = Repository.Get(method);
+    //            foreach (var item in tmp)
+    //                interceptors.Add(item);
 
-                method = PopulateMethod(method.DeclaringType, methodInfo);
-                tmp = Repository.Get(method);
-                foreach (var item in tmp)
-                    if (!interceptors.Contains(item))
-                        interceptors.Add(item);
-            }
+    //            method = PopulateMethod(method.DeclaringType, methodInfo);
+    //            tmp = Repository.Get(method);
+    //            foreach (var item in tmp)
+    //                if (!interceptors.Contains(item))
+    //                    interceptors.Add(item);
+    //        }
             
 
-            return interceptors.ToArray();
-        }
-    }
+    //        return interceptors.ToArray();
+    //    }
+    //}
 
     /// <summary>
     /// 切面工厂类
@@ -349,7 +349,7 @@ namespace NLite.Interceptor
         /// </summary>
         /// <param name="method"></param>
         /// <returns></returns>
-        ICollection<IInterceptor> Get(MethodInfo method);
+        ICollection<Func<IInterceptor>> Get(MethodInfo method);
     }
 
     
@@ -358,24 +358,24 @@ namespace NLite.Interceptor
     /// </summary>
     public class InterceptorRepository : IInterceptorRepository
     {
-        private IDictionary<MethodBase, ICollection<IInterceptor>> Cache = new Dictionary<MethodBase, ICollection<IInterceptor>>();
+        private IDictionary<MethodBase, ICollection<Func<IInterceptor>>> Cache = new Dictionary<MethodBase, ICollection<Func<IInterceptor>>>();
 
         /// <summary>
         /// 得到指定方法上的所有拦截器
         /// </summary>
         /// <param name="method"></param>
         /// <returns></returns>
-        public ICollection<IInterceptor> Get(MethodInfo method)
+        public ICollection<Func<IInterceptor>> Get(MethodInfo method)
         {
             if (method == null)
                 throw new ArgumentNullException("method");
 
-            ICollection<IInterceptor> interceptors;
+            ICollection<Func<IInterceptor>> interceptors;
 
             lock (Cache)
             {
                 if (!Cache.TryGetValue(method, out interceptors))
-                    Cache[method.GetBaseDefinition()] = interceptors = new List<IInterceptor>();
+                    Cache[method.GetBaseDefinition()] = interceptors = new List<Func<IInterceptor>>();
             }
 
             return interceptors;

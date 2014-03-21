@@ -11,7 +11,7 @@ namespace NLite.DynamicProxy
     class ProxyObjectReference : IObjectReference, ISerializable
     {
         private readonly Type _baseType;
-        private readonly IProxy _proxy;
+        private readonly object _proxy;
         protected ProxyObjectReference(SerializationInfo info, StreamingContext context)
         {
             // Deserialize the base type using its assembly qualified name
@@ -35,7 +35,7 @@ namespace NLite.DynamicProxy
 
             // Initialize the proxy with the deserialized data
             object[] args = new object[] { info, context };
-            _proxy = (IProxy)Activator.CreateInstance(proxyType, args);
+            _proxy = Activator.CreateInstance(proxyType, args);
         }
         #region IObjectReference Members
 

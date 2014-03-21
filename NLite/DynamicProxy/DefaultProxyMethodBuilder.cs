@@ -28,7 +28,7 @@ namespace NLite.DynamicProxy
 
         #region IProxyMethodBuilder Members
 
-        public void CreateProxiedMethod(FieldInfo field, MethodInfo method, TypeBuilder typeBuilder)
+        public void CreateProxiedMethod(FieldInfo invocationHandlerField, MethodInfo method, TypeBuilder typeBuilder)
         {
             ParameterInfo[] parameters = method.GetParameters();
               Type[] typeArgs = method.GetGenericArguments();
@@ -63,7 +63,7 @@ namespace NLite.DynamicProxy
             ILGenerator IL = methodBuilder.GetILGenerator();
 
             Debug.Assert(_emitter != null);
-            _emitter.EmitMethodBody(IL, method, field);
+            _emitter.EmitMethodBody(IL, method, invocationHandlerField);
         }
 
         #endregion

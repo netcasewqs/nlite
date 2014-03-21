@@ -50,9 +50,9 @@ namespace NLite.Mini.Proxy
                                 return m.Invoke(target, parameters);
                             var invocation = new InvocationInfo(target, method as MethodInfo, parameters);
                            
-                            var wrapper = new InterceptorWrapper(target, methods);
+                            var wrapper = new DefaultInvocationHandler(target, methods);
 
-                            return wrapper.Intercept(invocation);
+                            return wrapper.Invoke(invocation);
                         };
                     if (marshallableObj != null)
                         return new MarshallableDynamicProxyImpl(marshallableObj, onInvocation)

@@ -16,7 +16,7 @@ namespace NLite.DynamicProxy
             if (!type.IsClass)
                 return false;
 
-            BindingFlags flags = BindingFlags.Public | BindingFlags.Instance;
+            BindingFlags flags = /*BindingFlags.Public |*/ BindingFlags.Instance;
 
             // Search for any methods that cannot be proxied
             var matches = from m in type.GetMethods(flags)

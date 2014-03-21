@@ -6,6 +6,6 @@ namespace NLite.DynamicProxy
     interface IMethodBodyEmitter
     {
         void EmitMethodBody(ILGenerator IL, MethodInfo method,
-                            FieldInfo field);
+                            FieldInfo invocationHandlerField);
     }
 }

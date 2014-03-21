@@ -34,7 +34,7 @@ namespace NLite.Mini.Proxy
 
                 var baseType = contracts.FirstOrDefault();
                 var baseInterfaces = contracts.Where(i => i.IsInterface).ToArray();
-                var interceptor =  new InterceptorWrapper(instance, matchMethods);
+                var interceptor =  new DefaultInvocationHandler(instance, matchMethods);
 
                 var proxy = NLite.DynamicProxy.ProxyFactory.CreateProxy(baseType,
                    interceptor,

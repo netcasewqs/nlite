@@ -8,16 +8,16 @@ namespace NLite.DynamicProxy
 {
     internal class DefaultMethodEmitter : IMethodBodyEmitter
     {
-        private static MethodInfo getInterceptor = null;
+       // private static MethodInfo getInterceptor = null;
         
         private static MethodInfo getGenericMethodFromHandle = typeof(MethodBase).GetMethod("GetMethodFromHandle",
                     BindingFlags.Public | BindingFlags.Static, null, new Type[] { typeof(RuntimeMethodHandle), typeof(RuntimeTypeHandle) }, null);
 
         private static MethodInfo getMethodFromHandle = typeof(MethodBase).GetMethod("GetMethodFromHandle", new Type[] { typeof(RuntimeMethodHandle) });
         private static MethodInfo getTypeFromHandle = typeof (Type).GetMethod("GetTypeFromHandle");
-        private static MethodInfo handlerMethod = typeof (IInterceptor).GetMethod("Intercept");
+        private static MethodInfo handlerMethod = typeof(IInvocationHandler).GetMethod("Invoke");
         private static ConstructorInfo infoConstructor;
-        private static PropertyInfo interceptorProperty = typeof (IProxy).GetProperty("Interceptor");
+        //private static PropertyInfo interceptorProperty = typeof(IProxy).GetProperty("Handler");
 
         private static ConstructorInfo notImplementedConstructor =
             typeof (NotImplementedException).GetConstructor(new Type[0]);
@@ -27,7 +27,7 @@ namespace NLite.DynamicProxy
 
         static DefaultMethodEmitter()
         {
-            getInterceptor = interceptorProperty.GetGetMethod();
+            //getInterceptor = interceptorProperty.GetGetMethod();
             Type[] constructorTypes = new Type[]
                 {
                     typeof (object), typeof (MethodInfo),
@@ -47,7 +47,7 @@ namespace NLite.DynamicProxy
             _argumentHandler = argumentHandler;
         }
 
-        public void EmitMethodBody(ILGenerator IL, MethodInfo method, FieldInfo field)
+        public void EmitMethodBody(ILGenerator IL, MethodInfo method, FieldInfo invocationHandlerField)
         {
             bool isStatic = false;
 
@@ -57,7 +57,8 @@ namespace NLite.DynamicProxy
             IL.DeclareLocal(typeof (Type[]));
 
             IL.Emit(OpCodes.Ldarg_0);
-            IL.Emit(OpCodes.Callvirt, getInterceptor);
+            IL.Emit(OpCodes.Ldfld, invocationHandlerField);
+            //IL.Emit(OpCodes.Callvirt, getInterceptor);
 
             // if (interceptor == null)
             // 		throw new NullReferenceException();

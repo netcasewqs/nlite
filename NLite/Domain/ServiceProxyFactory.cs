@@ -13,7 +13,7 @@ namespace NLite.Domain
     /// </summary>
     public static class ServiceProxyFactory
     {
-        class ServiceProxyInterceptor:NLite.DynamicProxy.IInterceptor
+        class ServiceProxyInterceptor:NLite.DynamicProxy.IInvocationHandler
         {
             private Type InterfaceType;
             private string ServiceName;
@@ -31,7 +31,7 @@ namespace NLite.Domain
                     ServiceName = ServiceName.Substring(0, ServiceName.Length - 7).ToLower();
             }
 
-            public object Intercept(DynamicProxy.InvocationInfo info)
+            public object Invoke(DynamicProxy.InvocationInfo info)
             {
                 var method = info.TargetMethod;
 
