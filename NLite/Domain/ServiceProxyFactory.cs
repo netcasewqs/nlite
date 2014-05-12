@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Runtime.Remoting.Proxies;
 using System.Runtime.Remoting.Messaging;
-using NLite.DynamicProxy;
+using NLite.Reflection;
 
 namespace NLite.Domain
 {
@@ -13,33 +13,55 @@ namespace NLite.Domain
     /// </summary>
     public static class ServiceProxyFactory
     {
-        class ServiceProxyInterceptor:NLite.DynamicProxy.IInvocationHandler
+     
+        /// <summary>
+        /// 创建领域服务代理对象
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public static T Create<T>(string serviceDispatcherName = ServiceDispatcher.DefaultServiceDispatcherName)
         {
-            private Type InterfaceType;
+            var serviceType = typeof(T);
+            if (!serviceType.IsInterface)
+                throw new NotSupportedException("Not support class type,only support interface ");
+
+            if (serviceDispatcherName.IsNullOrEmpty())
+                serviceDispatcherName = ServiceDispatcher.DefaultServiceDispatcherName;
+
+            //return (T)new ServiceProxy(serviceDispatcherName, serviceType).GetTransparentProxy();
+
+            // proxy = ProxyFactory.CreateProxy<T>(new ServiceProxyInterceptor(serviceDispatcherName, serviceType), serviceType);
+
+            var proxy = Proxy.NewProxyInstance(serviceType, null, new ServiceProxyInvocationHandler(serviceDispatcherName, serviceType));
+           
+            return (T)proxy;
+        }
+
+        class ServiceProxyInvocationHandler : NLite.Reflection.IInvocationHandler
+        {
+             private Type InterfaceType;
             private string ServiceName;
             private const string ServiceNameSuffix = "service";
             private string ServiceDispatcherName;
 
-            public ServiceProxyInterceptor(string serviceDispatcherName, Type interfaceType)
+            public ServiceProxyInvocationHandler(string serviceDispatcherName, Type interfaceType)
             {
                 ServiceDispatcherName = serviceDispatcherName;
                 InterfaceType = interfaceType;
                 ServiceName = interfaceType.Name;
                 ServiceName = ServiceName.TrimStart('I', 'i');
-                
-                if(ServiceName.ToLower().EndsWith(ServiceNameSuffix))
+
+                if (ServiceName.ToLower().EndsWith(ServiceNameSuffix))
                     ServiceName = ServiceName.Substring(0, ServiceName.Length - 7).ToLower();
             }
 
-            public object Invoke(DynamicProxy.InvocationInfo info)
+            public object Invoke(object target, System.Reflection.MethodInfo method, object[] parameters)
             {
-                var method = info.TargetMethod;
-
-                var pararmeters = info.TargetMethod.GetParameters();
-                var argCount = info.Arguments.Length;
+                var arguments = method.GetParameters();
+                var argCount = arguments.Length;
                 var args = new DictionaryWrapper();
                 for (int i = 0; i < argCount; i++)
-                    args[pararmeters[i].Name] = info.Arguments[i];
+                    args[arguments[i].Name] = parameters[i];
 
 
                 var operationName = method.Name;
@@ -61,26 +83,6 @@ namespace NLite.Domain
             }
         }
 
-        /// <summary>
-        /// 创建领域服务代理对象
-        /// </summary>
-        /// <typeparam name="T"></typeparam>
-        /// <returns></returns>
-        public static T Create<T>(string serviceDispatcherName = ServiceDispatcher.DefaultServiceDispatcherName)
-        {
-            var serviceType = typeof(T);
-            if (!serviceType.IsInterface)
-                throw new NotSupportedException("Not support class type,only support interface ");
-
-            if (serviceDispatcherName.IsNullOrEmpty())
-                serviceDispatcherName = ServiceDispatcher.DefaultServiceDispatcherName;
-
-            //return (T)new ServiceProxy(serviceDispatcherName, serviceType).GetTransparentProxy();
-
-            var proxy = ProxyFactory.CreateProxy<T>(new ServiceProxyInterceptor(serviceDispatcherName, serviceType), serviceType);
-
-            return proxy;
-        }
 
         [Obsolete]
         class ServiceProxy : RealProxy

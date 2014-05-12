@@ -50,6 +50,8 @@ namespace NLite.Mini.Activation
 
             if (proxyFactory.RequiresTargetInstance(Kernel, context.Component))
                 instance = Real.Create(context);
+            else if (! typeof(DefaultActivator).IsAssignableFrom(Real.GetType()))
+                instance = Real.Create(context);
             else
                 args = GetConstructurArgs(context);
 
@@ -67,7 +69,7 @@ namespace NLite.Mini.Activation
 
         private object[] GetConstructurArgs(IComponentContext context)
         {
-           
+
             if (context.NamedArgs != null && context.NamedArgs.Count > 0)
                 return context.NamedArgs.Values.ToArray();
             if (context.Args != null && context.Args.Length > 0)
@@ -75,12 +77,19 @@ namespace NLite.Mini.Activation
 
             //const BindingFlags bindingFlags = BindingFlags.Instance | BindingFlags.Public;
             var impType = context.Component.Implementation;
-            var ctors = context.Component.ExtendedProperties[impType.FullName + ":ctorInjections"] as ConstructorInjection[];
-            if (ctors != null && ctors.Length > 0)
+
+            object o;
+
+            if (context.Component.ExtendedProperties.TryGetValue(impType.FullName + ":ctorInjections", out o))
             {
-                var validConstructorBinding = ctors.FirstOrDefault(p => p.IsMatch);
-                if (validConstructorBinding != null)
-                    return validConstructorBinding.Dependencies.Select(p => p.ValueProvider()).ToArray();
+                var ctors = o as ConstructorInjection[];
+
+                if (ctors != null && ctors.Length > 0)
+                {
+                    var validConstructorBinding = ctors.FirstOrDefault(p => p.IsMatch);
+                    if (validConstructorBinding != null)
+                        return validConstructorBinding.Dependencies.Select(p => p.ValueProvider()).ToArray();
+                }
             }
 
             return null;

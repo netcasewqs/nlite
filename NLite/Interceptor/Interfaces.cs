@@ -11,6 +11,10 @@ using NLite.Interceptor.Metadata;
 using NLite.Interceptor.Internal;
 using NLite.Mini.Context;
 using System.Collections;
+using NLite.Reflection.Dynamic.Internal;
+using NLite.Reflection.Dynamic.Internal.Emit;
+using NLite.Reflection;
+using NLite.Interceptor.Matcher;
 
 namespace NLite.Interceptor
 {
@@ -52,20 +56,11 @@ namespace NLite.Interceptor
     public interface IInterceptor
     {
         /// <summary>
-        /// 调用前拦截
+        /// 拦截
         /// </summary>
-        /// <param name="ctx"></param>
-        void OnInvocationExecuting(IInvocationExecutingContext ctx);
-        /// <summary>
-        /// 调用后拦截
-        /// </summary>
-        /// <param name="ctx"></param>
-        void OnInvocationExecuted(IInovacationExecutedContext ctx);
-        /// <summary>
-        /// 异常拦截
-        /// </summary>
-        /// <param name="ctx"></param>
-        void OnException(IInvocationExceptionContext ctx);
+        /// <param name="invocationContext">调用上下文</param>
+        /// <returns></returns>
+        object Intercept(IInvocationContext invocationContext);
     }
 
     /// <summary>
@@ -84,226 +79,404 @@ namespace NLite.Interceptor
         /// <summary>
         /// 方法参数
         /// </summary>
-        object[] Arguments { get; }
-    }
+        object[] Parameters { get; }
 
-    /// <summary>
-    /// 执行前调用上下文
-    /// </summary>
-    public interface IInvocationExecutingContext : IInvocationContext
-    {
-        
-    }
-
-    /// <summary>
-    /// 执行后调用上下文
-    /// </summary>
-    public interface IInovacationExecutedContext : IInvocationContext
-    {
         /// <summary>
-        /// 得到或设置返回结果
+        /// 处理
         /// </summary>
-        object Result { get; set; }
+        /// <returns></returns>
+        object Proceed();
     }
 
-    /// <summary>
-    /// 异常调用上下文
-    /// </summary>
-    public interface IInvocationExceptionContext : IInovacationExecutedContext
-    {
-       /// <summary>
-        /// 得到或设置异常
-        /// </summary>
-        Exception Exception { get; set; }
-        /// <summary>
-        /// 得到或设置一个值，用来指示是否已经处理了异常
-        /// </summary>
-        bool ExceptionHandled { get; set; }
-    }
 
-    /// <summary>
-    /// 缺省拦截器
-    /// </summary>
-    public class DefaultInterceptor : IInterceptor
+    [Serializable]
+    internal sealed class InvocationContext : IInvocationContext
     {
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ctx"></param>
-        public virtual void OnInvocationExecuting(IInvocationExecutingContext  ctx)
+        private readonly object _target;
+        private readonly MethodInfo _methodInfo;
+        private readonly object[] _parameters;
+        private readonly IInterceptor[] _interceptors;
+        private int _nextInterceptorIndex;
+
+      
+        public InvocationContext(object target, MethodInfo methodInfo, object[] parameters, IInterceptor[] interceptors)
         {
+            if (target == null)
+                throw new ArgumentNullException("target");
+
+            if (methodInfo == null)
+                throw new ArgumentNullException("methodInfo");
+
+            if (parameters == null)
+                throw new ArgumentNullException("parameters");
+
+            if (interceptors == null)
+                throw new ArgumentNullException("interceptors");
+
+            var staticInterceptor = new StaticTargetInterceptor(target);
+
+            var list = interceptors.ToList();
+            list.Add(staticInterceptor);
+
+            interceptors = list.ToArray();
+
+            _target = target;
+            _methodInfo = methodInfo;
+            _parameters = parameters;
+            _interceptors = interceptors;
+
+            _nextInterceptorIndex = 0;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ctx"></param>
-        public virtual void OnInvocationExecuted(IInovacationExecutedContext ctx)
+        [Serializable]
+        class StaticTargetInterceptor : IInterceptor
         {
+            private readonly object _target;
+
+            public StaticTargetInterceptor(object target)
+            {
+                if (target == null)
+                    throw new ArgumentNullException("target");
+
+                _target = target;
+            }
+
+            #region IInterceptor Members
+
+            /// <inheritdoc/>
+            public object Intercept(IInvocationContext invocationContext)
+            {
+                var methodInfo = invocationContext.Method;
+
+                return methodInfo.Invoke(_target, invocationContext.Parameters);
+            }
+
+            #endregion
+        }
+        private IInterceptor GetNextInterceptor()
+        {
+            if (_nextInterceptorIndex >= _interceptors.Length)
+                throw new InvalidOperationException(Resources.NoMoreInterceptorsInTheInterceptorChain);
+
+            return _interceptors[_nextInterceptorIndex++];
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ctx"></param>
-        public virtual void OnException(IInvocationExceptionContext ctx)
+        #region IInvocationContext Members
+
+        /// <inheritdoc/>
+        public object Target
         {
+            get { return _target; }
+        }
+
+        /// <inheritdoc/>
+        public MethodInfo Method
+        {
+            get { return _methodInfo; }
+        }
+
+        /// <inheritdoc/>
+        public object[] Parameters
+        {
+            get { return _parameters; }
+        }
+
+        /// <inheritdoc/>
+        public object Proceed()
+        {
+            var interceptor = GetNextInterceptor();
+
+            return interceptor.Intercept(this);
+        }
+
+        #endregion
+    }
+
+    public class InterceptorInvocationHandr : IInvocationHandler
+    {
+        public InterceptorInvocationHandr(Type declaringType, Type[] interfaceTypes)
+        {
+            Aspect.CheckAndRegisterAspectByInterceptorAttribute(declaringType);
+            Aspect.RegisterJointPoints(declaringType, interfaceTypes);
+        }
+
+        private InvocationHandler InnerHandler = new InvocationHandler();
+
+        public object Invoke(object target, MethodInfo method, params object[] parameters)
+        {
+           return InnerHandler.Invoke(target,method,parameters);
         }
     }
 
-   
+    class InvocationHandler : NLite.Reflection.IInvocationHandler
+    {
+        private NLite.Interceptor.IInterceptor[] GetInterceptors(Type type, MethodInfo methodInfo)
+        {
+            var interceptors = InterceptorRepository.Instance.Get(methodInfo);
+            if (interceptors.Count == 0)
+            {
+                var method = PopulateMethod(type,methodInfo);
+                var tmp = InterceptorRepository.Instance.Get(method);
+                foreach (var item in tmp)
+                    interceptors.Add(item);
+
+                method = PopulateMethod(method.DeclaringType, methodInfo);
+                tmp = InterceptorRepository.Instance.Get(method);
+                foreach (var item in tmp)
+                    if (!interceptors.Contains(item))
+                        interceptors.Add(item);
+            }
 
 
-    ///// <summary>
-    ///// 
-    ///// </summary>
-    //[Obsolete]
-    //public sealed class InterceptorBroker:IInterceptor
-    //{
-    //    private IInterceptorRepository Repository;
+            return interceptors.Select(p => p()).ToArray();
+        }
 
-    //    /// <summary>
-    //    /// 
-    //    /// </summary>
-    //    public InterceptorBroker()
-    //    {
-    //        Repository = ServiceLocator.Get<IInterceptorRepository>();
-    //    }
+        private static MethodInfo PopulateMethod(Type type, MethodInfo m)
+        {
 
-    //    /// <summary>
-    //    /// 
-    //    /// </summary>
-    //    /// <param name="ctx"></param>
-    //    public void OnInvocationExecuting(IInvocationExecutingContext ctx)
-    //    {
-    //        var interceptors = GetInterceptors(ctx.Target.GetType(), ctx.Method);
-    //        if (interceptors.Length == 0)
-    //            return;
+            if (type.IsGenericType)
+            {
+                var genericType = type.GetGenericTypeDefinition();
 
-    //        foreach (var interceptor in interceptors)
-    //            interceptor.OnInvocationExecuting(ctx);
-    //    }
+                foreach (var method in genericType.GetMethods())
+                {
+                    if (method.IsPublic && method.Name == m.Name)
+                    {
+                        var args = m.GetParameters();
+                        var args2 = method.GetParameters();
 
-    //    private static MethodInfo PopulateMethod(Type type,MethodInfo m)
-    //    {
-            
-    //        if (type.IsGenericType)
-    //        {
-    //            var genericType = type.GetGenericTypeDefinition();
-               
-    //            foreach (var method in genericType.GetMethods())
-    //            {
-    //                if (method.IsPublic && method.Name == m.Name)
-    //                {
-    //                    var args = m.GetParameters();
-    //                    var args2 = method.GetParameters();
+                        if (args.Length == args2.Length)
+                        {
+                            bool matched = true;
+                            for (var i = 0; i < args2.Length; i++)
+                            {
+                                if (args[i].Name != args2[i].Name)
+                                {
+                                    matched = false;
+                                }
 
-    //                    if (args.Length == args2.Length)
-    //                    {
-    //                        bool matched = true;
-    //                        for (var i = 0; i < args2.Length; i++)
-    //                        {
-    //                            if (args[i].Name != args2[i].Name )
-    //                            {
-    //                                matched = false;
-    //                            }
+                                if (args[i].IsOut != args2[i].IsOut)
+                                {
+                                    matched = false;
+                                }
 
-    //                            if (args[i].IsOut != args2[i].IsOut)
-    //                            {
-    //                                matched = false;
-    //                            }
+                                if (args[i].IsIn != args2[i].IsIn)
+                                {
+                                    matched = false;
+                                }
+                                if (args[i].IsOptional != args2[i].IsOptional)
+                                {
+                                    matched = false;
+                                }
 
-    //                            if (args[i].IsIn != args2[i].IsIn)
-    //                            {
-    //                                matched = false;
-    //                            }
-    //                            if (args[i].IsOptional != args2[i].IsOptional)
-    //                            {
-    //                                matched = false;
-    //                            }
+                                if (args[i].IsRetval != args2[i].IsRetval)
+                                {
+                                    matched = false;
+                                }
 
-    //                            if (args[i].IsRetval != args2[i].IsRetval)
-    //                            {
-    //                                matched = false;
-    //                            }
+                            }
 
-    //                        }
+                            if (matched)
+                                return method;
+                        }
+                    }
+                }
 
-    //                        if (matched)
-    //                            return method;
-    //                    }
-    //                }
-    //            }
+                if (m.IsGenericMethod)
+                    return m.GetGenericMethodDefinition();
 
-    //            if (m.IsGenericMethod)
-    //                return m.GetGenericMethodDefinition();
-               
-    //            return m;
-    //        }
-    //        else if (m.IsGenericMethod)
-    //            return m.GetGenericMethodDefinition();
-    //        return m;
-    //    }
+                return m;
+            }
+            else if (m.IsGenericMethod)
+                return m.GetGenericMethodDefinition();
+            return m;
+        }
 
-    //    /// <summary>
-    //    /// 
-    //    /// </summary>
-    //    /// <param name="ctx"></param>
-    //    public void OnInvocationExecuted(IInovacationExecutedContext ctx)
-    //    {
-    //        var interceptors = GetInterceptors(ctx.Target.GetType(), ctx.Method);
-    //        if (interceptors.Length == 0)
-    //            return;
-    //        foreach (var interceptor in interceptors)
-    //            interceptor.OnInvocationExecuted(ctx);
+        public object Invoke(object target, MethodInfo methodInfo, object[] parameters)
+        {
+            MethodInfoBase methodBase = methodInfo as MethodInfoBase;
+            var rawMethod = methodBase != null ? methodBase._methodInfo : methodInfo;
 
-    //    }
+            var interceptors = GetInterceptors(target.GetType(), rawMethod);
+            if (interceptors.Length == 0)
+            {
+                return methodInfo.Invoke(target, parameters);
+            }
 
-    //    /// <summary>
-    //    /// 
-    //    /// </summary>
-    //    /// <param name="ctx"></param>
-    //    public void OnException(IInvocationExceptionContext ctx)
-    //    {
-    //        var interceptors = GetInterceptors(ctx.Target.GetType(), ctx.Method);
-    //        if (interceptors.Length == 0)
-    //            return;
-    //        foreach (var interceptor in interceptors)
-    //        {
-    //            interceptor.OnException(ctx);
-    //            if (ctx.ExceptionHandled)
-    //                break;
-    //        }
-    //    }
+            var ctx = new InvocationContext(target, methodInfo, parameters, interceptors);
 
-    //    private IInterceptor[] GetInterceptors(Type type , MethodInfo methodInfo)
-    //    {
-
-    //        var interceptors = Repository.Get(methodInfo);
-    //        if (interceptors.Count == 0)
-    //        {
-    //            var method = PopulateMethod(type, methodInfo);
-    //            var tmp = Repository.Get(method);
-    //            foreach (var item in tmp)
-    //                interceptors.Add(item);
-
-    //            method = PopulateMethod(method.DeclaringType, methodInfo);
-    //            tmp = Repository.Get(method);
-    //            foreach (var item in tmp)
-    //                if (!interceptors.Contains(item))
-    //                    interceptors.Add(item);
-    //        }
-            
-
-    //        return interceptors.ToArray();
-    //    }
-    //}
-
+            return ctx.Proceed();
+        }
+    }
     /// <summary>
     /// 切面工厂类
     /// </summary>
     public static class Aspect
     {
+        private static AspectRepository aspectRepository = new AspectRepository();
+        private static IAspectMatcher aspectMatcher= new AspectMatcher();
+
+        private static readonly HashSet<Type> jointPointRegisterCheckTable = new HashSet<Type>();
+
+        internal static IAspectRepository AspectRepository
+        {
+            get { return aspectRepository; }
+
+        }
+
+        public static void Clear()
+        {
+            aspectRepository = new AspectRepository();
+            aspectMatcher = new AspectMatcher();
+
+            jointPointRegisterCheckTable.Clear();
+        }
+
+        internal static IAspectMatcher AspectMatcher { get { return aspectMatcher; } }
+
+        internal static void CheckAndRegisterAspectByInterceptorAttribute(Type type)
+        {
+            var aspect = Aspect.BuildAspectByInterceptorAttribute(type);
+
+            if (aspect != null)
+                Aspect.AspectRepository.Register(aspect);
+        }
+
+        /// <summary>
+        /// 得到类型对应的所有切点信息
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        internal static ICutPointInfo[] GetPointCuts(Type type)
+        {
+            if (Aspect.AspectRepository == null
+                || Aspect.AspectRepository.Aspects.Count() == 0
+                || Aspect.AspectMatcher == null)
+                return null;
+
+            //得到所有切面
+            var aspects = Aspect.AspectMatcher.Match(type, Aspect.AspectRepository.Aspects).ToArray();
+            if (aspects.Length == 0)
+                return null;
+
+            //得到所有切点
+            var pointCuts = (from aspect in aspects
+                             from pointCut in aspect.PointCuts
+                             select pointCut)
+                             .Distinct()
+                             .ToArray();
+            return pointCuts;
+        }
+
+
+
+        //得到所有的接入点
+        internal static IDictionary<MethodInfo,ICutPointInfo[]> GetJointPoints(Type type,Type[] contractTypes,ICutPointInfo[] pointCuts)
+        {
+            if (pointCuts == null || pointCuts.Length == 0)
+                return null;
+
+            var matcher = new JoinPointMatcher(pointCuts);
+
+            //得到所有的接入点
+            var joinPoints = (from method in type.GetMethods().Union(contractTypes.SelectMany(p => p.GetMethods()).Distinct())
+                              from pointCut in pointCuts
+                              let result = matcher.Match(type, method).ToArray()
+                              where result.Length > 0
+                              select new { Method = method, PointCuts = result })
+                         .ToDictionary(k=>k.Method, v=>v.PointCuts);
+
+            return joinPoints;
+        }
+
+        internal static IDictionary<Type, Func<IInterceptor>> GetAdvices(ICutPointInfo[] pointCuts)
+        {
+            //得到所有Advice
+            var advices = (from adviceType in
+                               (
+                                   from pointCut in pointCuts
+                                   from type in pointCut.Advices
+                                   select type).Distinct()
+                           select
+                           new
+                           {
+                               Type = adviceType,
+                               Factory = new Func<IInterceptor>(() => Activator.CreateInstance(adviceType) as IInterceptor),
+                           })
+                            .ToDictionary(p => p.Type, p => p.Factory);
+
+            return advices;
+
+        }
+
+        internal static void RegisterJointPoints(Type type, IDictionary<MethodInfo, ICutPointInfo[]> joinPoints, IDictionary<Type, Func<NLite.Interceptor.IInterceptor>> advices)
+        {
+            lock (jointPointRegisterCheckTable)
+            {
+                if (jointPointRegisterCheckTable.Contains(type))
+                    return;
+            }
+
+            if (joinPoints != null && joinPoints.Count > 0)
+            {
+                foreach (var item in joinPoints)
+                    RegisterJointPoint(item.Key, item.Value, advices);
+
+                lock (jointPointRegisterCheckTable)
+                {
+                    jointPointRegisterCheckTable.Add(type);
+                }
+            }
+        }
+
+        private static void RegisterJointPoint(MethodInfo method
+          , IEnumerable<ICutPointInfo> pointCuts
+          , IDictionary<Type, Func<NLite.Interceptor.IInterceptor>> interceptorMap)
+        {
+            var temps = InterceptorRepository.Instance.Get(method);
+
+            if (temps.Count > 0)
+                return;
+
+            foreach (var pointCut in pointCuts)
+                foreach (var advice in pointCut.Advices)
+                {
+                    var interceptor = interceptorMap[advice];
+                    if (interceptor != null)
+                        temps.Add(interceptor);
+                }
+        }
+
+        internal static void RegisterJointPoints(Type type, Type[] interfaceTypes)
+        {
+            lock (jointPointRegisterCheckTable)
+            {
+                if (jointPointRegisterCheckTable.Contains(type))
+                    return;
+            }
+
+            //得到所有切点
+            var pointCuts = Aspect.GetPointCuts(type);
+
+            if (pointCuts == null || pointCuts.Length == 0)
+                return;
+
+            //得到所有Advice
+            var advices = Aspect.GetAdvices(pointCuts);
+
+            if (advices.Count == 0)
+                return;
+
+            //得到所有的接入点
+            var joinPoints = Aspect.GetJointPoints(type, interfaceTypes, pointCuts);
+
+            if (joinPoints == null || joinPoints.Count == 0)
+                return;
+
+            Aspect.RegisterJointPoints(type,joinPoints, advices);
+        }
+
+
         /// <summary>
         /// 定义命名空间切面
         /// </summary>
@@ -312,7 +485,7 @@ namespace NLite.Interceptor
         public static INamespaceExpression FromNamespace(string @namespace)
         {
             var aspect = new NamespaceExpression(@namespace);
-            ServiceLocator.Get<IAspectRepository>().Register(aspect.ToAspect());
+            Aspect.AspectRepository.Register(aspect.ToAspect());
             return aspect;
         }
         /// <summary>
@@ -332,32 +505,100 @@ namespace NLite.Interceptor
         public static IAspectExpression For(Type componentType)
         {
             var aspect = new SingleTypeExpression(componentType);
-            ServiceLocator.Get<IAspectRepository>().Register(aspect.ToAspect());
+            Aspect.AspectRepository.Register(aspect.ToAspect());
             return aspect;
         }
+
+        private static AspectInfo BuildAspectByInterceptorAttribute(Type type)
+        {
+            AspectInfo aspect = null;
+
+            var adviceTypes = type
+                .GetAttributes<InterceptorAttribute>(true)
+                .Select(p => p.InterceptorType)
+                .Union(type.GetCustomAttributes(true)
+                .Where(p => typeof(IInterceptor).IsAssignableFrom(p.GetType()))
+                .Select(p=>p.GetType()))
+                .ToArray();
+
+            if (adviceTypes != null && adviceTypes.Length != 0)
+            {
+                aspect = new AspectInfo { TargetType = new SignleTargetTypeInfo { SingleType = type } };
+
+                var pointCut = new PointCutInfo();
+
+                aspect.AddPointCut(pointCut);
+
+                pointCut.Signature = new MethodSignature
+                {
+                    Deep = 3,
+                };
+
+                pointCut.Advices = adviceTypes;
+            }
+
+            var pointCuts = (from m in type.GetMethods().Where(m => m.IsPublic || m.IsFamily)
+                             let attrs = m.GetAttributes<InterceptorAttribute>(true)
+                             where attrs != null && attrs.Length > 0
+                             select new PointCutInfo
+                             {
+                                 Advices = attrs.Select(p => p.InterceptorType).ToArray(),
+                                 Signature = new MethodSignature
+                                 {
+                                     Method = m.Name,
+                                     ReturnType = m.ReturnType.FullName,
+                                     Flags = CutPointFlags.Method,
+                                     Access = AccessFlags.All,
+                                     Arguments = m.GetParameterTypes().Select(p => p.FullName).ToArray()
+                                 }
+                             })
+                             .Union(from m in type.GetMethods().Where(m => m.IsPublic || m.IsFamily)
+                                    let attrs = m.GetCustomAttributes(true).Where(p => typeof(IInterceptor).IsAssignableFrom(p.GetType())).ToArray()
+                                    where attrs != null && attrs.Length > 0
+                                    select new PointCutInfo
+                                    {
+                                        Advices = attrs.Select(p => p.GetType()).ToArray(),
+                                        Signature = new MethodSignature
+                                        {
+                                            Method = m.Name,
+                                            ReturnType = m.ReturnType.FullName,
+                                            Flags = CutPointFlags.Method,
+                                            Access = AccessFlags.All,
+                                            Arguments = m.GetParameterTypes().Select(p => p.FullName).ToArray()
+                                        }
+                                    })
+                             .ToArray();
+
+
+            if (pointCuts != null && pointCuts.Length > 0)
+            {
+                if (aspect == null)
+                    aspect = new AspectInfo();
+
+                foreach (var pointCut in pointCuts)
+                {
+                    aspect.AddPointCut(pointCut);
+                }
+            }
+
+            return aspect;
+        }
+
     }
 
 
-    /// <summary>
-    /// 拦截器仓储接口
-    /// </summary>
-    //[Contract]
-    public interface IInterceptorRepository
-    {
-        /// <summary>
-        /// 得到指定方法上的所有拦截器
-        /// </summary>
-        /// <param name="method"></param>
-        /// <returns></returns>
-        ICollection<Func<IInterceptor>> Get(MethodInfo method);
-    }
-
-    
     /// <summary>
     /// 拦截器仓储
     /// </summary>
-    public class InterceptorRepository : IInterceptorRepository
+    public sealed class InterceptorRepository 
     {
+        private InterceptorRepository() { }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public static readonly InterceptorRepository Instance = new InterceptorRepository();
+
         private IDictionary<MethodBase, ICollection<Func<IInterceptor>>> Cache = new Dictionary<MethodBase, ICollection<Func<IInterceptor>>>();
 
         /// <summary>
@@ -379,7 +620,6 @@ namespace NLite.Interceptor
             }
 
             return interceptors;
-            //return Cache.GetOrAdd(method.GetBaseDefinition(), () => new List<IInterceptor>());
         }
     }
 }

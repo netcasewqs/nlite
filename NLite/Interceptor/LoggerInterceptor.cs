@@ -9,7 +9,7 @@ namespace NLite.Interceptor
     /// <summary>
     /// 日志拦截器
     /// </summary>
-    public class LoggerInterceptor : DefaultInterceptor
+    public class LoggerInterceptor : IInterceptor
     {
         /// <summary>
         /// 
@@ -19,7 +19,7 @@ namespace NLite.Interceptor
         /// 
         /// </summary>
         /// <param name="ctx"></param>
-        public override void OnInvocationExecuting(IInvocationExecutingContext ctx)
+        private void OnInvocationExecuting(IInvocationContext ctx)
         {
             var method = ctx.Method;
             var logger = LogManager.GetLogger(method.DeclaringType.Name);
@@ -30,7 +30,7 @@ namespace NLite.Interceptor
             }
             else
             {
-                Type[] args = Type.GetTypeArray(ctx.Arguments);
+                Type[] args = Type.GetTypeArray(ctx.Parameters);
 
                 String argMessage = "(";
                 foreach (Type arg in args)
@@ -46,7 +46,7 @@ namespace NLite.Interceptor
         /// 
         /// </summary>
         /// <param name="ctx"></param>
-        public override void OnInvocationExecuted(IInovacationExecutedContext ctx)
+        private void OnInvocationExecuted(IInvocationContext ctx)
         {
             var method = ctx.Method;
             var logger = LogManager.GetLogger(method.DeclaringType.Name);
@@ -57,7 +57,7 @@ namespace NLite.Interceptor
             }
             else
             {
-                Type[] args = Type.GetTypeArray(ctx.Arguments);
+                Type[] args = Type.GetTypeArray(ctx.Parameters);
 
                 String argMessage = "(";
                 foreach (Type arg in args)
@@ -73,18 +73,18 @@ namespace NLite.Interceptor
         /// 
         /// </summary>
         /// <param name="ctx"></param>
-        public override void OnException(IInvocationExceptionContext ctx)
+        private void OnException(IInvocationContext ctx,Exception ex)
         {
             var method = ctx.Method;
             var logger = LogManager.GetLogger(method.DeclaringType.Name);
 
             if (method.IsSpecialName)
             {
-                Log(logger, "Invoke  property " + method.Name + " exception : " + ctx.Exception.Message);
+                Log(logger, "Invoke  property " + method.Name + " exception : " + ex.Message);
             }
             else
             {
-                Type[] args = Type.GetTypeArray(ctx.Arguments);
+                Type[] args = Type.GetTypeArray(ctx.Parameters);
 
                 String argMessage = "(";
                 foreach (Type arg in args)
@@ -93,10 +93,10 @@ namespace NLite.Interceptor
                 }
                 argMessage += ")";
 
-                Log(logger, "Invoke method " + method.Name + argMessage + " exception : " + ctx.Exception.Message);
+                Log(logger, "Invoke method " + method.Name + argMessage + " exception : " + ex.Message);
             }
 
-            logger.Error(ctx.Exception.Message, ctx.Exception);
+            logger.Error(ex.Message,ex);
         }
 
         private void Log(ILog logger, string message)
@@ -121,6 +121,24 @@ namespace NLite.Interceptor
             }
         }
 
+        public object Intercept(IInvocationContext invocationContext)
+        {
+            object result = null;
+            try
+            {
+                OnInvocationExecuting(invocationContext);
+                result = invocationContext.Proceed();
+            }
+            catch (Exception ex)
+            {
+                OnException(invocationContext, ex);
+            }
+            finally
+            {
+                OnInvocationExecuted(invocationContext);
+            }
 
+            return result;
+        }
     }
 }

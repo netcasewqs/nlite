@@ -116,7 +116,8 @@
     <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>NLite.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.Targets" />
   <ItemGroup>
@@ -153,57 +154,6 @@
     <Compile Include="Cfg\MiniContainerConfigurationItem.cs" />
     <Compile Include="Collections\IDataContext.cs" />
     <Compile Include="CompoistionObject.cs" />
-    <Compile Include="DynamicProxy\DefaultArgumentHandler.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="DynamicProxy\DefaultMethodEmitter.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="DynamicProxy\DefaultProxyMethodBuilder.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="DynamicProxy\Interfaces\IArgumentHandler.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="DynamicProxy\Interfaces\IInterceptor.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="DynamicProxy\Interfaces\IMethodBodyEmitter.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="DynamicProxy\Interfaces\IProxyMethodBuilder.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="DynamicProxy\InvocationInfo.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="DynamicProxy\IProxyCache.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="DynamicProxy\ProxyCache.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="DynamicProxy\ProxyCacheEntry.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="DynamicProxy\ProxyDummy.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="DynamicProxy\ProxyFactory.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="DynamicProxy\ProxyObjectReference.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="DynamicProxy\StindMap.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="DynamicProxy\TypeExtensions.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="Interceptor\InterceptionFilter.cs" />
-    <Compile Include="Interceptor\InterceptorWrapper.cs" />
-    <Compile Include="Interceptor\InvocationWrapper.cs" />
     <Compile Include="Globalization\ILanguageChangedListner.cs" />
     <Compile Include="Globalization\ILanguageManager.cs" />
     <Compile Include="Globalization\IResourceItem.cs" />
@@ -583,10 +533,52 @@
     <Compile Include="OverrideAttribute.cs" />
     <Compile Include="Reflection\ClassLoader.cs" />
     <Compile Include="Reflection\DynamicAssemblyManager.cs" />
+    <Compile Include="Reflection\Dynamic\IInterceptionFilter.cs" />
+    <Compile Include="Reflection\IInvocationHandler.cs" />
+    <Compile Include="Reflection\Dynamic\Internal\Caching\AnonymousDisposable.cs" />
+    <Compile Include="Reflection\Dynamic\Internal\Caching\Cache.cs" />
+    <Compile Include="Reflection\Dynamic\Internal\Caching\ConcurrentCache.cs" />
+    <Compile Include="Reflection\Dynamic\Internal\Caching\ICache.cs" />
+    <Compile Include="Reflection\Dynamic\Internal\Caching\LockOnWriteCache.cs" />
+    <Compile Include="Reflection\Dynamic\Internal\Caching\ReadWriteLock.cs" />
+    <Compile Include="Reflection\Dynamic\Internal\Definitions\ClassProxyDefinition.cs" />
+    <Compile Include="Reflection\Dynamic\Internal\Definitions\DelegateProxyDefinition.cs" />
+    <Compile Include="Reflection\Dynamic\Internal\Definitions\InterfaceProxyDefinition.cs" />
+    <Compile Include="Reflection\Dynamic\Internal\Definitions\IProxyDefinition.cs" />
+    <Compile Include="Reflection\Dynamic\Internal\Definitions\IProxyDefinitionVisitor.cs" />
+    <Compile Include="Reflection\Dynamic\Internal\Definitions\ProxyDefinitionBase.cs" />
+    <Compile Include="Reflection\Dynamic\Internal\Definitions\ProxyDefinitionVisitorExtensions.cs" />
+    <Compile Include="Reflection\Dynamic\Internal\Emit\ILGeneratorExtensions.cs" />
+    <Compile Include="Reflection\Dynamic\Internal\Emit\ITypeBuilder.cs" />
+    <Compile Include="Reflection\Dynamic\Internal\Emit\ITypeBuilderFactory.cs" />
+    <Compile Include="Reflection\Dynamic\Internal\Emit\ITypeFactory.cs" />
+    <Compile Include="Reflection\Dynamic\Internal\Emit\ITypeRepository.cs" />
+    <Compile Include="Reflection\Dynamic\Internal\Emit\MethodBuilderExtensions.cs" />
+    <Compile Include="Reflection\Dynamic\Internal\Emit\MethodInfoBase.cs" />
+    <Compile Include="Reflection\Dynamic\Internal\Emit\MethodInfoTypeFactory.cs" />
+    <Compile Include="Reflection\Dynamic\Internal\Emit\TypeBuilderExtensions.cs" />
+    <Compile Include="Reflection\Dynamic\Internal\Reflection\EventInfoExtensions.cs" />
+    <Compile Include="Reflection\Dynamic\Internal\Reflection\MemberToken.cs" />
+    <Compile Include="Reflection\Dynamic\Internal\Reflection\MethodBaseExtensions.cs" />
+    <Compile Include="Reflection\Dynamic\Internal\Reflection\MethodInfoExtensions.cs" />
+    <Compile Include="Reflection\Dynamic\Internal\Reflection\PropertyInfoExtensions.cs" />
+    <Compile Include="Reflection\Dynamic\Internal\Reflection\TypeExtensions.cs" />
+    <Compile Include="Reflection\Dynamic\Internal\Resources.Designer.cs" />
+    <Compile Include="Reflection\Dynamic\IProxyFactory.cs" />
+    <Compile Include="Reflection\Dynamic\IProxyTemplate.cs" />
+    <Compile Include="Reflection\Dynamic\NonInterceptedAttribute.cs" />
+    <Compile Include="Reflection\Dynamic\NonInterceptedInterceptionFilter.cs" />
+    <Compile Include="Reflection\Dynamic\ProxyFactory.cs" />
+    <Compile Include="Reflection\Dynamic\ProxyFactoryExtensions.cs" />
+    <Compile Include="Reflection\Dynamic\ProxyGenerator.cs" />
+    <Compile Include="Reflection\Dynamic\ProxyTemplate.cs" />
+    <Compile Include="Reflection\Dynamic\ProxyTemplateExtensions.cs" />
+    <Compile Include="Reflection\Dynamic\ProxyTypeBuilder.cs" />
+    <Compile Include="Reflection\Dynamic\ProxyTypeBuilderFactory.cs" />
     <Compile Include="Reflection\EmitHelper.cs" />
     <Compile Include="Reflection\Gac.cs" />
     <Compile Include="Reflection\Internal\InternalClasses.cs" />
-    <Compile Include="Reflection\IProxyInvocationHandler.cs" />
+    <Compile Include="Reflection\Proxy.cs" />
     <Compile Include="Reflection\OpCodesMap.cs" />
     <Compile Include="Reflection\TypeHelper.cs" />
     <Compile Include="Result.cs" />
@@ -661,13 +653,16 @@
   <ItemGroup>
     <None Include="ClassDiagram1.cd" />
     <None Include="Domain\ClassDiagram1.cd" />
-    <None Include="NLite.snk" />
+    <EmbeddedResource Include="Reflection\Dynamic\Internal\Dynamic.snk" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Mini\Mini_Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Mini_Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <EmbeddedResource Include="Reflection\Dynamic\Internal\Resources.resx" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Interceptor\Internal\" />
+  </ItemGroup>
 </Project>

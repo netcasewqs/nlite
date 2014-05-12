@@ -7,7 +7,7 @@ namespace NLite.Test.IoC.Core
     /// <summary>
     /// 业务集合代理
     /// </summary>
-    public sealed class BusinessListProxy<T, C> : IBusinessList<T, C>
+    public class BusinessListProxy<T, C> : IBusinessList<T, C>
     {
         #region 实现接口 IBusinessList<T, C>
 
@@ -16,7 +16,7 @@ namespace NLite.Test.IoC.Core
         /// </summary>
         /// <param name="criteria">查询标准 - 条件</param>
         /// <returns></returns>
-        public IEnumerable<C> Fetch(ReflectCriteria<T> criteria)
+        public virtual IEnumerable<C> Fetch(ReflectCriteria<T> criteria)
         {
             Console.WriteLine("执行......");
             return new List<C>();
@@ -26,7 +26,7 @@ namespace NLite.Test.IoC.Core
         /// 更新集合
         /// </summary>
         /// <param name="entity">业务实体</param>
-        public string Update(T entity)
+        public virtual string Update(T entity)
         {
             return "";
         }

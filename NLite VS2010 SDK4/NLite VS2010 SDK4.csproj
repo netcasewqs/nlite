@@ -38,7 +38,8 @@
     <SignAssembly>false</SignAssembly>
   </PropertyGroup>
   <PropertyGroup>
-    <AssemblyOriginatorKeyFile>NLite.snk</AssemblyOriginatorKeyFile>
+    <AssemblyOriginatorKeyFile>
+    </AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -349,54 +350,6 @@
     <Compile Include="..\NLite\Domain\ServiceResponse.cs">
       <Link>Domain\ServiceResponse.cs</Link>
     </Compile>
-    <Compile Include="..\NLite\DynamicProxy\DefaultArgumentHandler.cs">
-      <Link>DynamicProxy\DefaultArgumentHandler.cs</Link>
-    </Compile>
-    <Compile Include="..\NLite\DynamicProxy\DefaultMethodEmitter.cs">
-      <Link>DynamicProxy\DefaultMethodEmitter.cs</Link>
-    </Compile>
-    <Compile Include="..\NLite\DynamicProxy\DefaultProxyMethodBuilder.cs">
-      <Link>DynamicProxy\DefaultProxyMethodBuilder.cs</Link>
-    </Compile>
-    <Compile Include="..\NLite\DynamicProxy\Interfaces\IArgumentHandler.cs">
-      <Link>DynamicProxy\Interfaces\IArgumentHandler.cs</Link>
-    </Compile>
-    <Compile Include="..\NLite\DynamicProxy\Interfaces\IInterceptor.cs">
-      <Link>DynamicProxy\Interfaces\IInterceptor.cs</Link>
-    </Compile>
-    <Compile Include="..\NLite\DynamicProxy\Interfaces\IMethodBodyEmitter.cs">
-      <Link>DynamicProxy\Interfaces\IMethodBodyEmitter.cs</Link>
-    </Compile>
-    <Compile Include="..\NLite\DynamicProxy\Interfaces\IProxyMethodBuilder.cs">
-      <Link>DynamicProxy\Interfaces\IProxyMethodBuilder.cs</Link>
-    </Compile>
-    <Compile Include="..\NLite\DynamicProxy\InvocationInfo.cs">
-      <Link>DynamicProxy\InvocationInfo.cs</Link>
-    </Compile>
-    <Compile Include="..\NLite\DynamicProxy\IProxyCache.cs">
-      <Link>DynamicProxy\IProxyCache.cs</Link>
-    </Compile>
-    <Compile Include="..\NLite\DynamicProxy\ProxyCache.cs">
-      <Link>DynamicProxy\ProxyCache.cs</Link>
-    </Compile>
-    <Compile Include="..\NLite\DynamicProxy\ProxyCacheEntry.cs">
-      <Link>DynamicProxy\ProxyCacheEntry.cs</Link>
-    </Compile>
-    <Compile Include="..\NLite\DynamicProxy\ProxyDummy.cs">
-      <Link>DynamicProxy\ProxyDummy.cs</Link>
-    </Compile>
-    <Compile Include="..\NLite\DynamicProxy\ProxyFactory.cs">
-      <Link>DynamicProxy\ProxyFactory.cs</Link>
-    </Compile>
-    <Compile Include="..\NLite\DynamicProxy\ProxyObjectReference.cs">
-      <Link>DynamicProxy\ProxyObjectReference.cs</Link>
-    </Compile>
-    <Compile Include="..\NLite\DynamicProxy\StindMap.cs">
-      <Link>DynamicProxy\StindMap.cs</Link>
-    </Compile>
-    <Compile Include="..\NLite\DynamicProxy\TypeExtensions.cs">
-      <Link>DynamicProxy\TypeExtensions.cs</Link>
-    </Compile>
     <Compile Include="..\NLite\Dynamic\QueryModel.cs">
       <Link>Dynamic\QueryModel.cs</Link>
     </Compile>
@@ -414,6 +367,42 @@
     </Compile>
     <Compile Include="..\NLite\Extension.cs">
       <Link>Extension.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Globalization\ILanguageChangedListner.cs">
+      <Link>Globalization\ILanguageChangedListner.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Globalization\ILanguageManager.cs">
+      <Link>Globalization\ILanguageManager.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Globalization\IResourceItem.cs">
+      <Link>Globalization\IResourceItem.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Globalization\IResourceLocator.cs">
+      <Link>Globalization\IResourceLocator.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Globalization\IResourceRegistry.cs">
+      <Link>Globalization\IResourceRegistry.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Globalization\IResourceRepository.cs">
+      <Link>Globalization\IResourceRepository.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Globalization\ISupportGlobalization.cs">
+      <Link>Globalization\ISupportGlobalization.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Globalization\LanguageChangedLifecycleListner.cs">
+      <Link>Globalization\LanguageChangedLifecycleListner.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Globalization\LanguageManager.cs">
+      <Link>Globalization\LanguageManager.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Globalization\ResourceManager.cs">
+      <Link>Globalization\ResourceManager.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Globalization\ResourceNotFoundException.cs">
+      <Link>Globalization\ResourceNotFoundException.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Globalization\ResourceRepository.cs">
+      <Link>Globalization\ResourceRepository.cs</Link>
     </Compile>
     <Compile Include="..\NLite\ICommand.cs">
       <Link>ICommand.cs</Link>
@@ -442,14 +431,8 @@
     <Compile Include="..\NLite\Interceptor\Fluent\Aspect.cs">
       <Link>Interceptor\Fluent\Aspect.cs</Link>
     </Compile>
-    <Compile Include="..\NLite\Interceptor\InterceptorWrapper.cs">
-      <Link>Interceptor\InterceptorWrapper.cs</Link>
-    </Compile>
     <Compile Include="..\NLite\Interceptor\Interfaces.cs">
       <Link>Interceptor\Interfaces.cs</Link>
-    </Compile>
-    <Compile Include="..\NLite\Interceptor\InvocationWrapper.cs">
-      <Link>Interceptor\InvocationWrapper.cs</Link>
     </Compile>
     <Compile Include="..\NLite\Interceptor\LoggerInterceptor.cs">
       <Link>Interceptor\LoggerInterceptor.cs</Link>
@@ -493,6 +476,12 @@
     <Compile Include="..\NLite\Internal\HttpContextWrapper.cs">
       <Link>Internal\HttpContextWrapper.cs</Link>
     </Compile>
+    <Compile Include="..\NLite\Internal\IconResourceManager.cs">
+      <Link>Internal\IconResourceManager.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Internal\ImageResourceManager.cs">
+      <Link>Internal\ImageResourceManager.cs</Link>
+    </Compile>
     <Compile Include="..\NLite\Internal\Internal.cs">
       <Link>Internal\Internal.cs</Link>
     </Compile>
@@ -501,6 +490,9 @@
     </Compile>
     <Compile Include="..\NLite\Internal\Key.cs">
       <Link>Internal\Key.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Internal\StringResourceManager.cs">
+      <Link>Internal\StringResourceManager.cs</Link>
     </Compile>
     <Compile Include="..\NLite\Internal\SyncList.cs">
       <Link>Internal\SyncList.cs</Link>
@@ -1081,6 +1073,129 @@
     <Compile Include="..\NLite\Reflection\DynamicMethodFactoryProxy.cs">
       <Link>Reflection\DynamicMethodFactoryProxy.cs</Link>
     </Compile>
+    <Compile Include="..\NLite\Reflection\Dynamic\IInterceptionFilter.cs">
+      <Link>Reflection\Dynamic\IInterceptionFilter.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Reflection\Dynamic\Internal\Caching\AnonymousDisposable.cs">
+      <Link>Reflection\Dynamic\Internal\Caching\AnonymousDisposable.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Reflection\Dynamic\Internal\Caching\Cache.cs">
+      <Link>Reflection\Dynamic\Internal\Caching\Cache.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Reflection\Dynamic\Internal\Caching\ConcurrentCache.cs">
+      <Link>Reflection\Dynamic\Internal\Caching\ConcurrentCache.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Reflection\Dynamic\Internal\Caching\ICache.cs">
+      <Link>Reflection\Dynamic\Internal\Caching\ICache.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Reflection\Dynamic\Internal\Caching\LockOnWriteCache.cs">
+      <Link>Reflection\Dynamic\Internal\Caching\LockOnWriteCache.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Reflection\Dynamic\Internal\Caching\ReadWriteLock.cs">
+      <Link>Reflection\Dynamic\Internal\Caching\ReadWriteLock.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Reflection\Dynamic\Internal\Definitions\ClassProxyDefinition.cs">
+      <Link>Reflection\Dynamic\Internal\Definitions\ClassProxyDefinition.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Reflection\Dynamic\Internal\Definitions\DelegateProxyDefinition.cs">
+      <Link>Reflection\Dynamic\Internal\Definitions\DelegateProxyDefinition.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Reflection\Dynamic\Internal\Definitions\InterfaceProxyDefinition.cs">
+      <Link>Reflection\Dynamic\Internal\Definitions\InterfaceProxyDefinition.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Reflection\Dynamic\Internal\Definitions\IProxyDefinition.cs">
+      <Link>Reflection\Dynamic\Internal\Definitions\IProxyDefinition.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Reflection\Dynamic\Internal\Definitions\IProxyDefinitionVisitor.cs">
+      <Link>Reflection\Dynamic\Internal\Definitions\IProxyDefinitionVisitor.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Reflection\Dynamic\Internal\Definitions\ProxyDefinitionBase.cs">
+      <Link>Reflection\Dynamic\Internal\Definitions\ProxyDefinitionBase.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Reflection\Dynamic\Internal\Definitions\ProxyDefinitionVisitorExtensions.cs">
+      <Link>Reflection\Dynamic\Internal\Definitions\ProxyDefinitionVisitorExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Reflection\Dynamic\Internal\Emit\ILGeneratorExtensions.cs">
+      <Link>Reflection\Dynamic\Internal\Emit\ILGeneratorExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Reflection\Dynamic\Internal\Emit\ITypeBuilder.cs">
+      <Link>Reflection\Dynamic\Internal\Emit\ITypeBuilder.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Reflection\Dynamic\Internal\Emit\ITypeBuilderFactory.cs">
+      <Link>Reflection\Dynamic\Internal\Emit\ITypeBuilderFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Reflection\Dynamic\Internal\Emit\ITypeFactory.cs">
+      <Link>Reflection\Dynamic\Internal\Emit\ITypeFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Reflection\Dynamic\Internal\Emit\ITypeRepository.cs">
+      <Link>Reflection\Dynamic\Internal\Emit\ITypeRepository.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Reflection\Dynamic\Internal\Emit\MethodBuilderExtensions.cs">
+      <Link>Reflection\Dynamic\Internal\Emit\MethodBuilderExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Reflection\Dynamic\Internal\Emit\MethodInfoBase.cs">
+      <Link>Reflection\Dynamic\Internal\Emit\MethodInfoBase.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Reflection\Dynamic\Internal\Emit\MethodInfoTypeFactory.cs">
+      <Link>Reflection\Dynamic\Internal\Emit\MethodInfoTypeFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Reflection\Dynamic\Internal\Emit\TypeBuilderExtensions.cs">
+      <Link>Reflection\Dynamic\Internal\Emit\TypeBuilderExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Reflection\Dynamic\Internal\Reflection\EventInfoExtensions.cs">
+      <Link>Reflection\Dynamic\Internal\Reflection\EventInfoExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Reflection\Dynamic\Internal\Reflection\MemberToken.cs">
+      <Link>Reflection\Dynamic\Internal\Reflection\MemberToken.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Reflection\Dynamic\Internal\Reflection\MethodBaseExtensions.cs">
+      <Link>Reflection\Dynamic\Internal\Reflection\MethodBaseExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Reflection\Dynamic\Internal\Reflection\MethodInfoExtensions.cs">
+      <Link>Reflection\Dynamic\Internal\Reflection\MethodInfoExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Reflection\Dynamic\Internal\Reflection\PropertyInfoExtensions.cs">
+      <Link>Reflection\Dynamic\Internal\Reflection\PropertyInfoExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Reflection\Dynamic\Internal\Reflection\TypeExtensions.cs">
+      <Link>Reflection\Dynamic\Internal\Reflection\TypeExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Reflection\Dynamic\Internal\Resources.Designer.cs">
+      <Link>Reflection\Dynamic\Internal\Resources.Designer.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Reflection\Dynamic\IProxyFactory.cs">
+      <Link>Reflection\Dynamic\IProxyFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Reflection\Dynamic\IProxyTemplate.cs">
+      <Link>Reflection\Dynamic\IProxyTemplate.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Reflection\Dynamic\NonInterceptedAttribute.cs">
+      <Link>Reflection\Dynamic\NonInterceptedAttribute.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Reflection\Dynamic\NonInterceptedInterceptionFilter.cs">
+      <Link>Reflection\Dynamic\NonInterceptedInterceptionFilter.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Reflection\Dynamic\ProxyFactory.cs">
+      <Link>Reflection\Dynamic\ProxyFactory.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Reflection\Dynamic\ProxyFactoryExtensions.cs">
+      <Link>Reflection\Dynamic\ProxyFactoryExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Reflection\Dynamic\ProxyGenerator.cs">
+      <Link>Reflection\Dynamic\ProxyGenerator.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Reflection\Dynamic\ProxyTemplate.cs">
+      <Link>Reflection\Dynamic\ProxyTemplate.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Reflection\Dynamic\ProxyTemplateExtensions.cs">
+      <Link>Reflection\Dynamic\ProxyTemplateExtensions.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Reflection\Dynamic\ProxyTypeBuilder.cs">
+      <Link>Reflection\Dynamic\ProxyTypeBuilder.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Reflection\Dynamic\ProxyTypeBuilderFactory.cs">
+      <Link>Reflection\Dynamic\ProxyTypeBuilderFactory.cs</Link>
+    </Compile>
     <Compile Include="..\NLite\Reflection\EmitHelper.cs">
       <Link>Reflection\EmitHelper.cs</Link>
     </Compile>
@@ -1093,11 +1208,17 @@
     <Compile Include="..\NLite\Reflection\IDynamicMethodFactory.cs">
       <Link>Reflection\IDynamicMethodFactory.cs</Link>
     </Compile>
+    <Compile Include="..\NLite\Reflection\IInvocationHandler.cs">
+      <Link>Reflection\IInvocationHandler.cs</Link>
+    </Compile>
     <Compile Include="..\NLite\Reflection\Internal\InternalClasses.cs">
       <Link>Reflection\Internal\InternalClasses.cs</Link>
     </Compile>
     <Compile Include="..\NLite\Reflection\MethodHandler.cs">
       <Link>Reflection\MethodHandler.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Reflection\Proxy.cs">
+      <Link>Reflection\Proxy.cs</Link>
     </Compile>
     <Compile Include="..\NLite\Reflection\ReflectionServices.cs">
       <Link>Reflection\ReflectionServices.cs</Link>
@@ -1221,12 +1342,17 @@
     <EmbeddedResource Include="..\NLite\Mini\Mini_Resources.resx">
       <Link>Mini\Mini_Resources.resx</Link>
     </EmbeddedResource>
+    <EmbeddedResource Include="..\NLite\Reflection\Dynamic\Internal\Resources.resx">
+      <Link>Reflection\Dynamic\Internal\Resources.resx</Link>
+    </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Data\DynamicRow.MetaObjectProvider.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="NLite.snk" />
+    <None Include="..\NLite\Reflection\Dynamic\Internal\Dynamic.snk">
+      <Link>Reflection\Dynamic\Internal\Dynamic.snk</Link>
+    </None>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

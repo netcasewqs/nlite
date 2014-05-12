@@ -4,6 +4,7 @@ using System;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Security;
+using System.Runtime.CompilerServices;
 
 #endregion
 
@@ -30,6 +31,9 @@ using System.Security;
 // You can specify all the values or you can use the default the Revision and 
 // Build Numbers by using the '*' as shown below:
 [assembly: AssemblyVersion("0.9.8")]
+
+[assembly: InternalsVisibleTo("NLite.Test")]
+[assembly: InternalsVisibleTo("NLite.Reflection.Dynamic")]
 
 #if SDK4
 //[assembly: AllowPartiallyTrustedCallers]//选择低信任级别调用者
