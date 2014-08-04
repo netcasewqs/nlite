@@ -111,6 +111,8 @@
     <OutputPath>..\Bin\</OutputPath>
     <DocumentationFile>bin\Release\NLite.XML</DocumentationFile>
     <DefineConstants>TRACE;SDK35</DefineConstants>
+    <DebugType>pdbonly</DebugType>
+    <DebugSymbols>true</DebugSymbols>
   </PropertyGroup>
   <PropertyGroup>
     <SignAssembly>false</SignAssembly>

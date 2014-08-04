@@ -25,7 +25,7 @@ namespace NLite.Mini
     #endif
     public sealed class Kernel:BooleanDisposable, IKernel,ILazyServiceLocator
     {
-        readonly IDictionary<string, ComponentRegistration> IdStores;
+        internal readonly IDictionary<string, ComponentRegistration> IdStores;
         readonly IDictionary<Type, List<ComponentRegistration>> TypeStores;
         readonly IComponentListener Listner;
         IActivatorFactory ActivatorRegistry;
@@ -238,7 +238,7 @@ namespace NLite.Mini
             return activator;
         }
 
-        IComponentInfo CreateComponentInfo(string id, Type contract, Type implementation, string activator, LifestyleFlags lifestyleType)
+        internal static IComponentInfo CreateComponentInfo(string id, Type contract, Type implementation, string activator, LifestyleFlags lifestyleType)
         {
             var info = new ComponentInfo(id, contract, implementation, activator, lifestyleType);
             return info;

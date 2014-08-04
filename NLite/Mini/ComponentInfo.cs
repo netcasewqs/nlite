@@ -188,6 +188,8 @@ namespace NLite
         /// <param name="implementation"></param>
         public ComponentInfo(Type implementation) : this(null, implementation) { }
 
+        private ComponentInfo() { }
+
         
         /// <summary>
         /// 
@@ -250,5 +252,7 @@ namespace NLite
         {
             return Name.GetHashCode();
         }
+
+       
     }
 }

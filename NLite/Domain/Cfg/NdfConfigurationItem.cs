@@ -2,6 +2,7 @@
 using NLite.Cfg;
 using NLite.Domain.Listener;
 using NLite.Internal;
+using NLite.Mini;
 
 namespace NLite.Domain.Cfg
 {
@@ -34,6 +35,7 @@ namespace NLite.Domain.Cfg
         public string Name { get; private set; }
 
 
+        private Kernel kernel;
         /// <summary>
         /// 构造服务分发器
         /// </summary>
@@ -48,7 +50,7 @@ namespace NLite.Domain.Cfg
             PopulateServiceName = populateServiceName;
             Name = serviceDispatcherName;
            
-            ServiceDispatcherCreator = ()=>new DefaultServiceDispatcher((string id)=>ServiceLocator.Current.Get(id),ListenManager,ServiceDescriptorManager);
+            ServiceDispatcherCreator = ()=>new DefaultServiceDispatcher((string id)=>kernel.Get(id),ListenManager,ServiceDescriptorManager);
           
         }
 
@@ -68,19 +70,22 @@ namespace NLite.Domain.Cfg
         /// <param name="cfg"></param>
         void IExtension<Configuration>.Attach(Configuration cfg)
         {
-            var kernel = ServiceLocator.Current as IKernel;
-            Guard.NotNull(kernel, "kernel");
-          
+            var rootKernal = ServiceLocator.Current as IKernel;
+            Guard.NotNull(rootKernal, "rootKernal");
+
+            kernel = new Kernel();
+            kernel.Parent = rootKernal;
+
             ServiceDescriptorManager = new DefaultServiceDescriptorManager(PopulateServiceName);
             ListenManager = new ServiceDispatchListenerManager();
 
-            var listner = new ServiceDescriptorComponentListener(ServiceDescriptorManager);
+            var listner = new ServiceDescriptorComponentListener(kernel, ServiceDescriptorManager);
 
-         
-            kernel.RegisterInstance(ServiceDescriptorManager);
-            kernel.Register(s => s.Bind<IServiceDispatcherConfiguationItem>(Name).Factory(() => this));
 
-            kernel.ListenerManager.Register(listner);
+            rootKernal.RegisterInstance(ServiceDescriptorManager);
+            rootKernal.Register(s => s.Bind<IServiceDispatcherConfiguationItem>(Name).Factory(() => this));
+
+            rootKernal.ListenerManager.Register(listner);
         }
 
 

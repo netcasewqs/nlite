@@ -46,10 +46,13 @@ namespace NLite.Reflection
 
             SystemAssemblyNames = new HashSet<string>();
 
-            foreach (var a in GacCache.GetAssemblyStringNames())
+            if (!NLiteEnvironment.IsMono)
             {
-                if (!string.IsNullOrEmpty(keywords.FirstOrDefault(p => a.StartsWith(p))))
-                    SystemAssemblyNames.Add(a);
+                foreach (var a in GacCache.GetAssemblyStringNames())
+                {
+                    if (!string.IsNullOrEmpty(keywords.FirstOrDefault(p => a.StartsWith(p))))
+                        SystemAssemblyNames.Add(a);
+                }
             }
 
             keywords.Clear();
@@ -77,6 +80,9 @@ namespace NLite.Reflection
         /// <returns></returns>
         public static IEnumerable<AssemblyName> GetAssemblyNames()
         {
+            if (NLiteEnvironment.IsMono)
+                return Enumerable.Empty<AssemblyName>();
+
             return GacCache.GetAssemblyNames();
         }
 
@@ -95,7 +101,7 @@ namespace NLite.Reflection
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="binderType"></param>
+        /// <param name="type"></param>
         /// <returns></returns>
         public static bool IsSystemAssemblyOfType(this Type type)
         {

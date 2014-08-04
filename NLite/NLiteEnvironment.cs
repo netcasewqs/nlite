@@ -17,6 +17,7 @@ namespace NLite
     /// </summary>
     public static partial class NLiteEnvironment
     {
+        private static Lazy<bool> _isMono = new Lazy<bool>(() => Type.GetType("Mono.Runtime") != null);
         /// <summary>
         /// 得到当前操作系统的平台（Win32、Win64或其他） 
         /// </summary>
@@ -63,6 +64,17 @@ namespace NLite
             }
         }
 
+       
+        /// <summary>
+        /// 得到一个值用来指示是否是Mono环境
+        /// </summary>
+        public static bool IsMono
+        {
+            get
+            {
+                return _isMono.Value;
+            }
+        }
         /// <summary>
         /// 得到或设置DI 容器的类型
         /// </summary>

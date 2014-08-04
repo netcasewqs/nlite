@@ -10,50 +10,75 @@ using System;
 using NLite.Reflection;
 using NLite.Collections;
 using NLite.Mini.Listener;
+using NLite.Internal;
+using NLite.Mini;
+using NLite.Mini.Context;
 
 namespace NLite.Domain.Listener
 {
 	 /// <summary>
     /// 服务元数据组件监听器
     /// </summary>
-     public class ServiceDescriptorComponentListener : ComponentListenerAdapter
+     class ServiceDescriptorComponentListener : ComponentListenerAdapter
      {
          IServiceDescriptorManager ServiceDescriptorManager;
+         private Kernel kernel;
 
-         public ServiceDescriptorComponentListener(IServiceDescriptorManager serviceDescriptorManager)
+         public ServiceDescriptorComponentListener(Kernel kernel, IServiceDescriptorManager serviceDescriptorManager)
          {
+             Guard.NotNull(kernel, "kernel");
+                 
              if(serviceDescriptorManager == null)
                  throw new ArgumentNullException("serviceProvider");
 
+             this.kernel = kernel;
              ServiceDescriptorManager = serviceDescriptorManager;
          }
 
-         Type LastService;
+         IComponentInfo LastService;
+         IServiceDescriptor[] serviceDescriptors;
+
+         /// <inheritdoc/>
+         public override void OnMetadataRegistered(IComponentInfo info)
+         {
+             if (LastService == info && serviceDescriptors != null && serviceDescriptors.Length > 0)
+             {
+                 LastService = null;
+
+                 
+                 var registration = (Kernel as Kernel) .IdStores[info.Id];
+                 
+                 foreach (var item in serviceDescriptors)
+                 {
+                     if (!Kernel.HasRegister(item.Id))
+                     {
+                       
+                        
+                         kernel.IdStores[item.Id] = registration;
+                             
+                     }
+                 }
+             }
+         }
 
          public override bool OnMetadataRegistering(IComponentInfo info)
          {
-             if (info.Implementation == LastService || info.ExtendedProperties.ContainsKey("instance"))
+             
+             Type t = null;
+             if (info.ExtendedProperties.ContainsKey("instance"))
              {
-                 LastService = null;
-                 return true;
+                 t = info.ExtendedProperties["instance"].GetType();
              }
 
-             var t = info.Implementation;
-             if (t.IsClass && !t.IsAbstract)
+             else
              {
-                 var rs = ServiceDescriptorManager.Register(t);
-                 if (rs != null && rs.Length > 0)
-                 {
-                     //Kernel.UnRegister(info.Id);
-                     LastService = t;
+                 t = info.Implementation;
+             }
 
-                     //一个组件拥有多个Id
-                     foreach (var item in rs)
-                     {
-                         if (!Kernel.HasRegister(item.Id))
-                             Kernel.Register(s => s.Named(item.Id).Bind(t).To(t).Transient());
-                     }
-                 }
+             if (t != null)
+             {
+                 serviceDescriptors = ServiceDescriptorManager.Register(t);
+                 LastService = info;
              }
 
              return true;
