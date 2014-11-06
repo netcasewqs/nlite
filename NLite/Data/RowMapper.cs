@@ -93,7 +93,7 @@ namespace NLite.Data
 
             for (int i = 0; i < fieldCount; i++)
             {
-                var columnName = reader.GetName(i);
+                var columnName = reader.GetName(i).Trim();
                 var member = members.FirstOrDefault(p => string.Equals(p.Name, columnName, StringComparison.OrdinalIgnoreCase)); //elementType.GetMember(columnName, flags).FirstOrDefault();
                 if (member == null)
                     continue;

@@ -19,7 +19,7 @@ namespace NLite.Test.Messaging
         {
             using (Bus.Subscribe(new SubscribeInfo<int>(msg =>
             {
-                Console.WriteLine("Subscriber id:" + Thread.CurrentThread.ManagedThreadId);
+                Console.WriteLine("Subscriber id:" + System.Threading.Thread.CurrentThread.ManagedThreadId);
                 if (msg == -1)
                 {
                     Bus.Remove<int>();
@@ -28,7 +28,7 @@ namespace NLite.Test.Messaging
             }) { Mode = SubscribeMode.Async }))
             using (Bus.Subscribe(new SubscribeInfo<int>(msg =>
             {
-                Console.WriteLine("Subscriber id:" + Thread.CurrentThread.ManagedThreadId);
+                Console.WriteLine("Subscriber id:" + System.Threading.Thread.CurrentThread.ManagedThreadId);
                 if (msg == -1)
                 {
                     Bus.Remove<int>();
@@ -36,7 +36,7 @@ namespace NLite.Test.Messaging
                 Console.WriteLine(msg.ToString());
             }) { Mode = SubscribeMode.Async }))
             {
-                Console.WriteLine("Publisher id:" + Thread.CurrentThread.ManagedThreadId);
+                Console.WriteLine("Publisher id:" + System.Threading.Thread.CurrentThread.ManagedThreadId);
                 for (int i = 0; i < 2; i++)
                 {
 

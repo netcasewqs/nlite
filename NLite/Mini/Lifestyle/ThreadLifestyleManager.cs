@@ -44,7 +44,7 @@ namespace NLite.Mini.Lifestyle
         /// </summary>
         public ThreadLifestyleManager2()
         {
-            this.threadId = Thread.CurrentThread.ManagedThreadId.ToString();
+            this.threadId = System.Threading.Thread.CurrentThread.ManagedThreadId.ToString();
         }
 
         /// <summary>

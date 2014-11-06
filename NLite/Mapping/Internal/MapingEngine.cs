@@ -103,13 +103,14 @@ namespace NLite.Mapping.Internal
 
         internal IMapper GetOrCreateMap(Type fromType, Type toType)
         {
-
             var key = fromType.FullName + "->" + toType.FullName;
+            lock (Mutex)
+            {
+                if (MapperRegistry.ContainsKey(key))
+                    return MapperRegistry[key];
 
-            if (MapperRegistry.ContainsKey(key))
-                return MapperRegistry[key];
-
-            return CreateMap(fromType, toType, key);
+                return CreateMap(fromType, toType, key);
+            }
         }
 
         private IMapper CreateMap(Type fromType, Type toType, string key)
@@ -120,7 +121,7 @@ namespace NLite.Mapping.Internal
                 if (fac.IsMatch(fromType, toType))
                 {
                     mapper = CreateGenericMapper(fromType, toType, fac);
-                    lock(Mutex)
+                    
                         MapperRegistry.Add(key, mapper);
                     break;
                 }

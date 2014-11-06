@@ -2,6 +2,7 @@
 using System.Threading;
 using NLite.Threading;
 using NUnit.Framework;
+using NLite.Threading.ActiveObject;
 
 namespace NLite.Test.Threading
 {
@@ -13,10 +14,12 @@ namespace NLite.Test.Threading
         {
 
             var activeObject = new ActiveObject();
+            activeObject.Start();
+
             for (int i = 1; i < 11; i++)
             {
                 var m = i;
-                activeObject.AddCommand(() =>
+                activeObject.AddTask(() =>
                 {
                     Console.WriteLine(m);
                     Console.WriteLine(System.Threading.Thread.CurrentThread.IsBackground);
@@ -26,7 +29,7 @@ namespace NLite.Test.Threading
                 });
             }
 
-            activeObject.Start();
+            
 
 
             System.Threading.Thread.Sleep(4000);
@@ -43,7 +46,7 @@ namespace NLite.Test.Threading
                 for (int i = 1; i < 11; i++)
                 {
                     var m = i;
-                    activeObject.AddCommand(() =>
+                    activeObject.AddTask(() =>
                     {
                         Console.WriteLine(m);
                         Console.WriteLine(Thread.CurrentThread.IsBackground);
@@ -67,7 +70,7 @@ namespace NLite.Test.Threading
                 for (int i = 1; i < 11; i++)
                 {
                     var m = i;
-                    activeObject.AddCommand(() =>
+                    activeObject.AddTask(() =>
                     {
                         Console.WriteLine(m);
                         Console.WriteLine(Thread.CurrentThread.IsBackground);
@@ -95,12 +98,11 @@ namespace NLite.Test.Threading
             {
 
                 activeObject.Start();
-                activeObject.Interval = 500;
 
                 for (int i = 1; i < 11; i++)
                 {
                     var m = i;
-                    activeObject.AddCommand(() =>
+                    activeObject.AddTask(() =>
                     {
                         Console.WriteLine(m);
                         Console.WriteLine(Thread.CurrentThread.IsBackground);
