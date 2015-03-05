@@ -1271,6 +1271,42 @@
     <Compile Include="..\NLite\SynchronizeService.cs">
       <Link>SynchronizeService.cs</Link>
     </Compile>
+    <Compile Include="..\NLite\Threading\ActiveObject\ActiveObjectEvent.cs">
+      <Link>Threading\ActiveObject\ActiveObjectEvent.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Threading\ActiveObject\ActiveObjectImpl.cs">
+      <Link>Threading\ActiveObject\ActiveObjectImpl.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Threading\ActiveObject\ActiveTaskEvent.cs">
+      <Link>Threading\ActiveObject\ActiveTaskEvent.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Threading\ActiveObject\ActiveTaskEventType.cs">
+      <Link>Threading\ActiveObject\ActiveTaskEventType.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Threading\ActiveObject\ActiveTaskException.cs">
+      <Link>Threading\ActiveObject\ActiveTaskException.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Threading\ActiveObject\ActiveTaskImpl.cs">
+      <Link>Threading\ActiveObject\ActiveTaskImpl.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Threading\ActiveObject\IActiveObject.cs">
+      <Link>Threading\ActiveObject\IActiveObject.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Threading\ActiveObject\IActiveObjectListener.cs">
+      <Link>Threading\ActiveObject\IActiveObjectListener.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Threading\ActiveObject\IActiveTask.cs">
+      <Link>Threading\ActiveObject\IActiveTask.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Threading\ActiveObject\IActiveTaskListener.cs">
+      <Link>Threading\ActiveObject\IActiveTaskListener.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Threading\ActiveObject\SyncActiveTaskImpl.cs">
+      <Link>Threading\ActiveObject\SyncActiveTaskImpl.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Threading\ActiveObject\TaskExceptionType.cs">
+      <Link>Threading\ActiveObject\TaskExceptionType.cs</Link>
+    </Compile>
     <Compile Include="..\NLite\Threading\AtomicInteger.cs">
       <Link>Threading\AtomicInteger.cs</Link>
     </Compile>
@@ -1279,6 +1315,9 @@
     </Compile>
     <Compile Include="..\NLite\Threading\Barrier.cs">
       <Link>Threading\Barrier.cs</Link>
+    </Compile>
+    <Compile Include="..\NLite\Threading\BlockingQueue.cs">
+      <Link>Threading\BlockingQueue.cs</Link>
     </Compile>
     <Compile Include="..\NLite\Threading\Collections\ConcurrentStack.cs">
       <Link>Threading\Collections\ConcurrentStack.cs</Link>

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using NUnit.Framework;
 using NLite.Mapping;
+using System.Collections.Specialized;
 
 namespace NLite.Mapping.Test
 {
@@ -33,6 +34,16 @@ namespace NLite.Mapping.Test
             Assert.AreEqual(dst["Name"], source.Name);
             Assert.AreEqual(dst["Age"], source.Age);
             Assert.AreEqual(dst["Sex"], source.Sex);
+
+            var dict = new Dictionary<string, object>();
+            Mapper.Map(source, ref dict);
+
+            Assert.AreEqual(3, dict.Count);
+
+            var nvc = new NameValueCollection();
+            Mapper.Map(source, ref nvc);
+
+            Assert.AreEqual(3, nvc.Count);
         }
 
         [Test]

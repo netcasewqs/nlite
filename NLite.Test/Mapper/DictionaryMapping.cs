@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using NUnit.Framework;
 using System.Collections;
+using System.Collections.Specialized;
 
 namespace NLite.Mapping.Test
 {
@@ -167,6 +168,50 @@ namespace NLite.Mapping.Test
 
             var dict = Mapper.Map(book, book.GetType(), typeof(IDictionary<string, object>)) as IDictionary<string, object>;
             Assert.AreEqual(dict["BookName"], book.BookName);
+
+            var dict2 = Mapper.Map(book, book.GetType(), typeof(IDictionary<string, string>)) as IDictionary<string, string>;
+            Assert.AreEqual(dict2["BookName"], book.BookName);
+
+
+            var ht = Mapper.Map(book, book.GetType(), typeof(Hashtable)) as Hashtable;
+            Assert.AreEqual(ht["BookName"], book.BookName);
+
+            var nvc = Mapper.Map(book, book.GetType(), typeof(NameValueCollection)) as NameValueCollection;
+            Assert.AreEqual(nvc["BookName"], book.BookName);
+
+            var sd = Mapper.Map(book, book.GetType(), typeof(StringDictionary)) as StringDictionary;
+            Assert.AreEqual(sd["BookName"], book.BookName);
         }
+
+        [Test]
+        public void ClassToDictionary2()
+        {
+            var book = new
+            {
+                BookName = "设计模式",
+            };
+
+            var dict = new Dictionary<string, object>();
+            Mapper.Map(book,ref dict) ;
+            Assert.AreEqual(dict["BookName"], book.BookName);
+
+            var dict2 = new Dictionary<string, string>();
+            Mapper.Map(book, ref dict2) ;
+            Assert.AreEqual(dict2["BookName"], book.BookName);
+
+
+            var ht = new Hashtable();
+            Mapper.Map(book, ref ht);
+            Assert.AreEqual(ht["BookName"], book.BookName);
+
+            var nvc = new NameValueCollection();
+            Mapper.Map(book, ref nvc);
+            Assert.AreEqual(nvc["BookName"], book.BookName);
+
+            var sd = new StringDictionary();
+            Mapper.Map(book, ref sd);
+            Assert.AreEqual(sd["BookName"], book.BookName);
+        }
+      
     }
 }

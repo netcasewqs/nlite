@@ -207,7 +207,14 @@ namespace NLite.Mapping.Internal
         public override bool IsMatch(Type fromType, Type toType)
         {
             return !Types.IDictionaryOfStringAndObject.IsAssignableFrom(fromType)
-                && Types.IDictionaryOfStringAndObject.IsAssignableFrom(toType)
+                &&
+                (
+                    Types.IDictionaryOfStringAndObject.IsAssignableFrom(toType)
+                    || Types.IDictionaryOfStringAndString.IsAssignableFrom(toType)
+                    || Types.NameValueCollection.IsAssignableFrom(toType)
+                    || Types.StringDictionary.IsAssignableFrom(toType)
+                    || typeof(Hashtable).IsAssignableFrom(toType)
+                )
                 ;
         }
 

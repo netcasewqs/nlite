@@ -7,6 +7,7 @@ using NLite.Reflection;
 using System.Collections.Specialized;
 using NLite.Validation;
 using NLite.Reflection.Internal;
+using System.Collections;
 
 namespace NLite.Mapping.Internal
 {
@@ -14,6 +15,7 @@ namespace NLite.Mapping.Internal
 	{
 
         MappingItem[] members;
+        
 		public ClassToDictionaryMapper(Type fromType, Type toType)
 			: base(fromType, toType)
 		{
@@ -39,13 +41,69 @@ namespace NLite.Mapping.Internal
                 .ToArray();
 
             if (to == null)
-                to = new Dictionary<string, object>(members.Length);
+            {
+                if (Types.IDictionaryOfStringAndString.IsAssignableFrom(base._Info.To))
+                {
+                    to = new Dictionary<string, string>(members.Length);
+                }
+                else if (Types.IDictionaryOfStringAndObject.IsAssignableFrom(base._Info.To))
+                {
+                    to = new Dictionary<string, object>(members.Length);
+                }
+                else if (Types.NameValueCollection.IsAssignableFrom(base._Info.To))
+                {
+                    to = new NameValueCollection(members.Length);
+                }
+                else if (Types.StringDictionary.IsAssignableFrom(base._Info.To))
+                {
+                    to = new StringDictionary();
+                }
+                else if (typeof(Hashtable).IsAssignableFrom(base._Info.To))
+                {
+                    to = new Hashtable(members.Length);
+                }
+            }
 
-            var dic = to as IDictionary<string, object>;
-            foreach (var m in members)
-                dic[m.Name] = m.Getter(from);
+            if (Types.IDictionaryOfStringAndString.IsAssignableFrom(base._Info.To))
+            {
+                var dic = to as IDictionary<string, string>;
+                foreach (var m in members)
+                    dic[m.Name] = Converter.Convert(m.Getter(from),typeof(string)) as string;
 
-            to = dic;
+                to = dic;
+            }
+            else if (Types.IDictionaryOfStringAndObject.IsAssignableFrom(base._Info.To))
+            {
+                var dic = to as IDictionary<string, object>;
+                foreach (var m in members)
+                    dic[m.Name] = m.Getter(from);
+
+                to = dic;
+            }
+            else if (Types.NameValueCollection.IsAssignableFrom(base._Info.To))
+            {
+                var dic = to as NameValueCollection;
+                foreach (var m in members)
+                    dic[m.Name] = Converter.Convert(m.Getter(from), typeof(string)) as string;
+
+                to = dic;
+            }
+            else if (Types.StringDictionary.IsAssignableFrom(base._Info.To))
+            {
+                var dic = to as StringDictionary;
+                foreach (var m in members)
+                    dic[m.Name] = Converter.Convert(m.Getter(from), typeof(string)) as string;
+
+                to = dic;
+            }
+            else if (typeof(Hashtable).IsAssignableFrom(base._Info.To))
+            {
+                var dic = to as Hashtable;
+                foreach (var m in members)
+                    dic[m.Name] = m.Getter(from);
+
+                to = dic;
+            }
         }
 	}
 
