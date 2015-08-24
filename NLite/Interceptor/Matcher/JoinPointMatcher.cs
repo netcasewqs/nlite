@@ -182,7 +182,7 @@ namespace NLite.Interceptor.Matcher
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="binderType"></param>
+        /// <param name="type"></param>
         /// <returns></returns>
         protected virtual String NormalizeTypeName(String type)
         {

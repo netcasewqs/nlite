@@ -22,11 +22,7 @@ namespace NLite.Mini.Activation
             Map[ActivatorType.Instance] = () => new InstanceActivator();
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="binderType"></param>
-        /// <param name="creator"></param>
+        /// <inheritdoc/>
         public void Register(string type, Func<IActivator> creator)
         {
             if (string.IsNullOrEmpty(type))
@@ -38,10 +34,7 @@ namespace NLite.Mini.Activation
                 Map.Add(type, creator);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="binderType"></param>
+        /// <inheritdoc/>
         public void Unregister(string type)
         {
             if (string.IsNullOrEmpty(type))
@@ -53,11 +46,7 @@ namespace NLite.Mini.Activation
             }
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="binderType"></param>
-        /// <returns></returns>
+        /// <inheritdoc/>
         public IActivator Create(string type)
         {
             if (string.IsNullOrEmpty(type))

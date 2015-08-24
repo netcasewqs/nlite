@@ -87,7 +87,7 @@ namespace NLite.Mini.Fluent.Internal
 
         private HashSet<Type> contracts;
 
-        private volatile bool isPopulateMetadata = false;
+        //private volatile bool isPopulateMetadata = false;
         private IDictionary<string, object> extendedProperties = new Dictionary<string,object>();
 
         public ComponentExpression()
@@ -201,6 +201,10 @@ namespace NLite.Mini.Fluent.Internal
             return true;
         }
 
+        public override int GetHashCode()
+        {
+            return Id.GetHashCode();
+        }
 
         #region IFactoryExpression Members
 

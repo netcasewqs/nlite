@@ -9,11 +9,7 @@ namespace NLite.Mini.Lifestyle
     /// </summary>
     public class LifestyleManagerFactory : ILifestyleManagerFactory
     {
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="binderType"></param>
-        /// <returns></returns>
+        /// <inheritdoc/>
         public ILifestyleManager Create(LifestyleFlags type)
         {
             switch (type)

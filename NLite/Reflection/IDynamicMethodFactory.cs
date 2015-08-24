@@ -162,7 +162,7 @@ namespace NLite.Reflection
         /// <summary>
         /// 得到缺省构造函数委托
         /// </summary>
-        /// <param name="binderType"></param>
+        /// <param name="type"></param>
         /// <returns></returns>
         public static DefaultConstructorHandler GetDefaultCreator(this Type type)
         {
@@ -411,7 +411,7 @@ namespace NLite.Reflection
         /// <summary>
         /// 得到指定类型具有GetValue的成员列表
         /// </summary>
-        /// <param name="binderType"></param>
+        /// <param name="type"></param>
         /// <returns></returns>
         public static MemberModel[] GetGetMembers(this Type type)
         {
@@ -422,7 +422,7 @@ namespace NLite.Reflection
         /// <summary>
         /// 得到指定类型具有GetValue的成员列表
         /// </summary>
-        /// <param name="binderType"></param>
+        /// <param name="type"></param>
         /// <param name="bindingFlags"></param>
         /// <returns></returns>
         public static MemberModel[] GetGetMembers(this Type type, BindingFlags bindingFlags)
@@ -458,7 +458,7 @@ namespace NLite.Reflection
         /// <summary>
         /// 得到指定类型具有SetValue的成员列表
         /// </summary>
-        /// <param name="binderType"></param>
+        /// <param name="type"></param>
         /// <returns></returns>
         public static MemberModel[] GetSetMembers(this Type type)
         {
@@ -470,7 +470,7 @@ namespace NLite.Reflection
         /// <summary>
         /// 得到指定类型具有SetValue的成员列表
         /// </summary>
-        /// <param name="binderType"></param>
+        /// <param name="type"></param>
         /// <param name="bindingFlags"></param>
         /// <returns></returns>
         public static MemberModel[] GetSetMembers(this Type type,BindingFlags bindingFlags)

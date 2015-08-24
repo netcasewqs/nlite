@@ -24,6 +24,12 @@ namespace NLite.Domain
         private IServiceDispatchListenerManager ListenManager;
         private Func<string, object> ServiceLocator;
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="serviceLocator"></param>
+        /// <param name="listenManager"></param>
+        /// <param name="descriptorManager"></param>
         public DefaultServiceDispatcher(Func<string, object> serviceLocator, IServiceDispatchListenerManager listenManager, IServiceDescriptorManager descriptorManager)
         {
             Guard.NotNull(serviceLocator, "serviceLocator");
@@ -35,6 +41,10 @@ namespace NLite.Domain
             ListenManager = listenManager;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="serviceLocator"></param>
         public DefaultServiceDispatcher(Func<string, object> serviceLocator)
             : this(serviceLocator, 
             new ServiceDispatchListenerManager(),

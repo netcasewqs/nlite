@@ -214,9 +214,13 @@ namespace NLite.Threading
         class TaskItemAction : TaskItem
         {
 
-            public Func<int, bool> Body;
+            public new Func<int, bool> Body
+            {
+                get { return base.Body as Func<int,bool>; }
+                set { base.Body = value; }
+            }
 
-            public void Run()
+            public override void Run()
             {
                 var m = From;
                 var n = To;
@@ -238,9 +242,13 @@ namespace NLite.Threading
         class TaskItemFunc : TaskItem
         {
 
-            public Func<int, bool> Body;
+            public new Func<int, bool> Body
+            {
+                get { return base.Body as Func<int, bool>; }
+                set { base.Body = value; }
+            }
 
-            public void Run()
+            public override void Run()
             {
                 var m = From;
                 var n = To;

@@ -54,12 +54,20 @@ namespace NLite.Log
     public class Log4nLogManager : ILogManager
     {
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="name"></param>
+        /// <returns></returns>
         public ILog GetLogger(string name)
         {
             Guard.NotNullOrEmpty(name, "name");
             return new Log4NetLogger(name);
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public void Shutdown()
         {
             var method = Log4NetLogger.LogManagerType.GetMethod("Shutdown");

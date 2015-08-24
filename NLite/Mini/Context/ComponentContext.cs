@@ -9,45 +9,31 @@ namespace NLite.Mini.Context
     /// </summary>
     public class ComponentContext : IComponentContext
     {
-        /// <summary>
-        /// 
-        /// </summary>
+        /// <inheritdoc/>
         public IKernel Kernel { get; private set; }
 
-        /// <summary>
-        /// 
-        /// </summary>
+        /// <inheritdoc/>
         public ILifestyleManager LifestyleManager { get; internal set; }
 
-        /// <summary>
-        /// 
-        /// </summary>
+        /// <inheritdoc/>
         public IComponentInfo Component { get; internal set; }
 
-        /// <summary>
-        /// 
-        /// </summary>
+        /// <inheritdoc/>
         public IDictionary<string, object> NamedArgs { get; set; }
 
-        /// <summary>
-        /// 
-        /// </summary>
+        /// <inheritdoc/>
         public object[] Args { get;  set; }
 
-        /// <summary>
-        /// 
-        /// </summary>
+        /// <inheritdoc/>
         public Type[] GenericParameters { get; internal set; }
 
-        /// <summary>
-        /// 
-        /// </summary>
+        /// <inheritdoc/>
         public object Instance { get; set; }
 
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="registry"></param>
+        /// <param name="kernel"></param>
         /// <param name="gernericParameters"></param>
         public ComponentContext(IKernel kernel, Type[] gernericParameters)
         {
@@ -58,7 +44,7 @@ namespace NLite.Mini.Context
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="bindingInfo"></param>
+        /// <param name="info"></param>
         /// <returns></returns>
         public IComponentContext Init(IComponentInfo info)
         {
@@ -70,8 +56,8 @@ namespace NLite.Mini.Context
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="registry"></param>
-        /// <param name="bindingInfo"></param>
+        /// <param name="kernel"></param>
+        /// <param name="info"></param>
         /// <param name="args"></param>
         /// <param name="genericParameters"></param>
         public ComponentContext(IKernel kernel, IComponentInfo info, IDictionary<string, object> args, Type[] genericParameters)
@@ -85,8 +71,8 @@ namespace NLite.Mini.Context
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="registry"></param>
-        /// <param name="bindingInfo"></param>
+        /// <param name="kernel"></param>
+        /// <param name="info"></param>
         /// <param name="args"></param>
         /// <param name="genericParameters"></param>
         public ComponentContext(IKernel kernel, IComponentInfo info, object[] args, Type[] genericParameters)

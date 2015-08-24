@@ -3,16 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.ComponentModel;
+using System.Drawing;
 
 namespace NLite.Mapping.Internal
 {
     sealed class TypeConverterMapper:MapperBase
     {
-        private readonly TypeConverter typeConverter;
+        private readonly TypeConverter fromTypeConverter;
+        private readonly TypeConverter toConverter;
+
         public TypeConverterMapper(Type fromType, Type toType)
             : base(fromType, toType)
         {
-            typeConverter = TypeConverterFactory.GetTypeConverter(fromType);
+            fromTypeConverter = TypeConverterFactory.GetTypeConverter(fromType);
+            toConverter = TypeConverterFactory.GetTypeConverter(toType);
         }
 
         public override void Map(ref object from, ref object to)
@@ -22,7 +26,20 @@ namespace NLite.Mapping.Internal
                 if (_Info.CanUsingConverter(_Info.Key))
                     to = _Info.converters[_Info.Key].DynamicInvoke(from);
                 else
-                    to = typeConverter.ConvertTo(from, _Info.To);
+                {
+                    if (fromTypeConverter.CanConvertTo(_Info.To))
+                    {
+                        to = fromTypeConverter.ConvertTo(from, _Info.To);
+                    }
+                    else if (_Info.To == typeof(Color) && _Info.From == Types.Int32)
+                    {
+                        to = Color.FromArgb((int)from);
+                    }
+                    else
+                    {
+                        to = toConverter.ConvertFrom(from);
+                    }
+                }
             }
         }
     }

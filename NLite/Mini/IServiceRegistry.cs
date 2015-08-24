@@ -17,7 +17,7 @@ namespace NLite
         /// <summary>
         /// 通过组件元数据注册组件到容器中
         /// </summary>
-        /// <param name="bindingInfo"></param>
+        /// <param name="info"></param>
         /// <returns></returns>
         IServiceRegistry Register(IComponentInfo info);
 
@@ -158,7 +158,7 @@ namespace NLite
         /// <summary>
         /// 通过流畅Api接口来注册组件
         /// </summary>
-        /// <param name="handlers"></param>
+        /// <param name="handler"></param>
         /// <returns></returns>
         public static IServiceRegistry Register(Action<IComponentExpression> handler)
         {

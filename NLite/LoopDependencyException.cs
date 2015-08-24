@@ -25,7 +25,7 @@ namespace NLite
         /// <summary>
        /// 构造循环依赖异常对象
         /// </summary>
-        /// <param name="bindingInfo"></param>
+       /// <param name="info"></param>
         /// <param name="context"></param>
        protected LoopDependencyException(SerializationInfo info, StreamingContext context)
             : base(info, context)

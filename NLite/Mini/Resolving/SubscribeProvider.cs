@@ -8,9 +8,19 @@ using NLite.Reflection;
 
 namespace NLite.Mini.Resolving
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public interface ISubscribeInfoFactoryProvider
     {
+        /// <summary>
+        /// 
+        /// </summary>
         MethodInfo Method { get; }
+
+        /// <summary>
+        /// 
+        /// </summary>
         Func<object, ISubscribeInfo> Factory { get; }
     }
 

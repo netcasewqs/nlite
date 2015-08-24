@@ -123,6 +123,9 @@ namespace NLite.Mapping
     [Component( Lifestyle= LifestyleFlags.Singleton)]
     public abstract class MapperFactory : IMapperFactory
     {
+        /// <summary>
+        /// 
+        /// </summary>
         protected int order; 
         /// <summary>
         /// 序号

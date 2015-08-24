@@ -69,10 +69,7 @@ namespace NLite.Interceptor
                 Log(logger, "Invoked  method " + method.Name + argMessage);
             }
         }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ctx"></param>
+     
         private void OnException(IInvocationContext ctx,Exception ex)
         {
             var method = ctx.Method;

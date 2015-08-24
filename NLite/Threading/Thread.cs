@@ -45,10 +45,6 @@ namespace NLite.Threading
         /// 线程Id
         /// </summary>
         public int Id { get; private set; }
-        /// <summary>
-        /// 线程任务
-        /// </summary>
-        public IThreadTask Task { get; private set; }
 
         /// <summary>
         /// 线程状态
@@ -61,25 +57,19 @@ namespace NLite.Threading
         /// </summary>
         /// <param name="name"></param>
         /// <param name="task"></param>
-        public SmartThread(IThreadTask task, string name = null, bool isBackground = true, ApartmentState apartmentState = ApartmentState.MTA)
+        /// <param name="isBackground"></param>
+        /// <param name="apartmentState"></param>
+        public SmartThread(Action task, string name = null, bool isBackground = true, ApartmentState apartmentState = ApartmentState.MTA)
         {
             if (task == null)
                 throw new ArgumentNullException("task");
 
-            Task = task;
-            InnerThread = new System.Threading.Thread(() => task.Run()) { Name = name, IsBackground = isBackground };
+            InnerThread = new System.Threading.Thread(()=>task()) { Name = name, IsBackground = isBackground };
             InnerThread.SetApartmentState(apartmentState);
 
             mutex = new ResetEvent(false);
             State = ThreadState.NotStarted;
         }
-
-        /// <summary>
-        /// 创建线程
-        /// </summary>
-        /// <param name="action"></param>
-        /// <param name="threadName"></param>
-        public SmartThread(Action action, string threadName = null, bool isBackground = true, ApartmentState apartmentState = ApartmentState.MTA) : this(ThreadTask.Make(action), threadName,isBackground,apartmentState) { }
 
         /// <summary>
         /// 启动线程

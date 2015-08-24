@@ -43,8 +43,8 @@ namespace NLite.Mini.Resolving
         /// <summary>
         /// 当新组件注册时进行刷新
         /// </summary>
-        /// <param name="bindingInfo"></param>
-        /// <param name="registry"></param>
+        /// <param name="info"></param>
+        /// <param name="kernel"></param>
         void Refresh(IComponentInfo info, IKernel kernel);
         /// <summary>
         /// 
@@ -132,7 +132,7 @@ namespace NLite.Mini.Resolving
        /// 注册句柄
        /// </summary>
        /// <param name="instance"></param>
-       /// <param name="registry"></param>
+        /// <param name="kernel"></param>
        /// <param name="component"></param>
         public void RegisterHandle(object instance,IKernel kernel,IComponentInfo component)
         {
@@ -148,7 +148,7 @@ namespace NLite.Mini.Resolving
         /// <summary>
         /// 移除指定内核创建的所有实例句柄
         /// </summary>
-        /// <param name="registry"></param>
+        /// <param name="kernel"></param>
         public void UnregisterAllByKernel(IKernel kernel)
         {
             Guard.NotNull(kernel, "kernel");
@@ -199,7 +199,7 @@ namespace NLite.Mini.Resolving
         /// <summary>
         /// 添加对象的引用关系
         /// </summary>
-        /// <param name="cfg"></param>
+        /// <param name="owner"></param>
         /// <param name="reference"></param>
         public void RegisterReference(object owner, object reference)
         {
@@ -217,7 +217,7 @@ namespace NLite.Mini.Resolving
         /// <summary>
         /// 移除对象的引用关系
         /// </summary>
-        /// <param name="cfg"></param>
+        /// <param name="owner"></param>
         /// <param name="reference"></param>
         public void UnregisterReference(object owner, object reference)
         {

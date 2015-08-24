@@ -19,9 +19,14 @@ using NLite.Mini.Context;
 
 namespace NLite.Mini.Proxy
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public static class ProxyFactory
     {
-        //public static readonly IProxyFactory Default = new RealProxyFactory();
+       /// <summary>
+       /// 
+       /// </summary>
         public static readonly IProxyFactory Default = new EmitProxyFactory();
     }
 

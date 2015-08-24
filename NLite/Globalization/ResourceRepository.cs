@@ -1,21 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
-
+using System.Drawing;
 using System.Threading;
 using NLite.Internal;
 using NLite.Globalization.Internal;
 
 namespace NLite.Globalization
 {
-   
-#if !SILVERLIGHT
-    
-    using System.Drawing;
-    [Serializable]
-#endif
+
     /// <summary>
     /// 
     /// </summary>
+#if !SILVERLIGHT
+    [Serializable]
+#endif
     public partial class ResourceRepository : IResourceRepository
     {
         

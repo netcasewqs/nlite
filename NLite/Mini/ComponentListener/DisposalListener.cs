@@ -11,7 +11,7 @@ namespace NLite.Mini.Listener
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="bindingInfo"></param>
+        /// <param name="info"></param>
         /// <param name="instance"></param>
         public override void OnPreDestroy(IComponentInfo info, object instance)
         {

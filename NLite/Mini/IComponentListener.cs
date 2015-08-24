@@ -11,7 +11,7 @@ namespace NLite
         /// <summary>
         /// 初始化监听器
         /// </summary>
-        /// <param name="registry"></param>
+        /// <param name="kernel"></param>
         void Init(IKernel kernel);
 
         /// <summary>
@@ -21,18 +21,18 @@ namespace NLite
         /// <summary>
         /// 在组件元数据注册前进行监听，例如Aop监听器
         /// </summary>
-        /// <param name="bindingInfo"></param>
+        /// <param name="info"></param>
         bool OnMetadataRegistering(IComponentInfo info);
         /// <summary>
         /// 在组件元数据注册后进行监听，例如Aop监听器
         /// </summary>
-        /// <param name="bindingInfo"></param>
+        /// <param name="info"></param>
         void OnMetadataRegistered(IComponentInfo info);
 
         /// <summary>
         /// 在组件元数据注销后进行监听，例如Aop监听器
         /// </summary>
-        /// <param name="bindingInfo"></param>
+        /// <param name="info"></param>
         void OnMetadataUnregistered(IComponentInfo info);
 
         /// <summary>
@@ -68,14 +68,14 @@ namespace NLite
         /// <summary>
         /// 在组件释放前进行监听
         /// </summary>
-        /// <param name="bindingInfo"></param>
+        /// <param name="info"></param>
         /// <param name="instance"></param>
         void OnPreDestroy(IComponentInfo info, object instance);
 
         /// <summary>
         /// 在组件释放后进行监听
         /// </summary>
-        /// <param name="bindingInfo"></param>
+        /// <param name="info"></param>
         void OnPostDestroy(IComponentInfo info);
     }
 }

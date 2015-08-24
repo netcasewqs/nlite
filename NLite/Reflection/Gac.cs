@@ -180,7 +180,6 @@ namespace NLite.Reflection
         }
 
         /// <summary>
-        /// <see cref="IAssemblyCache.UninstallAssembly"/>
         /// </summary>
         enum IASSEMBLYCACHE_UNINSTALL_DISPOSITION
         {
@@ -193,7 +192,6 @@ namespace NLite.Reflection
         }
 
         /// <summary>
-        /// <see cref="IAssemblyCache.QueryAssemblyInfo"/>
         /// </summary>
         enum QUERYASMINFO_FLAG
         {
@@ -202,7 +200,6 @@ namespace NLite.Reflection
         }
 
         /// <summary>
-        /// <see cref="IAssemblyChance.InstallAssembly"/>
         /// </summary>
         enum IASSEMBLYCACHE_INSTALL_FLAG
         {
@@ -216,7 +213,6 @@ namespace NLite.Reflection
         ///		the individual properties. If the flag is not specified, szAssemblyName is the "Name" portion of the assembly name.
         ///	CANOF_SET_DEFAULT_VALUES - If this flag is specified, certain properties, such as processor architecture, are set to
         ///		their default values.
-        ///	<see cref="AssemblyCache.CreateAssemblyNameObject"/>
         /// </summary>
         enum CREATE_ASM_NAME_OBJ_FLAGS
         {

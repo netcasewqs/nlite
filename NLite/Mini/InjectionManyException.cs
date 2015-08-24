@@ -40,7 +40,7 @@ namespace NLite.Mini
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="bindingInfo"></param>
+        /// <param name="info"></param>
         /// <param name="context"></param>
         protected InjectManyException(SerializationInfo info, StreamingContext context)
             : base(info, context)

@@ -19,6 +19,9 @@ namespace NLite
         private Func<T> _valueFactory = null;
         private object _lock;
 
+        /// <summary>
+        /// 
+        /// </summary>
         public event Action<object> ValueCreated;
 
         /// <summary>

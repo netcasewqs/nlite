@@ -14,13 +14,13 @@ namespace NLite
         /// <summary>
         /// 用当前扩展点来扩展可扩展对象
         /// </summary>
-        /// <param name="cfg"></param>
+        /// <param name="owner"></param>
         void Attach(T owner);
 
         /// <summary>
         /// 从可扩展对象中移除当前扩展点
         /// </summary>
-        /// <param name="cfg"></param>
+        /// <param name="owner"></param>
         void Detach(T owner);
     }
 }

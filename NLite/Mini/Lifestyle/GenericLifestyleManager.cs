@@ -18,30 +18,24 @@ namespace NLite.Mini.Lifestyle
         protected IDictionary<int, TLifestyleManager> cache = new Dictionary<int, TLifestyleManager>();
 
         #region ILifestyleManager Members
-        /// <summary>
-        /// 
-        /// </summary>
+        /// <inheritdoc/>
         public IKernel Kernel { get; private set; }
-        /// <summary>
-        /// 
-        /// </summary>
+        /// <inheritdoc/>
         public IActivator Activator { get; private set; }
-        /// <summary>
-        /// 
-        /// </summary>
+        /// <inheritdoc/>
         public IComponentInfo Info { get; private set; }
-        /// <summary>
-        /// 
-        /// </summary>
+        /// <inheritdoc/>
         public Action<IComponentInfo, object> OnDestroying { get; private set; }
+        /// <inheritdoc/>
         public Action<IComponentContext> OnFetch { get; private set; }
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="activator"></param>
-        /// <param name="registry"></param>
-        /// <param name="bindingInfo"></param>
+        /// <param name="kernel"></param>
+        /// <param name="info"></param>
+        /// <param name="onFetch"></param>
         /// <param name="onDestroyed"></param>
         public virtual void Init(IActivator activator, IKernel kernel, IComponentInfo info, Action<IComponentInfo, object> onDestroyed, Action<IComponentContext> onFetch)
         {
@@ -55,13 +49,7 @@ namespace NLite.Mini.Lifestyle
             OnFetch = onFetch;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ctx"></param>
-        /// <returns></returns>
-        
-        
+        /// <inheritdoc/>
         public  virtual object Get(IComponentContext ctx)
         {
             int key = 123;
@@ -90,7 +78,10 @@ namespace NLite.Mini.Lifestyle
             return o;
         }
 
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ctx"></param>
         protected virtual void OnFetchCore(IComponentContext ctx)
         {
             if (OnFetch != null)

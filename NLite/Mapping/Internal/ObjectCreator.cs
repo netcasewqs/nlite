@@ -7,6 +7,7 @@ using NLite.Reflection.Internal;
 using System.Reflection;
 using System.ComponentModel;
 using System.Collections;
+using System.Drawing;
 
 namespace NLite.Mapping.Internal
 {
@@ -150,7 +151,20 @@ namespace NLite.Mapping.Internal
 
         public override bool IsMatch(Type fromType, Type toType)
         {
-            return TypeConverterFactory.GetTypeConverter(fromType).CanConvertTo(toType);
+            var fromConverter = TypeConverterFactory.GetTypeConverter(fromType);
+
+            var flag= fromConverter.CanConvertTo(toType);
+            if (!flag)
+            {
+                return TypeConverterFactory.GetTypeConverter(toType).CanConvertFrom(fromType);
+            }
+
+            if (toType == typeof(Color))
+            {
+                if (fromType == Types.Int32)
+                    return true;
+            }
+            return false;
         }
 
         public override IMapper Create(Type fromType, Type toType)

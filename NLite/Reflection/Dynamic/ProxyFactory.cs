@@ -49,6 +49,8 @@ namespace NLite.Reflection.Dynamic
         /// <summary>
         /// Initializes a new instance of the <see cref="ProxyFactory"/> class.
         /// </summary>
+        /// <param name="strongNamedAssembly"></param>
+        /// <param name="canSaveAssembly"></param>
         /// <param name="interceptionFilter">The interception filter.</param>
         public ProxyFactory(bool strongNamedAssembly = false,bool canSaveAssembly = false, IInterceptionFilter interceptionFilter = null)
         {

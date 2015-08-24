@@ -40,12 +40,7 @@ namespace NLite.Reflection.Internal
             return ctorIL;
         }
 
-        /// Generates the code to get the binderType of an object and store it in a local
-        /// <param name="ilGenerator"></param>
-        /// <param name="dictionary"></param>
-        /// <param name="key"></param>
-        /// <param name="value"></param>
-        /// <returns></returns>
+       
         public static void GetExceptionDataAndStoreInLocal(this ILGenerator ilGenerator, LocalBuilder exception, LocalBuilder dataStore)
         {
             ilGenerator.Emit(OpCodes.Ldloc, exception);
@@ -53,12 +48,7 @@ namespace NLite.Reflection.Internal
             ilGenerator.Emit(OpCodes.Stloc, dataStore);
         }
 
-        /// Generates the code that adds an object to a dictionary stored in a local variable
-        /// <param name="ilGenerator"></param>
-        /// <param name="dictionary"></param>
-        /// <param name="key"></param>
-        /// <param name="value"></param>
-        /// <returns></returns>
+    
         public static void AddItemToLocalDictionary(this ILGenerator ilGenerator, LocalBuilder dictionary, object key, object value)
         {
             ilGenerator.Emit(OpCodes.Ldloc, dictionary);
@@ -67,12 +57,7 @@ namespace NLite.Reflection.Internal
             ilGenerator.Emit(OpCodes.Callvirt, DictionaryAdd);
         }
 
-        /// Generates the code that adds an object from a local variable to a dictionary also stored in a local
-        /// <param name="ilGenerator"></param>
-        /// <param name="dictionary"></param>
-        /// <param name="key"></param>
-        /// <param name="value"></param>
-        /// <returns></returns>
+     
         public static void AddLocalToLocalDictionary(this ILGenerator ilGenerator, LocalBuilder dictionary, object key, LocalBuilder value)
         {
             ilGenerator.Emit(OpCodes.Ldloc, dictionary);
@@ -95,12 +80,7 @@ namespace NLite.Reflection.Internal
         //    return types;
         //}
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="il"></param>
-        /// <param name="binderType"></param>
-        /// <returns></returns>
+       
         public static ILGenerator UnboxOrCast(this ILGenerator il, Type type)
         {
             if (type.IsValueType)
@@ -195,23 +175,7 @@ namespace NLite.Reflection.Internal
             return il;
         }
 
-        /// Generates the code that loads the supplied value on the stack
-        /// This is not as simple as it seems, as different instructions need to be generated depending
-        /// on its binderType.
-        /// We support:
-        /// 1. All primitive types
-        /// 2. Strings
-        /// 3. Enums
-        /// 4. typeofs
-        /// 5. nulls
-        /// 6. Enumerables
-        /// 7. Delegates on static functions or any of the above
-        /// Everything else cannot be represented as literals
-        /// <param name="ilGenerator"></param>
-        /// <param name="item"></param>
-        /// <param name="key"></param>
-        /// <param name="value"></param>
-        /// <returns></returns>
+       
         public static void LoadValue(this ILGenerator ilGenerator, object value)
         {
             if (value == null)
@@ -400,22 +364,15 @@ namespace NLite.Reflection.Internal
             ilGenerator.Emit(OpCodes.Ldc_R8, value);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ilGenerator"></param>
-        /// <param name="binderType"></param>
+     
+        
         public static void LoadTypeOf(this ILGenerator ilGenerator, Type type)
         {
             ilGenerator.Emit(OpCodes.Ldtoken, type);
             ilGenerator.EmitCall(OpCodes.Call, EmitHelper._typeGetTypeFromHandleMethod, null);
         }
 
-        /// <summary>
-        /// 将特定索引处的局部变量加载到计算堆栈上
-        /// </summary>
-        /// <param name="localIndex"></param>
-        /// <returns></returns>
+       
         public static ILGenerator LoadLocalVariable(this ILGenerator il,int localIndex)
         {
             switch (localIndex)
@@ -442,12 +399,7 @@ namespace NLite.Reflection.Internal
             return il;
         }
 
-        /// <summary>
-        /// 计算堆栈的顶部弹出当前值并将其存储到索引localIndex 处的局部变量列表中
-        /// </summary>
-        /// <param name="localIndex"></param>
-        /// <param name="val"></param>
-        /// <returns></returns>
+       
         public static ILGenerator StoreLocalVariable(this ILGenerator il, int localIndex)
         {
 

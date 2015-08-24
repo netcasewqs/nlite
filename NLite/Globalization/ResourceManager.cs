@@ -125,7 +125,7 @@ namespace NLite.Globalization
         /// <summary>
         /// ×¢²áÁ÷×ÊÔ´
         /// </summary>
-        /// <param name="fileName"></param>
+        /// <param name="stream"></param>
         public void Register(Stream stream)
         {
             var map = Load<TResource>(stream);

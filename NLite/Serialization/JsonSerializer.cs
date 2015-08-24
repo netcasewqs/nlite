@@ -42,7 +42,7 @@ namespace NLite.Serialization
         /// 把一个串中的内容反序列化到特定类型的对象中
         /// </summary>
         /// <param name="str"></param>
-        /// <param name="binderType"></param>
+        /// <param name="type"></param>
         /// <returns></returns>
         public object Deserialize(string str, Type type)
         {

@@ -29,6 +29,7 @@ namespace NLite
         /// 得到服务
         /// </summary>
         /// <param name="id">服务Id</param>
+        /// <param name="args"></param>
         /// <returns>返回服务实例</returns>
         object Get(string id, IDictionary<string, object> args);
 
@@ -36,6 +37,7 @@ namespace NLite
         /// 得到服务
         /// </summary>
         /// <param name="service">服务类型</param>
+        /// <param name="args"></param>
         /// <returns>返回服务实例</returns>
         object Get(Type service, IDictionary<string, object> args);
 
@@ -93,6 +95,7 @@ namespace NLite
         /// 通过组件Id得到指定的组件
         /// </summary>
         /// <typeparam name="TComponent">组件类型</typeparam>
+        /// <param name="locator"></param>
         /// <param name="id">组件Id</param>
         /// <returns>返回组件实例</returns>
         public static TComponent Get<TComponent>(this IServiceLocator locator, string id)

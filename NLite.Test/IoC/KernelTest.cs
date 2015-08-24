@@ -139,6 +139,25 @@ namespace NLite.Test.IoC
             Assert.AreSame(p, person);
         }
 
+        class InstanceObject
+        {
+            internal InstanceObject() { }
+            //public InstanceObject(string b) { }
+            public InstanceObject( IPerson person) { }
+        }
+
+        [Test]
+        public void InstanceWithConstuctorParameters()
+        {
+            var i = new InstanceObject();
+            ServiceRegistry.Current.RegisterInstance(i);
+
+            Assert.IsTrue(ServiceRegistry.HasRegister<InstanceObject>());
+
+            var i2 = ServiceLocator.Get<InstanceObject>();
+            Assert.AreSame(i, i2);
+        }
+
         [Test]
         public void StartableListnerTest()
         {

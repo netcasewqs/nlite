@@ -446,6 +446,11 @@ namespace NLite.Mini.Resolving
     /// </summary>
     public interface IMetadataAttributeVisitor
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
         IEnumerable<IGrouping<Type, Attribute>> VisitType(Type type);
     }
 
@@ -456,6 +461,9 @@ namespace NLite.Mini.Resolving
     {
         private static IMetadataAttributeVisitor metadataAttributeVisitor = new DefaultMetadataAttributeVisitor();
 
+        /// <summary>
+        /// 
+        /// </summary>
         public static IMetadataAttributeVisitor Current
         {
             get
@@ -466,6 +474,10 @@ namespace NLite.Mini.Resolving
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="visitor"></param>
         public static void SetMetadataAttributeVisitor(IMetadataAttributeVisitor visitor)
         {
             Guard.NotNull(visitor, "visitor");

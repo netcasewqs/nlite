@@ -30,7 +30,12 @@ namespace NLite
         {
             return !string.IsNullOrEmpty(input);
         }
-
+       
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
         public static bool IsNullOrEmpty(this string input)
         {
             return string.IsNullOrEmpty(input);
@@ -68,6 +73,13 @@ namespace NLite
             return input.Replace("_", "").Replace("-", ""); // avoiding regex
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="source"></param>
+        /// <param name="newType"></param>
+        /// <param name="culture"></param>
+        /// <returns></returns>
         public static object ChangeType(this object source, Type newType, CultureInfo culture)
         {
             Guard.NotNull(newType, "newType");

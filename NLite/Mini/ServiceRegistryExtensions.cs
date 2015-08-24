@@ -49,7 +49,6 @@ namespace NLite
         /// <typeparam name="TContract"></typeparam>
         /// <typeparam name="TComponent"></typeparam>
         /// <param name="registry"></param>
-        /// <param name="id"></param>
         /// <param name="instance"></param>
         /// <returns></returns>
         public static IServiceRegistry RegisterInstance<TContract, TComponent>(this IServiceRegistry registry, TComponent instance) where TComponent : TContract
@@ -295,6 +294,7 @@ namespace NLite
         /// </summary>
         /// <param name="registry"></param>
         /// <param name="assembly"></param>
+        /// <param name="typeFilter"></param>
         /// <returns></returns>
         public static IServiceRegistry RegisterFromAssembly(this IServiceRegistry registry, Assembly assembly, Func<Type,bool> typeFilter)
         {

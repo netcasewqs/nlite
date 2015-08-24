@@ -214,6 +214,7 @@ namespace NLite.Messaging
         /// <summary>
         /// 订阅主题消息
         /// </summary>
+        /// <param name="info"></param>
         /// <returns></returns>
         IDisposable Subscribe(ISubscribeInfo info);
         
@@ -221,6 +222,7 @@ namespace NLite.Messaging
         /// 注销订阅的主题消息
         /// </summary>
         /// <param name="topic">消息主题</param>
+        /// <param name="messageType"></param>
         /// <param name="handler">处理器</param>
         void Unsubscribe(string topic, Type messageType, IObserverHandler<IMessage> handler);
 
@@ -228,19 +230,19 @@ namespace NLite.Messaging
         /// 注册消息监听器
         /// </summary>
         /// <param name="listeners">监听器集合</param>
-        void RegisterListner(params IMessageListener[] listners);
+        void RegisterListner(params IMessageListener[] listeners);
         /// <summary>
         /// 注销消息监听器
         /// </summary>
         /// <param name="listeners">监听器集合</param>
-        void UnRegisterListner(params IMessageListener[] listners);
+        void UnRegisterListner(params IMessageListener[] listeners);
 
       
         /// <summary>
         /// 移除主题消息
         /// </summary>
         /// <param name="topic">消息主题</param>
-        /// <param name="binderType">类型</param>
+        /// <param name="type">类型</param>
         void Remove(string topic, Type type);
         
         /// <summary>

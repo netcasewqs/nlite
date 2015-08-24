@@ -71,6 +71,7 @@ namespace NLite.Messaging
         /// 
         /// </summary>
         /// <typeparam name="TData"></typeparam>
+        ///  <typeparam name="TResult"></typeparam>
         /// <param name="handler"></param>
         /// <returns></returns>
         public static IObserverHandler<IMessage> CreateC<TData, TResult>(Func<object, TData, TResult> handler)

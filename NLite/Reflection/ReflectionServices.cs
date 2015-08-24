@@ -91,6 +91,7 @@ namespace NLite.Reflection
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="type"></param>
         /// <param name="parentType"></param>
         /// <returns></returns>
         public static int GetInheriteDeep(this Type type, Type parentType)
@@ -293,6 +294,7 @@ namespace NLite.Reflection
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="type"></param>
         /// <param name="genericParameterName"></param>
         /// <returns></returns>
         public static Type GetNamedGenericParameter(this Type type, string genericParameterName)
@@ -306,6 +308,7 @@ namespace NLite.Reflection
         /// <summary>
         /// 
         /// </summary>
+        /// <param name="type"></param>
         /// <param name="genericArgTypes"></param>
         /// <returns></returns>
         public static Type MakeCloseGenericType(this Type type, params Type[] genericArgTypes)

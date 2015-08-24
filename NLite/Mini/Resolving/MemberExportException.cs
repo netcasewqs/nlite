@@ -34,7 +34,7 @@ namespace NLite.Mini.Resolving
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="bindingInfo"></param>
+        /// <param name="info"></param>
         /// <param name="context"></param>
         protected MemberExportException(SerializationInfo info, StreamingContext context)
             : base(info, context)

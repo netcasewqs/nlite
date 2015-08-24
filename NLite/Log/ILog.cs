@@ -160,30 +160,5 @@ namespace NLite.Log
         bool IsFatalEnabled { get; }
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    //public static class LogExtensions
-    //{
-    //    /// <summary>
-    //    /// 
-    //    /// </summary>
-    //    /// <param name="log"></param>
-    //    /// <param name="action"></param>
-    //    /// <returns></returns>
-    //    public static Result TryLogFail(this ILog log, Action action)
-    //    {
-    //        try
-    //        {
-    //            if (action != null)
-    //                action();
-    //            return Result.OK;
-    //        }
-    //        catch (Exception ex)
-    //        {
-    //            log.Error(ex.Message, ex);
-    //            return new Result(false, ex);
-    //        }
-    //    }
-    //}
+   
 }

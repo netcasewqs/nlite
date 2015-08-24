@@ -13,7 +13,7 @@ namespace NLite.Binding
         /// <summary>
         /// 执行模型绑定
         /// </summary>
-        /// <param name="bindingInfo">绑定元数据</param>
+        /// <param name="info">绑定元数据</param>
         /// <param name="valueProvider">valueProvider</param>
         /// <returns></returns>
         object BindModel(BindingInfo info, IDictionary<string, object> valueProvider);

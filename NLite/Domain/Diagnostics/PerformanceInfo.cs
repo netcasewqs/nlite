@@ -75,8 +75,8 @@ namespace NLite.Domain.Diagnostics
     /// </summary>
     public class MonitorContext
     {
-        [ThreadStatic]
-        private static MonitorContext current;
+        //[ThreadStatic]
+        //private static MonitorContext current;
 
         /// <summary>
         /// 当前性能上下文

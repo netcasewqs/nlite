@@ -10,14 +10,13 @@ using NLite.Collections.Internal;
 
 namespace NLite
 {
-    
+    /// <summary>
+    /// 组件元数据信息接口
+    /// </summary>
     #if !SILVERLIGHT
     [Serializable]
     #endif
     [DebuggerDisplay("{Id}/{Lifestyle}")]
-    /// <summary>
-    /// 组件元数据信息接口
-    /// </summary>
     public class ComponentInfo : IComponentInfo
     {
         /// <summary>
@@ -215,30 +214,19 @@ namespace NLite
             return !(left == right);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <returns></returns>
+        /// <inhreitdoc/>
         public override string ToString()
         {
             return Name;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="obj"></param>
-        /// <returns></returns>
+        /// <inhreitdoc/>
         public override bool Equals(object obj)
         {
             return Equals((IComponentInfo)obj);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="other"></param>
-        /// <returns></returns>
+        /// <inhreitdoc/>
         public bool Equals(IComponentInfo other)
         {
             if (other == null)
@@ -248,6 +236,7 @@ namespace NLite
             return true;
         }
 
+        /// <inhreitdoc/>
         public override int GetHashCode()
         {
             return Name.GetHashCode();

@@ -17,10 +17,22 @@ using System.Reflection;
 
 namespace NLite.Serialization
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public class XmlSerializer:ISerializer
     {
         private static ISerializer defaultInstance = new XmlSerializer();
+
+        /// <summary>
+        /// 
+        /// </summary>
         public static ISerializer Current { get { return defaultInstance; } }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="serializer"></param>
         public static void SetSerializer(ISerializer serializer)
         {
             if (serializer == null)
@@ -29,9 +41,21 @@ namespace NLite.Serialization
             defaultInstance = serializer;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public string RootElement { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
         public string Namespace { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
         public string DateFormat { get; set; }
+        /// <summary>
+        /// 
+        /// </summary>
         public CultureInfo Culture { get; set; }
         /// <summary>
         /// Content binderType for serialized content
@@ -276,7 +300,7 @@ namespace NLite.Serialization
         /// 
         /// </summary>
         /// <param name="strDoc"></param>
-        /// <param name="binderType"></param>
+        /// <param name="type"></param>
         /// <returns></returns>
         public object Deserialize(string strDoc, Type type)
         {

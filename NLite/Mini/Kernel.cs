@@ -579,6 +579,12 @@ namespace NLite.Mini
             return Parent != null ? Parent.GetComponentContextByNamedArgs(contract, args) : null;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="contract"></param>
+        /// <param name="args"></param>
+        /// <returns></returns>
         public IComponentContext GetComponentContextByOptionArgs(Type contract, params object[] args)
         {
             Guard.NotNull(contract, "contract");
@@ -604,6 +610,11 @@ namespace NLite.Mini
             return Parent != null ? Parent.GetComponentContextByOptionArgs(contract, args) : null;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="contract"></param>
+        /// <returns></returns>
         public IComponentContext[] GetComponentContextList(Type contract)
         {
             Guard.NotNull(contract, "contract");
@@ -658,6 +669,12 @@ namespace NLite.Mini
             return pairs;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="args"></param>
+        /// <returns></returns>
         public IComponentContext GetComponentContextByNamedArgs(string id, IDictionary<string, object> args)
         {
             Guard.NotNullOrEmpty(id, "id");
@@ -674,6 +691,12 @@ namespace NLite.Mini
             return Parent != null ? Parent.GetComponentContextByNamedArgs(id, args) : null;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="id"></param>
+        /// <param name="args"></param>
+        /// <returns></returns>
         public IComponentContext GetComponentContextByOptionArgs(string id, params object[] args)
         {
             Guard.NotNullOrEmpty(id, "id");

@@ -84,6 +84,9 @@ namespace NLite.Messaging
     #endif
     public class MessageRequest : IMessageRequest
     {
+        /// <summary>
+        /// 
+        /// </summary>
         public MessageRequest()
         {
             Timestamp = DateTime.Now;
@@ -162,7 +165,13 @@ namespace NLite.Messaging
         /// </summary>
         bool IsCompleted { get; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         Exception[] Exceptions { get; }
+        /// <summary>
+        /// 
+        /// </summary>
         Exception Exception { get; }
 
         /// <summary>
@@ -457,24 +466,13 @@ namespace NLite.Messaging
         {
             static readonly Type MessageType = typeof(IMessage);
 
-            /// <summary>
-            /// 
-            /// </summary>
-            /// <typeparam name="TData"></typeparam>
-            /// <param name="name"></param>
-            /// <param name="data"></param>
-            /// <returns></returns>
+            
             public static IMessage Make<TData>(string name, TData data, DateTime dateTime)
             {
                 return MessageFactory.MessageType.IsAssignableFrom(GetDataType(data)) ? (IMessage)data : new Message<TData>(name, data, dateTime);
             }
 
-            /// <summary>
-            /// 
-            /// </summary>
-            /// <param name="name"></param>
-            /// <param name="data"></param>
-            /// <returns></returns>
+           
             public static IMessage Make(string name, object data, DateTime dateTime)
             {
                 return MessageFactory.MessageType.IsAssignableFrom(GetDataType(data)) ? (IMessage)data : new Message(name, data, dateTime);

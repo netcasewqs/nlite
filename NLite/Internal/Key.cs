@@ -41,7 +41,6 @@ namespace NLite.Messaging.Internal
         /// <summary>
         /// 通过类型得到一个Key
         /// </summary>
-        /// <param name="binderType"></param>
         /// <returns></returns>
         public static Key Make(Type type)
         {
@@ -50,12 +49,7 @@ namespace NLite.Messaging.Internal
             return new Key(type.TypeHandle, null);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="binderType"></param>
-        /// <param name="name"></param>
-        /// <returns></returns>
+      
         public static Key Make(Type type, string name)
         {
             if (type == null)
@@ -63,22 +57,12 @@ namespace NLite.Messaging.Internal
             return new Key(type.TypeHandle, name);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <typeparam name="TTarget"></typeparam>
-        /// <returns></returns>
         public static Key Make<T>()
         {
             return new Key(typeof(T).TypeHandle, null);
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <typeparam name="TTarget"></typeparam>
-        /// <param name="name"></param>
-        /// <returns></returns>
+    
         public static Key Make<T>(string name)
         {
             return new Key(typeof(T).TypeHandle, name);

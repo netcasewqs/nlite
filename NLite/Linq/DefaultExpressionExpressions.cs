@@ -10,6 +10,11 @@ namespace NLite.Linq
 #if !SDK35
     public static class DefaultExpressionExpressions
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
         public static Expression GetDefaultExpression(Type type)
         {
             return Expression.Default(type);

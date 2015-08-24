@@ -10,7 +10,7 @@ namespace NLite.Domain
     /// <summary>
     /// 服务分发器接口 
     /// </summary>
-    [Contract]
+    //[Contract]
     public interface IServiceDispatcher
     {
         /// <summary>

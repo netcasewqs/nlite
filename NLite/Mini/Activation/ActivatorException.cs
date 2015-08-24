@@ -37,7 +37,7 @@ namespace NLite.Mini.Activation
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="bindingInfo"></param>
+        /// <param name="info"></param>
         /// <param name="context"></param>
         protected ActivatorException(SerializationInfo info, StreamingContext context)
             : base(info, context)

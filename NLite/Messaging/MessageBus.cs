@@ -78,10 +78,7 @@ namespace NLite
             /// <summary>
             /// 
             /// </summary>
-            /// <param name="topic">消息主题</param>
-            /// <param name="messageType"></param>
-            /// <param name="mode"></param>
-            /// <param name="handler">处理器</param>
+            /// <param name="info"></param>
             /// <returns></returns>
             public IDisposable Subscribe(ISubscribeInfo info)
             {
@@ -93,7 +90,7 @@ namespace NLite
             /// 
             /// </summary>
             /// <param name="topic">消息主题</param>
-            /// <param name="binderType">类型</param>
+            /// <param name="type">类型</param>
             public void Remove(string topic, Type type)
             {
                 Repository.Remove(topic, type);

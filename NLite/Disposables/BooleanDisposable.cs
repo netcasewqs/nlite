@@ -5,7 +5,7 @@ using System.Threading;
 namespace NLite
 {
     /// <summary>
-    /// 
+    /// 拥有释放标价的释放基类
     /// </summary>
     [Serializable]
     public class BooleanDisposable : IBooleanDisposable
@@ -15,7 +15,7 @@ namespace NLite
         const int DisposedFlag = 1;
 
         /// <summary>
-        /// 
+        /// 析构函数
         /// </summary>
         ~BooleanDisposable()
         {
@@ -24,17 +24,21 @@ namespace NLite
 
         #region IDisposable Members
         /// <summary>
-        /// 
+        ///
         /// </summary>
         public void Dispose()
         {
+            Dispose(true);
+
             var isDisposed = _isDisposed;
             Interlocked.CompareExchange(ref _isDisposed, DisposedFlag, isDisposed);
-            if (isDisposed == 0)
+
+            if (isDisposed != 0)
             {
-                Dispose(true);
-                GC.SuppressFinalize(this);
+                return;
             }
+
+            GC.SuppressFinalize(this);
         }
 
         #endregion
@@ -51,7 +55,7 @@ namespace NLite
             }
         }
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="disposing"></param>
         protected virtual void Dispose(bool disposing)

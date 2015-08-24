@@ -20,7 +20,7 @@ namespace NLite.Mini.Proxy
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="registry"></param>
+        /// <param name="kernel"></param>
         /// <param name="model"></param>
         /// <returns></returns>
         bool RequiresTargetInstance(IKernel kernel, IComponentInfo model);

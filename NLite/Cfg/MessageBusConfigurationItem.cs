@@ -14,7 +14,7 @@ namespace NLite.Cfg
         /// <summary>
         /// 安装消息总线
         /// </summary>
-        /// <param name="cfg"></param>
+        /// <param name="owner"></param>
         public override void Attach(Configuration owner)
         {
             ServiceRegistry.Register(s => s.Bind<IMessageBus>("SimpleBus").To<SimpleBus>().Singleton());
@@ -23,7 +23,7 @@ namespace NLite.Cfg
         /// <summary>
         /// 卸载消息总线
         /// </summary>
-        /// <param name="cfg"></param>
+        /// <param name="owner"></param>
         public override void Detach(Configuration owner)
         {
             ServiceRegistry.Current.UnRegister("SimpleBus");

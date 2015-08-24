@@ -19,6 +19,7 @@ namespace NLite.Messaging
         /// 订阅消息
         /// </summary>
         /// <typeparam name="TData"></typeparam>
+        /// <typeparam name="TResult"></typeparam>
         /// <param name="bus"></param>
         /// <param name="topic">消息主题</param>
         /// <param name="handler">处理器</param>
@@ -35,6 +36,7 @@ namespace NLite.Messaging
         /// 订阅消息
         /// </summary>
         /// <typeparam name="TData"></typeparam>
+        ///  <typeparam name="TResult"></typeparam>
         /// <param name="bus"></param>
         /// <param name="topic">消息主题</param>
         /// <param name="mode"></param>
@@ -52,6 +54,7 @@ namespace NLite.Messaging
         /// 
         /// </summary>
         /// <typeparam name="TData"></typeparam>
+        ///  <typeparam name="TResult"></typeparam>
         /// <param name="bus"></param>
         /// <param name="topic">消息主题</param>
         /// <param name="handler">处理器</param>
@@ -66,6 +69,7 @@ namespace NLite.Messaging
         /// 
         /// </summary>
         /// <typeparam name="TData"></typeparam>
+        ///  <typeparam name="TResult"></typeparam>
         /// <param name="bus"></param>
         /// <param name="handler">处理器</param>
         /// <returns></returns>
@@ -81,6 +85,7 @@ namespace NLite.Messaging
         /// 
         /// </summary>
         /// <typeparam name="TData"></typeparam>
+        /// <typeparam name="TResult"></typeparam>
         /// <param name="bus"></param>
         /// <param name="mode"></param>
         /// <param name="handler">处理器</param>
@@ -98,6 +103,7 @@ namespace NLite.Messaging
         /// 
         /// </summary>
         /// <typeparam name="TData"></typeparam>
+        /// <typeparam name="TResult"></typeparam>
         /// <param name="bus"></param>
         /// <param name="handler">处理器</param>
         public static void Unsubscribe<TData, TResult>(this IMessageBus bus, Func<object, TData, TResult> handler)
@@ -113,6 +119,7 @@ namespace NLite.Messaging
         /// 订阅消息
         /// </summary>
         /// <typeparam name="TData"></typeparam>
+        /// <typeparam name="TResult"></typeparam>
         /// <param name="bus"></param>
         /// <param name="topic">消息主题</param>
         /// <param name="handler">处理器</param>
@@ -129,6 +136,7 @@ namespace NLite.Messaging
         /// 订阅消息
         /// </summary>
         /// <typeparam name="TData"></typeparam>
+        /// <typeparam name="TResult"></typeparam>
         /// <param name="bus"></param>
         /// <param name="topic">消息主题</param>
         /// <param name="mode"></param>
@@ -147,6 +155,7 @@ namespace NLite.Messaging
         /// 
         /// </summary>
         /// <typeparam name="TData"></typeparam>
+        /// <typeparam name="TResult"></typeparam>
         /// <param name="bus"></param>
         /// <param name="topic">消息主题</param>
         /// <param name="handler">处理器</param>
@@ -162,6 +171,7 @@ namespace NLite.Messaging
         /// 
         /// </summary>
         /// <typeparam name="TData"></typeparam>
+        /// <typeparam name="TResult"></typeparam>
         /// <param name="bus"></param>
         /// <param name="handler">处理器</param>
         /// <returns></returns>
@@ -177,6 +187,7 @@ namespace NLite.Messaging
         /// 
         /// </summary>
         /// <typeparam name="TData"></typeparam>
+        /// <typeparam name="TResult"></typeparam>
         /// <param name="bus"></param>
         /// <param name="mode"></param>
         /// <param name="handler">处理器</param>
@@ -193,6 +204,7 @@ namespace NLite.Messaging
         /// 
         /// </summary>
         /// <typeparam name="TData"></typeparam>
+        /// <typeparam name="TResult"></typeparam>
         /// <param name="bus"></param>
         /// <param name="handler">处理器</param>
         public static void Unsubscribe<TData, TResult>(this IMessageBus bus, Func<TData, TResult> handler)
@@ -207,6 +219,7 @@ namespace NLite.Messaging
         /// <summary>
         /// 订阅消息
         /// </summary>
+        /// <typeparam name="TResult"></typeparam>
         /// <param name="bus"></param>
         /// <param name="topic">消息主题</param>
         /// <param name="handler">处理器</param>
@@ -222,6 +235,7 @@ namespace NLite.Messaging
         /// <summary>
         /// 订阅消息
         /// </summary>
+        /// <typeparam name="TResult"></typeparam>
         /// <param name="bus"></param>
         /// <param name="topic">消息主题</param>
         /// <param name="mode"></param>
@@ -238,6 +252,7 @@ namespace NLite.Messaging
         /// <summary>
         /// 
         /// </summary>
+        /// <typeparam name="TResult"></typeparam>
         /// <param name="bus"></param>
         /// <param name="topic">消息主题</param>
         /// <param name="handler">处理器</param>
@@ -921,7 +936,7 @@ namespace NLite.Messaging
         /// 
         /// </summary>
         /// <param name="router"></param>
-        /// <param name="cfg"></param>
+        /// <param name="owner"></param>
         /// <param name="event"></param>
         /// <returns></returns>
         public static IDisposable Attach(this IMessageBus router,object owner, string @event)
@@ -934,7 +949,7 @@ namespace NLite.Messaging
        /// </summary>
        /// <typeparam name="TOwner"></typeparam>
        /// <param name="router"></param>
-       /// <param name="cfg"></param>
+        /// <param name="owner"></param>
        /// <param name="evt"></param>
        /// <returns></returns>
         public static IDisposable Attach<TOwner>(this IMessageBus router, TOwner owner,Expression<Func<TOwner, object>> evt)
@@ -950,7 +965,7 @@ namespace NLite.Messaging
         /// <typeparam name="TOwner"></typeparam>
         /// <param name="router"></param>
         /// <param name="topic"></param>
-        /// <param name="cfg"></param>
+        /// <param name="owner"></param>
         /// <param name="evt"></param>
         /// <returns></returns>
         public static IDisposable Attach<TOwner>(this IMessageBus router, string topic, TOwner owner, Expression<Func<TOwner, object>> evt)
@@ -965,7 +980,7 @@ namespace NLite.Messaging
         /// </summary>
         /// <param name="router"></param>
         /// <param name="topic">消息主题</param>
-        /// <param name="cfg"></param>
+        /// <param name="owner"></param>
         /// <param name="event"></param>
         /// <returns></returns>
         public static IDisposable Attach(this IMessageBus router, string topic, object owner, string @event)

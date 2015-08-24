@@ -73,6 +73,8 @@ namespace NLite.Mini.Listener
             }
         }
 
+        /// <inheritdoc/>
+        /// <param name="listner"></param>
         protected override void OnAfterUnRegister(IComponentListener listner)
         {
             var methods = listner.GetType().GetMethods();
@@ -117,7 +119,7 @@ namespace NLite.Mini.Listener
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="registry"></param>
+        /// <param name="kernel"></param>
         public virtual void Init(IKernel kernel)
         {
             Kernel = kernel;

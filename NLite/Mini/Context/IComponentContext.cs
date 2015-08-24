@@ -17,6 +17,9 @@ namespace NLite.Mini.Context
         /// </summary>
         IComponentInfo Component { get; }
 
+        /// <summary>
+        /// 
+        /// </summary>
         ILifestyleManager LifestyleManager { get;}
 
         /// <summary>

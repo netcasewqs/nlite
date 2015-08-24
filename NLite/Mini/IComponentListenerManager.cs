@@ -9,7 +9,7 @@ namespace NLite
         /// <summary>
         /// 初始化组件监听管理器
         /// </summary>
-        /// <param name="registry"></param>
+        /// <param name="kernel"></param>
         void Init(IKernel kernel);
         /// <summary>
         /// 是否启用监听器

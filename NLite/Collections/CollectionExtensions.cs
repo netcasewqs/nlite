@@ -11,6 +11,13 @@ namespace NLite.Collections
     /// </summary>
     public static class CollectionExtensions
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="items"></param>
+        /// <param name="predicate"></param>
+        /// <returns></returns>
         public static T Find<T>(this T[] items, Predicate<T> predicate)
         {
 #if SILVERLIGHT
@@ -25,6 +32,13 @@ namespace NLite.Collections
 #endif
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="items"></param>
+        /// <param name="predicate"></param>
+        /// <returns></returns>
         public static T[] FindAll<T>(this T[] items, Predicate<T> predicate)
         {
 #if SILVERLIGHT

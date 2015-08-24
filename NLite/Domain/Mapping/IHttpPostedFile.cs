@@ -22,7 +22,7 @@ namespace NLite.Domain
 
         public static IHttpPostedFile From(HttpPostedFileVO vo)
         {
-            if (vo == null || vo.Content == null || vo.Content.Length == null)
+            if (vo == null || vo.Content == null || vo.Content.Length == 0)
                 return null;
             var wrapper = new HttpPostedFileWrapper();
             wrapper.FileName = vo.FileName;

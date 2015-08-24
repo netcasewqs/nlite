@@ -192,8 +192,16 @@ namespace NLite.Interceptor
         #endregion
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public class InterceptorInvocationHandr : IInvocationHandler
     {
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="declaringType"></param>
+        /// <param name="interfaceTypes"></param>
         public InterceptorInvocationHandr(Type declaringType, Type[] interfaceTypes)
         {
             Aspect.CheckAndRegisterAspectByInterceptorAttribute(declaringType);
@@ -202,6 +210,7 @@ namespace NLite.Interceptor
 
         private InvocationHandler InnerHandler = new InvocationHandler();
 
+        /// <inheritdoc/>
         public object Invoke(object target, MethodInfo method, params object[] parameters)
         {
            return InnerHandler.Invoke(target,method,parameters);
@@ -324,6 +333,9 @@ namespace NLite.Interceptor
 
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
         public static void Clear()
         {
             aspectRepository = new AspectRepository();

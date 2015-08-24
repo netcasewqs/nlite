@@ -10,34 +10,20 @@ namespace NLite.Mini.Lifestyle
     /// </summary>
     public class LifestyleManagerAdapter:BooleanDisposable,ILifestyleManager
     {
-        /// <summary>
-        /// 
-        /// </summary>
+        /// <inheritdoc/>
         public IKernel Kernel { get; private set; }
 
-        /// <summary>
-        /// 
-        /// </summary>
+        /// <inheritdoc/>
         public IActivator Activator { get; private set; }
 
-        /// <summary>
-        /// 
-        /// </summary>
+        /// <inheritdoc/>
         public IComponentInfo Info { get; private set; }
-        /// <summary>
-        /// 
-        /// </summary>
+        /// <inheritdoc/>
         public Action<IComponentInfo, object> OnDestroying { get; private set; }
-
+        /// <inheritdoc/>
         public Action<IComponentContext> OnFetch { get; private set; }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="activator"></param>
-        /// <param name="registry"></param>
-        /// <param name="bindingInfo"></param>
-        /// <param name="onDestroying"></param>
+        /// <inheritdoc/>
         public virtual void Init(IActivator activator, IKernel kernel, IComponentInfo info, Action<IComponentInfo, object> onDestroying, Action<IComponentContext> onFetch)
         {
             Guard.NotNull(activator, "activator");
@@ -50,11 +36,7 @@ namespace NLite.Mini.Lifestyle
             OnFetch = onFetch;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ctx"></param>
-        /// <returns></returns>
+        /// <inheritdoc/>
         public virtual object Get(IComponentContext ctx)
         {
             var o = Activator.Create(ctx);
@@ -62,17 +44,18 @@ namespace NLite.Mini.Lifestyle
             return o;
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ctx"></param>
         protected virtual void  OnFetchCore(IComponentContext ctx)
         {
             if(OnFetch != null)
                 OnFetch(ctx);
         }
 
-       
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="disposing"></param>
+
+        /// <inheritdoc/>
         protected override void Dispose(bool disposing)
         {
             if (disposing)

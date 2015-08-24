@@ -30,7 +30,7 @@ namespace NLite
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="bindingInfo"></param>
+        /// <param name="info"></param>
         /// <param name="context"></param>
         public RepeatRegistrationException(SerializationInfo info, StreamingContext context)
             : base(info, context)

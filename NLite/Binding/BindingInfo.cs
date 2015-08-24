@@ -68,7 +68,7 @@ namespace NLite.Binding
         /// 构造模型绑定器
         /// </summary>
         /// <param name="name">成员名称</param>
-        /// <param name="binderType">成员类型</param>
+        /// <param name="type">成员类型</param>
         /// <param name="defaultValue">缺省值</param>
         public BindingInfo(string name, Type type, object defaultValue)
         {

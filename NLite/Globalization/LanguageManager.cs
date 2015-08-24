@@ -44,7 +44,7 @@ namespace NLite.Globalization
                     {
                         Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(language);
                     }
-                    catch (Exception e)
+                    catch (Exception/* e*/)
                     {
 
                         Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo(language.Split('-')[0]);

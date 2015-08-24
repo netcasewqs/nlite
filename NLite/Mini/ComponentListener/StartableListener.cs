@@ -8,10 +8,7 @@ namespace NLite.Mini.Listener
     public class StartableListener : ComponentListenerAdapter
     {
         
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ctx"></param>
+        /// <inheritdoc/>
         public override void OnPostInitialization(NLite.Mini.Context.IComponentContext ctx)
         {
             var startable = ctx.Instance as IStartable;
@@ -19,12 +16,8 @@ namespace NLite.Mini.Listener
                 startable.Start();
         }
 
-        
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="bindingInfo"></param>
-        /// <param name="instance"></param>
+
+        /// <inheritdoc/>
         public override void OnPreDestroy(IComponentInfo info, object instance)
         {
             var startable = instance as IStartable;

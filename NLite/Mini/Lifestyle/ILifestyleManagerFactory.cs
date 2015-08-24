@@ -11,7 +11,7 @@ namespace NLite.Mini.Lifestyle
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="binderType"></param>
+        /// <param name="type"></param>
         /// <returns></returns>
         ILifestyleManager Create(LifestyleFlags type);
     }

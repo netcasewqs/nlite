@@ -102,8 +102,14 @@ namespace NLite.Data
 
     }
 
+    /// <summary>
+    /// 
+    /// </summary>
     public class Pagination : IPagination
     {
+        /// <summary>
+        /// 
+        /// </summary>
         protected readonly object[] _collection;
 
         /// <summary>

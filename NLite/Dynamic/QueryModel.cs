@@ -402,14 +402,14 @@ namespace NLite.Dynamic
         /// 
         /// </summary>
         /// <param name="item"></param>
-        /// <param name="binderType"></param>
+        /// <param name="type"></param>
         /// <returns></returns>
         bool Match(Filter item, Type type);
         /// <summary>
         /// 
         /// </summary>
         /// <param name="item"></param>
-        /// <param name="binderType"></param>
+        /// <param name="type"></param>
         /// <returns></returns>
         IEnumerable<Filter> Transform(Filter item, Type type);
     }
@@ -423,7 +423,7 @@ namespace NLite.Dynamic
         /// 
         /// </summary>
         /// <param name="item"></param>
-        /// <param name="binderType"></param>
+        /// <param name="type"></param>
         /// <returns></returns>
         public bool Match(Filter item, Type type)
         {
@@ -434,7 +434,7 @@ namespace NLite.Dynamic
         /// 
         /// </summary>
         /// <param name="item"></param>
-        /// <param name="binderType"></param>
+        /// <param name="type"></param>
         /// <returns></returns>
         public IEnumerable<Filter> Transform(Filter item, Type type)
         {
@@ -515,7 +515,7 @@ namespace NLite.Dynamic
         /// 
         /// </summary>
         /// <param name="item"></param>
-        /// <param name="binderType"></param>
+        /// <param name="type"></param>
         /// <returns></returns>
         public bool Match(Filter item, Type type)
         {
@@ -526,7 +526,7 @@ namespace NLite.Dynamic
         /// 
         /// </summary>
         /// <param name="item"></param>
-        /// <param name="binderType"></param>
+        /// <param name="type"></param>
         /// <returns></returns>
         public IEnumerable<Filter> Transform(Filter item, Type type)
         {
@@ -547,7 +547,7 @@ namespace NLite.Dynamic
         /// 
         /// </summary>
         /// <param name="item"></param>
-        /// <param name="binderType"></param>
+        /// <param name="type"></param>
         /// <returns></returns>
         public bool Match(Filter item, Type type)
         {
@@ -565,7 +565,7 @@ namespace NLite.Dynamic
         /// 
         /// </summary>
         /// <param name="item"></param>
-        /// <param name="binderType"></param>
+        /// <param name="type"></param>
         /// <returns></returns>
         public IEnumerable<Filter> Transform(Filter item, Type type)
         {
@@ -611,7 +611,7 @@ namespace NLite.Dynamic
         /// 
         /// </summary>
         /// <param name="item"></param>
-        /// <param name="binderType"></param>
+        /// <param name="type"></param>
         /// <returns></returns>
         public bool Match(Filter item, Type type)
         {
@@ -622,7 +622,7 @@ namespace NLite.Dynamic
         /// 
         /// </summary>
         /// <param name="item"></param>
-        /// <param name="binderType"></param>
+        /// <param name="type"></param>
         /// <returns></returns>
         public IEnumerable<Filter> Transform(Filter item, Type type)
         {

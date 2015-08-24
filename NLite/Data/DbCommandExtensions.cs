@@ -30,7 +30,7 @@ namespace NLite.Data
     /// </summary>
     public static class DataReaderExtensions
     {
-        private static readonly BindingFlags flags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.IgnoreCase;
+        //private static readonly BindingFlags flags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance | BindingFlags.IgnoreCase;
         /// <summary>
         /// 
         /// </summary>

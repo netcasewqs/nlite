@@ -11,6 +11,9 @@ namespace NLite.Binding
     [AttributeUsage(ValidTargets, AllowMultiple = false, Inherited = false)]
     public abstract class CustomModelBinderAttribute : Attribute
     {
+        /// <summary>
+        /// 
+        /// </summary>
         protected internal const AttributeTargets ValidTargets = AttributeTargets.Class | AttributeTargets.Enum | AttributeTargets.Interface | AttributeTargets.Parameter | AttributeTargets.Struct;
         
         /// <summary>

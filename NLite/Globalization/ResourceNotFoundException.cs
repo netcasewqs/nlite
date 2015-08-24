@@ -41,7 +41,7 @@ namespace NLite.Globalization
         /// <summary>
         /// 
         /// </summary>
-        /// <param name="bindingInfo"></param>
+        /// <param name="info"></param>
         /// <param name="context"></param>
         protected ResourceNotFoundException(SerializationInfo info, StreamingContext context)
             : base(info, context)

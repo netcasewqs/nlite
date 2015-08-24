@@ -176,7 +176,7 @@ namespace NLite.Serialization
         /// <summary>
         /// 简化限定名称
         /// </summary>
-        /// <param name="binderType"></param>
+        /// <param name="type"></param>
         /// <returns></returns>
         public string BuildName(Type type)
         {
@@ -1044,7 +1044,6 @@ namespace NLite.Serialization
             stream.WriteByte((byte)BinaryTag.DBNull);
         }
 
-        //TODO:优化
         public void WriteGuid(Guid value)
         {
             stream.WriteByte((byte)BinaryTag.Guid);
@@ -1279,9 +1278,9 @@ namespace NLite.Serialization
         {
             stream.WriteByte((byte)BinaryTag.String);
             if (value == null)
-                writer.Write(-1);//TODO:优化
+                writer.Write(-1);
             else if (value.Length == 0)
-                writer.Write(0);//TODO:优化
+                writer.Write(0);
             else
             {
                 var bytes = this.Encoding.GetBytes(value);
@@ -1327,7 +1326,7 @@ namespace NLite.Serialization
         public void WriteGDictionary(object value, Type type)
         {
             stream.WriteByte((byte)BinaryTag.GenericDictionary);
-            IDictionary dict = value as IDictionary;//TODO:安全检测
+            IDictionary dict = value as IDictionary;
             var genericArguments = type.GetGenericArguments();
             var keyType = genericArguments[0];
             var valueType = genericArguments[1];

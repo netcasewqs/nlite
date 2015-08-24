@@ -11,9 +11,7 @@ namespace NLite.Mini.Listener
     public class AppSettingInjectionListener:ComponentListenerAdapter
     {
 
-        /// <summary>
-        /// 
-        /// </summary>
+        /// <inheritdoc/>
         protected override void Init()
         {
             //PropertyManager.Instance.FileChanged += new EventHandler(Instance_FileChanged);
@@ -42,10 +40,7 @@ namespace NLite.Mini.Listener
             }
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ctx"></param>
+        /// <inheritdoc/>
         public override void OnPostCreation(NLite.Mini.Context.IComponentContext ctx)
         {
             if (ctx.Component.Implementation == null
@@ -92,11 +87,7 @@ namespace NLite.Mini.Listener
             return null;
         }
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="bindingInfo"></param>
-        /// <param name="instance"></param>
+        /// <inheritdoc/>
         public override void OnPreDestroy(IComponentInfo info, object instance)
         {
             if (resetMap.ContainsKey(instance))
